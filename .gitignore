@@ -1,0 +1,7 @@
+vendor/assets/javascripts/*/*
+!vendor/assets/javascripts/*/*.js
+vendor/assets/javascripts/*/index.js
+vendor/assets/javascripts/*/*min.js
+vendor/assets/javascripts/jquery/jquery-migrate.js
+public/assets
+tmp
