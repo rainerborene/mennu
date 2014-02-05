@@ -1,52 +1,82 @@
 /** @jsx React.DOM */
 
-var Item = require('app/components/item');
+var MenuItem = require('app/components/item')
+  , Session  = require('app/models/session')
+  , Item     = require('app/models/item')
+  , j        = jQuery;
 
 var Menu = React.createClass({
 
-  getInitialState: function(){
-    return {
-      items: ['Arroz', 'Feijão']
-    };
+  componentDidMount: function(){
+    var items = new Bloodhound({
+      datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.name); },
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      local: Session.autocomplete.map(function(value){
+        return { name: value };
+      })
+    });
+
+    items.initialize();
+
+    j(this.refs.itemInput.getDOMNode()).typeahead(null, {
+      displayKey: 'name',
+      source: items.ttAdapter()
+    });
   },
 
-  handleChange: function(event){
-    this.setState({ itemTitle: event.target.value });
+  componentWillUnmount: function(){
+    j(this.refs.itemInput.getDOMNode()).typeahead('destroy');
   },
 
   handleKeyDown: function(event){
-    var value = (this.state.itemTitle || '').trim()
-      , valid = (value.length !== 0 && this.state.items.indexOf(value) === -1);
+    var value = event.target.value.trim()
+      , item  = new Item();
 
-    if (event.keyCode === 13 && valid){
-      this.state.items.push(value);
-      this.setState({ itemTitle: '' });
+    if (event.keyCode === 13 && value.length !== 0){
+      item.attr({ category_name: this.props.categoryName, name: value });
+      item.save();
+
+      this.props.items.push(item);
+      j(event.target).typeahead('close');
+      j(event.target).typeahead('val', '');
+      this.forceUpdate();
     }
   },
 
-  handleRemoved: function(title){
-    this.state.items.splice(this.state.items.indexOf(title), 1);
-    this.forceUpdate();
+  handleBlur: function(event){
+    event.target.value = '';
+  },
+
+  handleRemoved: function(model){
+    var index = this.props.items.indexOf(model);
+    if (index > -1) {
+      this.props.items.splice(index, 1);
+      this.forceUpdate();
+    }
   },
 
   render: function(){
-    var items = this.state.items.map(function(title){
-      return <Item key={title.hashCode()} title={title} onRemoved={this.handleRemoved} />
-    }, this);
-
     return (
       <div className="row">
         <div className="menu col-md-3">
-          <h6>Tortas e Assados</h6>
+          <h6>{this.props.categoryName}</h6>
           <table width="100%">
-            <tbody>{items}</tbody>
+            <tbody>
+              {
+                this.props.items.map(function(model){
+                  return <MenuItem key={model.attr('id')} model={model}
+                    onRemoved={this.handleRemoved.bind(this, model)} />
+                }.bind(this))
+              }
+            </tbody>
           </table>
 
-          <input 
-            type="text" 
-            className="form-control" 
+          <input
+            type="text"
+            ref="itemInput"
+            className="form-control"
             placeholder="Escreva o nome do prato"
-            value={this.state.itemTitle}
+            onBlur={this.handleBlur}
             onChange={this.handleChange}
             onKeyDown={this.handleKeyDown} />
         </div>

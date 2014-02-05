@@ -1,6 +1,6 @@
 module Menu
   module Routes
-    class Users < Base
+    class Session < Base
       get '/auth/:platform/callback' do
         self.current_user = User.from_auth!(env['omniauth.auth'])
         erb :authorized

@@ -3,23 +3,6 @@ var User = require('app/models/user')
 
 var Session = {
 
-  env: function(env){
-    if (typeof env !== 'undefined') {
-      this._env = env;
-    }
-    return this._env;
-  },
-
-  user: function(attrs){
-    if (!this.hasOwnProperty('_user')) {
-      this._user = new User();
-    }
-    if (typeof attrs === 'object'){
-      this._user.set(attrs);
-    }
-    return this._user;
-  },
-
   setCSRFToken: function(securityToken){
     j.ajaxPrefilter(function(options, _, xhr){
       xhr.setRequestHeader('X-CSRF-Token', securityToken);
@@ -27,7 +10,7 @@ var Session = {
   },
 
   authenticated: function(){
-    return this.user().has('id');
+    return this.user.attr('id') !== undefined;
   },
 
   authenticate: function(options){
@@ -38,8 +21,8 @@ var Session = {
       data: options.data,
       error: options.error,
       success: function(data, textStatus, jqXHR){
-        this.user(data);
-        options.success(this.user());
+        this.user.attr(data);
+        options.success(this.user);
       }.bind(this)
     });
   }

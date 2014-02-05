@@ -3,7 +3,8 @@
 var moment     = require('moment')
   , Menu       = require('app/components/menu')
   , Header     = require('app/components/header')
-  , DateHeader = require('app/components/date_header');
+  , DateHeader = require('app/components/date_header')
+  , Item       = require('app/models/item');
 
 var App = React.createClass({
 
@@ -12,6 +13,8 @@ var App = React.createClass({
   },
 
   render: function(){
+    var menu = Item.today();
+
     return (
       <div className="app">
         <Header />
@@ -20,7 +23,11 @@ var App = React.createClass({
 
         <main className="main">
           <div className="container">
-            <Menu />
+            {
+              Object.keys(menu).map(function(name){
+                return <Menu key={name} categoryName={name} items={menu[name]} />
+              })
+            }
           </div>
         </main>
       </div>

@@ -9,12 +9,11 @@ module Menu
         disable :method_override
         disable :protection
         disable :static
-
-        enable :use_code
       end
 
       register Extensions::Auth
       register Extensions::Assets
+      register Extensions::JSON
     end
   end
 end

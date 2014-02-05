@@ -3,6 +3,29 @@ module Menu
     class Item < Sequel::Model
       many_to_one :category
       many_to_one :place
+
+      dataset_module do
+        def at(date = Date.today)
+          where('date(created_at) = ?', date)
+        end
+      end
+
+      def self.names
+        distinct(:name).select_map(:name)
+      end
+
+      def before_validation
+        self.slug = name.parameterize
+      end
+
+      def validate
+        super
+        validates_presence [:name, :place_id, :category_id]
+      end
+
+      def to_json(options = {})
+        super({ only: [:id, :name] }.merge(options))
+      end
     end
   end
 end

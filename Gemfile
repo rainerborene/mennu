@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'sinatra', require: 'sinatra/base'
 gem 'sinatra-contrib'
+gem 'i18n'
 gem 'active_support'
 gem 'omniauth-facebook', '1.4.0'
 gem 'dotenv'
@@ -27,4 +28,5 @@ gem 'yui-compressor'
 
 group :development do
   gem 'thin'
+  gem 'pry-meta'
 end

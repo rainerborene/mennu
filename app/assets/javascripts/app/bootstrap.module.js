@@ -32,8 +32,8 @@ function redirect(to) {
 }
 
 module.exports = function(options){
-  Session.user(options.user);
-  Session.env(options.environment);
+  $.extend(Session, options);
+  Session.user = new User(options.user);
   Session.setCSRFToken(options.csrfToken);
   page();
 };

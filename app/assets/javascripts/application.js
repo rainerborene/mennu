@@ -1,12 +1,12 @@
 //= require react
 //= require jquery
 //= require jquery.dropdown
-//= require extensions
+//= require jquery.typeahead
 //
 // Library modules:
 //= require sprockets/commonjs
 //= require page.module
-//= require modella.module
+//= require model.module
 //= require moment.module
 //
 // App libs v1.0

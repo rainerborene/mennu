@@ -13,10 +13,14 @@ module Menu
       get '/setup.js' do
         content_type :javascript
 
+        menu = current_user.menu if current_user?
+
         @options = {
+          autocomplete: Item.names,
           environment: settings.environment,
           csrfToken:   csrf_token,
-          user:        current_user
+          user:        current_user,
+          menu:        menu
         }
 
         erb :setup

@@ -25,6 +25,10 @@ module Menu
       disable :method_override
       disable :static
 
+      set :protection, except: :session_hijacking
+
+      set :erb, escape_html: true
+
       set :database, lambda {
         ENV['DATABASE_URL'] || "postgres://localhost:5432/menu_#{environment}"
       }
@@ -41,9 +45,10 @@ module Menu
     use Rack::Runtime
     use Rack::Csrf
 
-    use Menu::Routes::Client
     use Menu::Routes::Index
-    use Menu::Routes::Users
+    use Menu::Routes::Items
+    use Menu::Routes::Session
+    use Menu::Routes::Client
   end
 end
 

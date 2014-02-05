@@ -34,7 +34,7 @@ module Menu
       def registered(app)
         app.use Warden::Manager do |manager|
           manager.default_strategies :admin
-          manager.failure_app = Menu::Routes::Users
+          manager.failure_app = Menu::Routes::Session
           manager.serialize_into_session {|model| model.id }
           manager.serialize_from_session {|id| Place[id] }
         end
