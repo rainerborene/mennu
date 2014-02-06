@@ -9,8 +9,7 @@ module Menu
       post '/v1/items', auth: true do
         params = json_params[:item]
         menu = current_user.categories_dataset.find_or_create name: params[:category_name]
-        item = menu.add_item name: params[:name], place_id: current_user.id
-        json item
+        json menu.add_item name: params[:name], place_id: current_user.id, self_service: true
       end
 
       delete '/v1/items/:id', auth: true do

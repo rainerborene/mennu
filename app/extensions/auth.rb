@@ -28,7 +28,7 @@ module Menu
           !!current_user
         end
 
-        alias_method :current_user, :user
+        alias :current_user :user
       end
 
       def registered(app)

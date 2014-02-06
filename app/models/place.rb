@@ -9,14 +9,12 @@ module Menu
       one_to_many :categories, extend: FindOrCreate
       one_to_many :items, extend: CarteAssociationMethods
 
-      def menu_at(date)
-        items = items_dataset.at(date).eager_category.all
+      def menu_at(time = Time.now)
+        items = items_dataset.at(time).eager_category.all
         items.group_by {|item| item.category.name }
       end
 
-      def menu
-        menu_at Date.today
-      end
+      alias :menu :menu_at
     end
   end
 end

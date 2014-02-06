@@ -5,8 +5,8 @@ module Menu
       many_to_one :place
 
       dataset_module do
-        def at(date = Date.today)
-          where('date(created_at) = ?', date)
+        def at(time = Time.now)
+          where('date(created_at) = ? and self_service = true', time.utc.to_date)
         end
       end
 
