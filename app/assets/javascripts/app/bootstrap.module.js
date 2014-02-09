@@ -2,7 +2,8 @@ var App     = require('app/components/app')
   , Login   = require('app/components/login')
   , User    = require('app/models/user')
   , Session = require('app/models/session')
-  , page    = require('page');
+  , page    = require('page')
+  , j       = jQuery;
 
 page.base('/admin');
 page('/login', login);
@@ -25,14 +26,13 @@ function login() {
 }
 
 function redirect(to) {
-  console.log('redirecting to %s', to);
   return setTimeout(function(){
     page(to);
   }, 0); // TODO: lame
 }
 
 module.exports = function(options){
-  $.extend(Session, options);
+  j.extend(Session, options);
   Session.user = new User(options.user);
   Session.setCSRFToken(options.csrfToken);
   page();

@@ -1,4 +1,4 @@
-.menu {
+.block {
   position: relative;
   background: #FFF;
   border-radius: 3px;
@@ -43,5 +43,27 @@
     border: none;
     padding: 1px;
     height: 29px;
+  }
+}
+
+.block-template {
+  height: 250px;
+  border: 2px dashed darken(#edeff1, 8%);
+  border-radius: 3px;
+  text-align: center;
+
+  a {
+    display: block;
+    color: #ccc;
+    margin-top: 60px;
+    text-shadow: 0 1px 0 #fff;
+    &:hover {
+      color: darken(#ccc, 10%);
+    }
+  }
+
+  .fui-new {
+    display: block;
+    font-size: 48px;
   }
 }

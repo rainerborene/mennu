@@ -2,27 +2,14 @@
 
 var DateHeader = React.createClass({
 
-  propTypes: {
-    onDateChange: React.PropTypes.func.isRequired,
-    initialDate: React.PropTypes.object.isRequired
-  },
-
-  getInitialState: function(){
-    return { date: this.props.initialDate };
-  },
-
   handleBack: function(event){
     event.preventDefault();
-    this.props.onDateChange(this.state.date, function(){
-      this.setState({ date: this.state.date.subtract('days', 1) });
-    }.bind(this));
+    this.props.onBack();
   },
 
   handleNext: function(event){
     event.preventDefault();
-    this.props.onDateChange(this.state.date, function(){
-      this.setState({ date: this.state.date.add('days', 1) });
-    }.bind(this));
+    this.props.onNext();
   },
 
   render: function(){
@@ -32,8 +19,8 @@ var DateHeader = React.createClass({
           <div className="row">
             <div className="col-md-12">
               <h4 className="pull-left">
-                {this.state.date.format('dddd')}
-                <small>{this.state.date.format('D [de] MMMM')}</small>
+                {this.props.currentDate.format('dddd')}
+                <small>{this.props.currentDate.format('D [de] MMMM')}</small>
               </h4>
 
               <div className="pull-right">

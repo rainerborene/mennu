@@ -12,15 +12,12 @@ module Menu
       end
 
       post '/unauthenticated' do
-        content_type :json
         status 401
-        { error: 'access denied' }.to_json
+        json({ error: 'access denied' })
       end
 
       post '/login' do
-        content_type :json
-        place = authenticate
-        place.to_json
+        json authenticate
       end
 
       get '/logout' do

@@ -1,5 +1,6 @@
-var User = require('app/models/user')
-  , j    = jQuery;
+var Emitter = require('emitter')
+  , User    = require('app/models/user')
+  , j       = jQuery;
 
 var Session = {
 
@@ -13,20 +14,24 @@ var Session = {
     return this.user.attr('id') !== undefined;
   },
 
-  authenticate: function(options){
+  authenticate: function(email, password){
     j.ajax({
       type: 'POST',
       url: '/login',
       dataType: 'json',
-      data: options.data,
-      error: options.error,
+      data: { email: email, password: password },
+      error: function(){
+        this.emit('unauthorized');
+      }.bind(this),
       success: function(data, textStatus, jqXHR){
         this.user.attr(data);
-        options.success(this.user);
+        this.emit('authenticated');
       }.bind(this)
     });
   }
 
 };
+
+Emitter(Session);;
 
 module.exports = Session;

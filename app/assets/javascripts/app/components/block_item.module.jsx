@@ -2,7 +2,7 @@
 
 var j    = jQuery;
 
-var Item = React.createClass({
+var BlockItem = React.createClass({
 
   handleRemoved: function(){
     this.props.model.destroy();
@@ -15,16 +15,22 @@ var Item = React.createClass({
   },
 
   render: function(){
+    var removeButton;
+
+    if (this.props.deletable){
+      removeButton = (
+        <span onClick={this.handleRemoved} className="fui-cross-inverted text-primary"></span>
+      );
+    }
+
     return (
       <tr>
         <td>{this.props.model.attr('name')}</td>
-        <td width="18">
-          <span onClick={this.handleRemoved} className="fui-cross-inverted text-primary"></span>
-        </td>
+        <td width="18">{removeButton}</td>
       </tr>
     );
   }
 
 });
 
-module.exports = Item;
+module.exports = BlockItem;

@@ -1,39 +1,38 @@
 /** @jsx React.DOM */
 
-var page    = require('page')
-  , Session = require('app/models/session');
+var Session = require('app/models/session')
+  , page    = require('page');
 
 var Login = React.createClass({
 
-  handleError: function(){
-    this.setState({ success: false });
-    this.refs.email.getDOMNode().focus();
-  },
-
-  handleSuccess: function(user){
+  handleAuthenticated: function(){
     this.setState({ success: true });
     page('/admin');
+  },
+
+  handleUnauthorized: function(){
+    this.setState({ success: false });
+    this.refs.email.getDOMNode().focus();
   },
 
   handleSubmit: function(event){
     var email = this.refs.email.getDOMNode().value.trim()
       , password = this.refs.password.getDOMNode().value.trim();
 
-    Session.authenticate({
-      data: { email: email, password: password },
-      success: this.handleSuccess,
-      error: this.handleError
-    });
+    Session.authenticate(email, password);
 
     event.preventDefault();
   },
 
   componentWillMount: function(){
+    Session.on('authenticated', this.handleAuthenticated);
+    Session.on('unauthorized', this.handleUnauthorized);
     document.documentElement.classList.add('login');
   },
 
   componentWillUnmount: function(){
     document.documentElement.classList.remove('login');
+    Session.off();
   },
 
   render: function(){
