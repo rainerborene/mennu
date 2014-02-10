@@ -35,6 +35,11 @@ namespace :db do
     end
   end
 
+  desc 'Seed database'
+  task seed: :dotenv do
+    require './db/seeds'
+  end
+
   desc 'Dump the database schema'
   task dump: :dotenv do
     database = Menu::App.database

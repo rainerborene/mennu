@@ -1,7 +1,11 @@
 //= require react
 //= require jquery
 //= require jquery.dropdown
+//= require jquery.autosize
 //= require jquery.typeahead
+//= require jquery.mousewheel
+//= require jquery.antiscroll
+//= require jquery.masonry
 //
 // Library modules:
 //= require sprockets/commonjs

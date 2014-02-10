@@ -25,8 +25,12 @@ var DateHeader = React.createClass({
 
               <div className="pull-right">
                 <ul className="nav nav-pills">
-                  <li className="previous"><a href="#" className="fui-arrow-left" onClick={this.handleBack}></a></li>
-                  <li className="next"><a href="#" className="fui-arrow-right" onClick={this.handleNext}></a></li>
+                  <li className="previous">
+                    <a href="#" className="fui-arrow-left" onClick={this.handleBack}/>
+                  </li>
+                  <li className="next">
+                    <a href="#" className="fui-arrow-right" onClick={this.handleNext}/>
+                  </li>
                 </ul>
               </div>
             </div>

@@ -1,4 +1,9 @@
+@import 'bootstrap/variables';
 @import 'bootstrap/mixins';
+
+body {
+  overflow: hidden;
+}
 
 .logo {
   width: 90px;
@@ -9,16 +14,21 @@
   overflow: hidden;
 }
 
-.app {
-  height: 100%;
-}
-
 .main {
-  padding-top: 50px;
   background: #f0f0f0;
-  height: ~"calc(100% - 155px)";
+
+  .row {
+    margin-top: 40px;
+  }
 
   .tab-content {
     min-height: 400px;
+  }
+}
+
+.antiscroll-inner {
+  .container {
+    padding: 0;
+    margin-top: 20px;
   }
 }

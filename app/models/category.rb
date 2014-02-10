@@ -7,8 +7,9 @@ module Menu
       one_to_many :items
 
       dataset_module do
-        def with_items_at(time)
-          eager items: -> (ds) { ds.at(time) }
+        def items_published_at(time)
+          sql = model_object.items_dataset.select(:category_id).distinct.at(time).sql
+          where("id in (#{sql})").eager items: -> (ds) { ds.at(time) }
         end
       end
 

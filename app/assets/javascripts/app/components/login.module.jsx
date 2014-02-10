@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
-var Session = require('app/models/session')
-  , page    = require('page');
+var page    = require('page')
+  , Session = require('app/models/session');
 
 var Login = React.createClass({
 
@@ -12,7 +12,7 @@ var Login = React.createClass({
 
   handleUnauthorized: function(){
     this.setState({ success: false });
-    this.refs.email.getDOMNode().focus();
+    this.refs.password.getDOMNode().focus();
   },
 
   handleSubmit: function(event){

@@ -6,7 +6,7 @@ module Menu
 
       dataset_module do
         def at(time = Time.now)
-          where('date(created_at) = ? and self_service = true', time.utc.to_date)
+          where('date(published_at) = ? and self_service = true', time.utc.to_date)
         end
       end
 

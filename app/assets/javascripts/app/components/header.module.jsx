@@ -1,13 +1,15 @@
 /** @jsx React.DOM */
 
+var j = jQuery;
+
 var Header = React.createClass({
 
   componentDidMount: function(){
-    $('.dropdown-toggle').dropdown();
+    j('.dropdown-toggle').dropdown();
   },
 
   componentWillUnmount: function(){
-    $('.dropdown-toggle').off('click.bs.dropdown');
+    j('.dropdown-toggle').off('click.bs.dropdown');
   },
 
   render: function(){
@@ -21,10 +23,7 @@ var Header = React.createClass({
           <div className="collapse navbar-collapse">
             <ul className="nav navbar-nav navbar-right">
               <li className="active"><a href="/admin">Cardápio</a></li>
-              <li><a href="/admin/subscriptions">Assinantes</a></li>
-              <li><a href="/admin/feedback">Ajuda</a></li>
               <li className="dropdown">
-
                 <a href="#" className="dropdown-toggle" data-toggle="dropdown">
                   <span className="visible-sm visible-xs"><span className="fui-gear"></span></span>
                   <span className="visible-md visible-lg"><span className="fui-gear"></span></span>

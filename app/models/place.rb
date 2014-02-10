@@ -9,7 +9,7 @@ module Menu
       one_to_many :items
 
       def menu(time = Time.now)
-        categories_dataset.with_items_at time
+        categories_dataset.items_published_at time
       end
     end
   end
