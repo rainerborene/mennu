@@ -1,8 +1,28 @@
-var Emitter = require('emitter')
-  , User    = require('app/models/user')
-  , j       = jQuery;
+var j       = jQuery
+  , Emitter = require('emitter')
+  , User    = require('app/models/user');
 
 var Session = {
+
+  setBloodhound: function(words){
+    if (words !== undefined && words.length) {
+      this.Bloodhound = new Bloodhound({
+        datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.value); },
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        local: words.map(function(value){
+          return { value: value };
+        })
+      });
+
+      this.Bloodhound.initialize();
+    }
+
+    return this.Bloodhound;
+  },
+
+  setUser: function(attrs){
+    this.user = new User(attrs);
+  },
 
   setCSRFToken: function(securityToken){
     j.ajaxPrefilter(function(options, _, xhr){
@@ -32,6 +52,6 @@ var Session = {
 
 };
 
-Emitter(Session);;
+Emitter(Session);
 
 module.exports = Session;

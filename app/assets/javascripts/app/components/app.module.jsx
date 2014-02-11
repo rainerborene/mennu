@@ -11,42 +11,57 @@ var uuid       = require('uuid').uuid
 
 var App = React.createClass({
 
+  getInitialState: function(){
+    return { menu: [], date: moment() };
+  },
+
   masonryOptions: {
+    isResizeBound: false,
     itemSelector: '.block, .block-template',
     columnWidth: '.block, .block-template',
     gutter: 8
   },
 
-  getInitialState: function(){
-    return { menu: [], date: moment() };
-  },
+  antiscrollOptions: { initialDisplay: false , x: false },
 
   componentDidMount: function(){
-    j('.antiscroll-wrap').antiscroll({ x: false, initialDisplay: false });
-
-    window.addEventListener('resize', this.handleResize);
-
-    Menu.on('load', this.handleLoad)
-    Menu.today();
-
     this.masonry = new Masonry(this.refs.masonry.getDOMNode(), this.masonryOptions);
+
+    j('.antiscroll-wrap').antiscroll(this.antiscrollOptions);
+
+    window.addEventListener('resize', this.resize);
+
+    Menu.on('load', this.handleLoad);
+    Menu.today();
   },
 
   componentDidUpdate: function(){
-    this.handleResize();
+    this.resize();
+
     if (this.masonry){
       this.masonry.reloadItems();
-      this.masonry.layout();
+      this.masonry._resetLayout();
+      this.masonry.layoutItems(this.masonry.items, true);
     }
   },
 
   componentWillUnmount: function(){
-    window.removeEventListener('resize', this.handleResize);
+    window.removeEventListener('resize', this.resize);
     Menu.off('load');
   },
 
   editable: function(){
     return this.state.date.isAfter(moment().subtract('d', 1));
+  },
+
+  resize: function(){
+    var mainNode = this.refs.main.getDOMNode();
+
+    j('.antiscroll-wrap').data('antiscroll').refresh();
+    j('.antiscroll-inner').css({
+      width: window.window.innerWidth,
+      height: window.innerHeight - mainNode.offsetTop
+    });
   },
 
   back: function(){
@@ -76,23 +91,16 @@ var App = React.createClass({
     if (index > -1) {
       model.destroy();
       category.items.splice(index, 1);
-      block.fadeOutRow(model.uid);
-      setTimeout(this.forceUpdate.bind(this), 600);
+      this.forceUpdate();
     }
   },
 
   handleLoad: function(menu, date){
-    this.setState({ menu: menu, date: date });
-  },
-
-  handleResize: function(){
-    var mainNode = this.refs.main.getDOMNode();
-
-    j('.antiscroll-wrap').data('antiscroll').refresh();
-    j('.antiscroll-inner').css({
-      width: window.window.innerWidth,
-      height: window.innerHeight - mainNode.offsetTop
-    });
+    this.setState({ menu: menu, date: date }, function(){
+      this.masonry.items.forEach(function(item){
+        item.reveal();
+      });
+    }.bind(this));
   },
 
   handleChangeTitle: function(id, title){
@@ -111,8 +119,14 @@ var App = React.createClass({
 
     this.state.menu.push({ id: id, name: 'Nova Categoria', items: [] });
     this.forceUpdate(function(){
+      this.masonry.items.forEach(function(item){
+        if (this.refs[id].getDOMNode() === item.element){
+          item.reveal();
+        }
+      }, this);
+
       this.refs[id].changeTitle();
-    });
+    }.bind(this));
 
     event.preventDefault();
   },
@@ -122,7 +136,7 @@ var App = React.createClass({
 
     menu = this.state.menu.map(function(category){
       return <Block
-        key={category.id}
+        key={category.id + this.state.date}
         ref={category.id}
         instance={category}
         editable={this.editable()}

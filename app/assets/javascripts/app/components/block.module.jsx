@@ -1,50 +1,37 @@
 /** @jsx React.DOM */
 
-var j       = jQuery
-  , Session = require('app/models/session')
-  , Blood;
+var j = jQuery;
 
 var Block = React.createClass({
 
   componentDidMount: function(){
-    var textarea = this.refs.itemTextarea.getDOMNode();
+    var blood = require('app/models/session').Bloodhound;
 
-    if (Blood === undefined){
-      Blood = new Bloodhound({
-        datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.value); },
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        local: Session.autocomplete.map(function(value){
-          return { value: value };
-        })
-      });
-
-      Blood.initialize();
-    }
-
-    if (this.props.editable){
-      j(textarea).autosize();
-      j(textarea).typeahead(null, { source: Blood.ttAdapter() });
-      j(textarea).bind('typeahead:selected', this.handleSelected);
+    if (this.refs.itemInput){
+      j(this.refs.itemInput.getDOMNode())
+        .typeahead(null, { source: blood.ttAdapter() })
+        .bind('typeahead:selected', this.handleSelected);
     }
   },
 
   componentWillUnmount: function(){
-    var textarea = this.refs.itemTextarea.getDOMNode();
-
-    if (this.props.editable){
-      j(textarea).typeahead('destroy');
-      j(textarea).trigger('autosize.destroy');
+    if (this.refs.itemInput){
+      j(this.refs.itemInput.getDOMNode()).typeahead('destroy');
     }
   },
 
-  handleSelected: function(event){
-    j(event.target).trigger('autosize.resize');
-  },
-
   handleKeyDown: function(event){
-    var value = event.target.value.trim(), item;
+    var value = event.target.value.trim();
 
     if (event.keyCode === 13 && value.length !== 0){
+      this.props.onSave(value);
+      this.closeTypeahead();
+    }
+  },
+
+  handleSelected: function(event, token){
+    var value = token.value.trim();
+    if (value.length){
       this.props.onSave(value);
       this.closeTypeahead();
     }
@@ -55,36 +42,30 @@ var Block = React.createClass({
   },
 
   closeTypeahead: function(){
-    var node = this.refs.itemTextarea.getDOMNode();
-    j(node).typeahead('close');
-    j(node).typeahead('val', '');
-    j(node).val('');
+    j(this.refs.itemInput.getDOMNode()).val('')
+      .typeahead('close')
+      .typeahead('val', '');
   },
 
   changeTitle: function(){
     var name = this.props.instance.name
       , value = name !== 'Nova Categoria' ? name : ''
-      , title = this.props.instance.items.length ? '' 
+      , title = this.props.instance.items.length ? ''
               : prompt('Nome da categoria', value);
 
     if (title){
       this.props.onChangeTitle(this.props.instance.id, title.trim());
-      this.refs.itemTextarea.getDOMNode().focus();
+      this.refs.itemInput.getDOMNode().focus();
     }
   },
 
-  fadeOutRow: function(uid){
-    this.refs[uid].getDOMNode().classList.add('animated', 'fadeOutRight');
-  },
-
   render: function(){
-    var itemTextarea = null, spanClass = ['fui-cross'];
+    var itemInput = null, spanClass = ['fui-cross'];
 
     if (this.props.editable){
-      itemTextarea = <textarea
-        rows="1"
+      itemInput = <input
         type="text"
-        ref="itemTextarea"
+        ref="itemInput"
         className="form-control"
         placeholder="Escreva o nome do prato"
         onChange={this.handleChange}
@@ -94,13 +75,14 @@ var Block = React.createClass({
     }
 
     var items = this.props.instance.items.map(function(model){
+      var trClass = model.newRecord() ? 'new-item' : '';
       return (
-        <tr key={model.uid} ref={model.uid}>
+        <tr key={model.uid} ref={model.uid} className={trClass}>
           <td>{model.attr('name')}</td>
           <td width="18">
-            <span 
+            <span
               title="Remover prato do cardápio"
-              onClick={this.handleRemoved.bind(this, model)} 
+              onClick={this.handleRemoved.bind(this, model)}
               className={spanClass} />
           </td>
         </tr>
@@ -113,7 +95,7 @@ var Block = React.createClass({
         <table width="100%">
           <tbody>{items}</tbody>
         </table>
-        {itemTextarea}
+        {itemInput}
       </div>
     );
   }

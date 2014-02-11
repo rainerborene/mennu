@@ -1878,7 +1878,7 @@ Outlayer.prototype._itemize = function( elems ) {
   var items = [];
   for ( var i=0, len = itemElems.length; i < len; i++ ) {
     var elem = itemElems[i];
-    var item = elem.outlayerItem || (elem.outlayerItem = new Item( elem, this ));
+    var item = new Item( elem, this );
     items.push( item );
   }
 

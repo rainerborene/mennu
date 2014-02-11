@@ -1,6 +1,5 @@
 var App     = require('app/components/app')
   , Login   = require('app/components/login')
-  , User    = require('app/models/user')
   , Session = require('app/models/session')
   , page    = require('page')
   , j       = jQuery;
@@ -33,7 +32,8 @@ function redirect(to) {
 
 module.exports = function(options){
   j.extend(Session, options);
-  Session.user = new User(options.user);
+  Session.setUser(options.user);
+  Session.setBloodhound(options.autocomplete);
   Session.setCSRFToken(options.csrfToken);
   page();
 };
