@@ -1,4 +1,4 @@
-require 'logger'
+require 'lib/sass/script/functions'
 require 'lib/react/jsx'
 
 module Menu
