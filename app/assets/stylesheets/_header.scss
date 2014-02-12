@@ -1,0 +1,25 @@
+.logo {
+  width: 90px;
+  height: 18px;
+  margin: 17px 0 0 0;
+  background: url('logo.png') no-repeat left top;
+  text-indent: -9999px;
+  overflow: hidden;
+}
+
+.header {
+  padding-bottom: 30px;
+  border-bottom: 1px solid #e0e4e8;
+
+  h4 {
+    margin: 5px 0 0 0;
+  }
+
+  small {
+    margin-left: 4px;
+  }
+
+  .pagination {
+    margin: 0;
+  }   
+}

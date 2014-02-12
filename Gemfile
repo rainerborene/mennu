@@ -17,12 +17,13 @@ gem 'sequel_secure_password'
 gem 'pg'
 
 # Assets
+gem 'bourbon'
 gem 'closure-compiler'
 gem 'execjs'
 gem 'react-source', require: false
 gem 'sprockets'
 gem 'sprockets-commonjs', '0.0.6'
-gem 'sprockets-less'
+gem 'sprockets-sass'
 gem 'therubyracer'
 gem 'yui-compressor'
 

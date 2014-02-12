@@ -1,0 +1,78 @@
+.login {
+  body, & {
+    width: 100%;
+    height: 100%;
+  }
+
+  body {
+    @include display-box;
+    @include box-align(center);
+    background: #f8f8f8;
+  }
+
+  p {
+    color: #575757;
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .message {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+
+  .logo {
+    width: 150px;
+    height: 29px;
+    background: inline-image('logo.png') no-repeat left top;
+    margin-top: 0;
+    margin-bottom: 30px;
+    @include hide-text;
+  }
+
+  .login-header {
+    margin-bottom: 40px;
+  }
+
+  .login-form {
+    width: 313px;
+    height: 337px;
+    margin: 0 auto;
+  }
+
+  .login-group {
+    position: relative;
+  }
+
+  .icon {
+    font-size: 16px;
+    top: 9px;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    height: 42px;
+    padding: 8px 12px;
+    line-height: 1.467;
+    margin-bottom: 15px;
+  }
+
+  button {
+    width: 100%;
+    font-size: 17px;
+    font-weight: bold;
+    background-color: $base-accent-color;
+    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+    margin-top: 20px;
+    outline: none;
+    color: #ffffff;
+
+    &:hover {
+      background-color: mix($base-accent-color, white, 80%);
+    }
+
+    &:focus {
+      background-color: mix($base-accent-color, black, 85%);
+    }
+  }
+}
