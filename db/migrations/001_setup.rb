@@ -99,7 +99,6 @@ Sequel.migration do
     create_table :items do
       column :id, :uuid, null: false, default: Sequel::LiteralString.new('uuid_generate_v4()')
       column :name, :citext, null: false
-      column :slug, :citext, null: false
       column :description, :citext
       column :show_price, :boolean, default: true
       column :price, :float
