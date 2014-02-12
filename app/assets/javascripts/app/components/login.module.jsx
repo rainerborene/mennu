@@ -1,7 +1,8 @@
 /** @jsx React.DOM */
 
-var page    = require('page')
-  , Session = require('app/models/session');
+var Session = require('app/models/session')
+  , Ladda   = require('ladda')
+  , page    = require('page');
 
 var Login = React.createClass({
 
@@ -15,18 +16,30 @@ var Login = React.createClass({
     this.refs.password.getDOMNode().focus();
   },
 
+  handleCompleted: function(){
+    clearInterval(this.interval);
+    this.ladda.stop();
+  },
+
   handleSubmit: function(event){
     var email = this.refs.email.getDOMNode().value.trim()
       , password = this.refs.password.getDOMNode().value.trim();
+
+    this.interval = setTimeout(this.ladda.start.bind(this.ladda), 50);
 
     Session.authenticate(email, password);
 
     event.preventDefault();
   },
 
+  componentDidMount: function(){
+    this.ladda = Ladda.create(this.refs.submit.getDOMNode());
+  },
+
   componentWillMount: function(){
     Session.on('authenticated', this.handleAuthenticated);
     Session.on('unauthorized', this.handleUnauthorized);
+    Session.on('completed', this.handleCompleted);
     document.documentElement.classList.add('login');
   },
 
@@ -36,22 +49,28 @@ var Login = React.createClass({
   },
 
   render: function(){
-    var classes = 'form-group' + (this.state === null || this.state.success ? '' : ' has-error');
+    var message = (
+      <p className="message">O e-mail ou a senha inseridos estão incorretos.</p>
+    );
 
     return (
-      <form className="form animated fadeInDown" role="form" onSubmit={this.handleSubmit}>
-        <h3 className="heading">Menu</h3>
-        <div className={classes}>
-          <div className="form-group">
-            <input type="text" className="form-control" id="email" required autoFocus placeholder="Email" ref="email"/>
-            <label className="icon fui-user" htmlFor="email"></label>
-          </div>
-          <div className="form-group">
-            <input type="password" className="form-control" id="password" required placeholder="Senha" ref="password"/>
-            <label className="icon fui-lock" htmlFor="password"></label>
-          </div>
+      <form className="login-form animated fadeInDown" onSubmit={this.handleSubmit}>
+        <header className="login-header">
+          <h1 className="logo">Entre no Mennu</h1>
+          <p>Entre e lançe o cardápio do dia.</p>
+        </header>
+        {this.state && this.state.success === false ? message : null}
+        <div className="login-group">
+          <input type="text" id="email" required autoFocus placeholder="E-mail" ref="email"/>
+          <label className="icon fui-user" htmlFor="email"></label>
         </div>
-        <button className="btn btn-lg btn-primary btn-embossed btn-block" type="submit">Entrar</button>
+        <div className="login-group">
+          <input type="password" id="password" required placeholder="Senha" ref="password"/>
+          <label className="icon fui-lock" htmlFor="password"></label>
+        </div>
+        <button type="submit" className="ladda-button" data-style="slide-down" ref="submit">
+          <span className="ladda-label">Entrar</span>
+        </button>
       </form>
     );
   }

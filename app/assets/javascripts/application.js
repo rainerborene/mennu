@@ -13,6 +13,8 @@
 //= require uuid.module
 //= require model.module
 //= require moment.module
+//= require ladda.module
+//= require spin.module
 //
 // App libs v1.0
 //= require_tree ./app

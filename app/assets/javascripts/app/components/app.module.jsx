@@ -55,12 +55,10 @@ var App = React.createClass({
   },
 
   resize: function(){
-    var mainNode = this.refs.main.getDOMNode();
-
     j('.antiscroll-wrap').data('antiscroll').refresh();
     j('.antiscroll-inner').css({
       width: window.window.innerWidth,
-      height: window.innerHeight - mainNode.offsetTop
+      height: window.innerHeight - this.refs.main.getDOMNode().offsetTop
     });
   },
 
@@ -165,11 +163,9 @@ var App = React.createClass({
           onBack={this.back}
           onNext={this.next} />
 
-        <div className="antiscroll-wrap main" ref="main">
+        <div className="antiscroll-wrap menu" ref="main">
           <div className="antiscroll-inner">
-            <div className="container" ref="masonry">
-              {menu} {templateBlock}
-            </div>
+            <div className="container" ref="masonry">{menu} {templateBlock}</div>
           </div>
         </div>
       </div>

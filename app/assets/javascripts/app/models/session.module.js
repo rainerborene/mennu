@@ -46,6 +46,9 @@ var Session = {
       success: function(data, textStatus, jqXHR){
         this.user.attr(data);
         this.emit('authenticated');
+      }.bind(this),
+      complete: function(){
+        this.emit('completed');
       }.bind(this)
     });
   }
