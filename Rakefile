@@ -5,7 +5,7 @@ require 'dotenv/tasks'
 Rake::SprocketsTask.new do |t|
   t.environment = Menu::Routes::Base.assets
   t.output      = './public/assets'
-  t.assets      = %w( application.js application.css )
+  t.assets      = %w( application.js application.css site.css site.js )
 end
 
 namespace :db do
