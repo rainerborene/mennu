@@ -17,16 +17,16 @@ describe Subscription do
 
   describe '.charge!', :vcr do
     it 'should subscribe customer to a plan' do
-      assert subscription.exists?
-      assert_equal subscription.card_last_digits, 4448
-      assert_equal subscription.card_brand, 'visa'
-      assert_equal place.id, subscription.place_id
+      subscription.exists?.must_equal true
+      subscription.card_last_digits.must_equal 4448
+      subscription.card_brand.must_equal 'visa'
+      subscription.place_id.must_equal place.id
     end
   end
 
   describe '#transactions', :vcr do
     it 'should return all transactions' do
-      assert_empty subscription.transactions
+      subscription.transactions.must_be_empty
     end
   end
 
