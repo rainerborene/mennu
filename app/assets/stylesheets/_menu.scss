@@ -1,0 +1,156 @@
+.menu {
+  background: #e8e8e8;
+
+  .container {
+    margin-top: 30px;
+    padding: 0;
+  }
+}
+
+.menu-header {
+  @extend %header-common;
+
+  h2 {
+    float: left;
+  }
+
+  small {
+    font-weight: 300;
+    margin-left: em(3);
+    color: #b4b4b4;
+  }
+
+  li {
+    display: inline;
+  }
+
+  a {
+    position: relative;
+    border: 1px solid #e9ecef;
+    height: 40px;
+    float: left;
+    margin-left: -1px;
+
+    &:hover {
+      background-color: #f7f9fa;
+    }
+  }
+
+  .pagination {
+    float: right;
+    margin-top: em(25);
+  }
+
+  .today {
+    font-size: em(21);
+    font-weight: 300;
+    line-height: 39px;
+    padding: 0 16px;
+  }
+
+  .fui-arrow-left, 
+  .fui-arrow-right {
+    display: inline-block;
+    width: 45px;
+    font-size: 21px;
+    text-align: center;
+    line-height: 38px;
+  }
+
+  .fui-arrow-left {
+    border-bottom-left-radius: $base-border-radius;
+    border-top-left-radius: $base-border-radius;
+  }
+
+  .fui-arrow-right {
+    border-bottom-right-radius: $base-border-radius;
+    border-top-right-radius: $base-border-radius;
+  }
+}
+
+.menu-block {
+  position: relative;
+  background: #FFF;
+  border-bottom: 1px solid #e2e2e2;
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.04);
+  margin-bottom: 14px;
+  padding: 20px;
+  width: grid-width(3) - 40;
+  float: left;
+
+  h4 {
+    font-weight: 300;
+    margin-top: 0;
+    margin-bottom: em(14);
+    width: 192px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:hover {
+      text-overflow: none;
+      overflow: visible;
+    }
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  table {
+    table-layout: fixed;
+    margin: 0;
+  }
+
+  td {
+    font-size: em(14);
+    font-weight: 300;
+    word-wrap: break-word;
+    line-height: em(16);
+    padding-bottom: em(14);
+    vertical-align: top;
+    border: none;
+
+    span {
+      display: none;
+      cursor: pointer;
+    }
+  }
+
+  tr:hover span {
+    display: block;
+  }
+
+  .form-control, .tt-hint {
+    width: 100%;
+    font-weight: 300;
+    font-size: em(14);
+    border: none;
+    padding: 1px;
+    height: em(27);
+    margin: 0;
+  } 
+}
+
+.menu-template {
+  width: 236px;
+  height: 236px;
+  float: left;
+  border: 3px dashed #d9d9d9;
+  text-align: center;
+
+  a {
+    display: block;
+    font-weight: bold;
+    color: darken(#ccc, 10%);
+    margin-top: 75px;
+  }
+
+  .fui-new {
+    display: block;
+    font-size: 48px;
+    line-height: 48px;
+    margin-bottom: 20px;
+  }   
+}

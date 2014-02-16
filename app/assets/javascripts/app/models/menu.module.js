@@ -42,15 +42,19 @@ Menu = {
       self.emit('load', response, moment);
     });
   },
- 
+
   today: function(){
     var menu = Session.menu;
     if (menu){
-      this.parse(menu);
+      if (this.parsed === undefined) {
+        this.parse(menu);
+      }
+
       this.emit('load', menu, moment());
+      this.parsed = true;
       return;
-    } 
-    
+    }
+
     this.at(moment());
   }
 

@@ -4,7 +4,7 @@ var Session = require('app/models/session')
   , Ladda   = require('ladda')
   , page    = require('page');
 
-var Login = React.createClass({
+var LoginPage = React.createClass({
 
   handleAuthenticated: function(){
     this.setState({ success: true });
@@ -77,4 +77,4 @@ var Login = React.createClass({
 
 });
 
-module.exports = Login;
+module.exports = LoginPage;

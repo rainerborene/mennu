@@ -2,7 +2,7 @@
 
 var j = jQuery;
 
-var Block = React.createClass({
+var MenuBlock = React.createClass({
 
   componentDidMount: function(){
     var blood = require('app/models/session').Bloodhound;
@@ -90,8 +90,8 @@ var Block = React.createClass({
     }.bind(this));
 
     return (
-      <div className="block">
-        <h6 onClick={this.changeTitle}>{this.props.instance.name}</h6>
+      <div className="menu-block">
+        <h4 onClick={this.changeTitle}>{this.props.instance.name}</h4>
         <table width="100%">
           <tbody>{items}</tbody>
         </table>
@@ -102,4 +102,4 @@ var Block = React.createClass({
 
 });
 
-module.exports = Block;
+module.exports = MenuBlock;

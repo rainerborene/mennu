@@ -2,14 +2,16 @@
 
 var uuid       = require('uuid').uuid
   , moment     = require('moment')
-  , Block      = require('app/components/block')
+  , AntiScroll = require('app/mixins').AntiScroll
   , Header     = require('app/components/header')
-  , DateHeader = require('app/components/date_header')
+  , MenuBlock  = require('app/components/menu_block')
+  , MenuHeader = require('app/components/menu_header')
   , Menu       = require('app/models/menu')
-  , Item       = require('app/models/item')
-  , j          = jQuery;
+  , Item       = require('app/models/item');
 
-var App = React.createClass({
+var MenuPage = React.createClass({
+
+  mixins: [AntiScroll],
 
   getInitialState: function(){
     return { menu: [], date: moment() };
@@ -17,27 +19,19 @@ var App = React.createClass({
 
   masonryOptions: {
     isResizeBound: false,
-    itemSelector: '.block, .block-template',
-    columnWidth: '.block, .block-template',
-    gutter: 8
+    itemSelector: '.menu-block, .menu-template',
+    columnWidth: '.menu-block, .menu-template',
+    gutter: 14
   },
-
-  antiscrollOptions: { initialDisplay: false , x: false },
 
   componentDidMount: function(){
     this.masonry = new Masonry(this.refs.masonry.getDOMNode(), this.masonryOptions);
-
-    j('.antiscroll-wrap').antiscroll(this.antiscrollOptions);
-
-    window.addEventListener('resize', this.resize);
 
     Menu.on('load', this.handleLoad);
     Menu.today();
   },
 
   componentDidUpdate: function(){
-    this.resize();
-
     if (this.masonry){
       this.masonry.reloadItems();
       this.masonry._resetLayout();
@@ -46,7 +40,6 @@ var App = React.createClass({
   },
 
   componentWillUnmount: function(){
-    window.removeEventListener('resize', this.resize);
     Menu.off('load');
   },
 
@@ -54,16 +47,14 @@ var App = React.createClass({
     return this.state.date.isAfter(moment().subtract('d', 1));
   },
 
-  resize: function(){
-    j('.antiscroll-wrap').data('antiscroll').refresh();
-    j('.antiscroll-inner').css({
-      width: window.window.innerWidth,
-      height: window.innerHeight - this.refs.main.getDOMNode().offsetTop
-    });
-  },
-
   back: function(){
     Menu.at(this.state.date.clone().subtract('d', 1));
+  },
+
+  today: function(){
+    if (!this.state.date.isSame(undefined, 'day')) {
+      Menu.at(moment());
+    }
   },
 
   next: function(){
@@ -133,7 +124,7 @@ var App = React.createClass({
     var templateBlock = null, menu = null;
 
     menu = this.state.menu.map(function(category){
-      return <Block
+      return <MenuBlock
         key={category.id + this.state.date}
         ref={category.id}
         instance={category}
@@ -145,7 +136,7 @@ var App = React.createClass({
 
     if (this.editable()){
       templateBlock = (
-        <div className="block-template">
+        <div className="menu-template">
           <a href="#" onClick={this.handleCreateBlock}>
             <span className="fui-new"></span>
             <span>Crie uma nova categoria</span>
@@ -156,14 +147,15 @@ var App = React.createClass({
 
     return (
       <div className="app">
-        <Header />
+        <Header pathname={this.props.pathname} />
 
-        <DateHeader
+        <MenuHeader
           currentDate={this.state.date}
           onBack={this.back}
+          onGotoday={this.today}
           onNext={this.next} />
 
-        <div className="antiscroll-wrap menu" ref="main">
+        <div className="antiscroll-wrap menu" ref="wrap">
           <div className="antiscroll-inner">
             <div className="container" ref="masonry">{menu} {templateBlock}</div>
           </div>
@@ -174,4 +166,4 @@ var App = React.createClass({
 
 });
 
-module.exports = App;
+module.exports = MenuPage;

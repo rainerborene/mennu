@@ -1,44 +1,33 @@
 /** @jsx React.DOM */
 
-var j = jQuery;
+var page = require('page');
 
 var Header = React.createClass({
 
-  componentDidMount: function(){
-    j('.dropdown-toggle').dropdown();
-  },
-
-  componentWillUnmount: function(){
-    j('.dropdown-toggle').off('click.bs.dropdown');
+  navigate: function(event){
+    var href = event.target.getAttribute('href');
+    if ( ! href.match('logout') ) {
+      page(href);
+      event.preventDefault();
+    }
   },
 
   render: function(){
+    var accountClass = this.props.pathname === '/admin/account' ? 'active' : ''
+      , adminClass   = this.props.pathname === '/admin'         ? 'active' : '';
+
     return (
-      <nav className="navbar navbar-default" role="navigation">
+      <header className="header">
         <div className="container">
-          <div className="navbar-header">
-            <h1 className="logo">Mennu</h1>
-          </div>
+          <h1 className="logo">Mennu</h1>
 
-          <div className="collapse navbar-collapse">
-            <ul className="nav navbar-nav navbar-right">
-              <li className="active"><a href="/admin">Cardápio</a></li>
-              <li className="dropdown">
-                <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                  <span className="visible-sm visible-xs"><span className="fui-gear"></span></span>
-                  <span className="visible-md visible-lg"><span className="fui-gear"></span></span>
-                </a>
-
-                <span className="dropdown-arrow"></span>
-                <ul className="dropdown-menu">
-                  <li><a href="/admin/profile">Minha conta</a></li>
-                  <li><a href="/logout">Sair</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
+          <ul className="nav">
+            <li><a onClick={this.navigate} href="/admin" className={adminClass}>Cardápio</a></li>
+            <li><a onClick={this.navigate} href="/admin/account" className={accountClass}>Sua conta</a></li>
+            <li><a onClick={this.navigate} href="/admin/logout">Sair</a></li>
+          </ul>
         </div>
-      </nav>
+      </header>
     );
   }
 

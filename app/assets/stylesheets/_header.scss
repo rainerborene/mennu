@@ -1,25 +1,35 @@
-.logo {
-  width: 90px;
-  height: 18px;
-  margin: 17px 0 0 0;
-  background: url('logo.png') no-repeat left top;
-  text-indent: -9999px;
-  overflow: hidden;
-}
-
 .header {
-  padding-bottom: 30px;
-  border-bottom: 1px solid #e0e4e8;
+  height: em(55);
+  border-bottom: 1px solid #ececec;
 
-  h4 {
-    margin: 5px 0 0 0;
+  a {
+    font-size: em(14);
+    color: #b0babf;
+    &:hover {
+      color: #333;
+    }
   }
 
-  small {
-    margin-left: 4px;
+  li {
+    display: inline;
+    margin-left: em(10);
   }
 
-  .pagination {
-    margin: 0;
-  }   
+  .logo {
+    width: 90px;
+    height: 18px;
+    margin: 19px 0 0 0;
+    background: url('logo-small.png') no-repeat left top;
+    float: left;
+    @include hide-text;
+  }
+
+  .nav {
+    float: right;
+    line-height: em(54);
+  }
+
+  .active {
+    color: #333;
+  }
 }

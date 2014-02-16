@@ -1,0 +1,63 @@
+.header-page {
+  @extend %header-common;
+  margin-bottom: 20px;
+
+  h2 {
+    line-height: 36px;
+    margin-top: 23px;
+  }
+  
+  p {
+    color: #b4b4b4;
+    margin: 0;
+  }
+}
+
+.account {
+  width: 930px;
+  font-weight: 400;
+
+  th {
+    font-weight: normal;
+    width: 25%;
+  }
+
+  th, td {
+    padding: 20px 10px;
+    border-color: #ececec;
+    font-size: em(14);
+  }
+
+  table {
+    margin: 0;
+  }
+
+  input {
+    width: 50%;
+    margin-bottom: 0;
+  }
+
+  textarea {
+    max-width: 73%;
+  }
+
+  h4 {
+    font-weight: 300;
+    margin-top: 50px;
+  }
+
+  .first td,
+  .first th {
+    padding-top: 0;
+  }
+
+  .slug-field {
+    display: inline-block;
+    margin-left: 15px;
+  }
+
+  .description-label {
+    vertical-align: top;
+    line-height: 34px;
+  }
+}

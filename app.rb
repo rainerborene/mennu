@@ -45,7 +45,7 @@ module Menu
     use Rack::Runtime
     use Rack::Csrf
 
-    use Menu::Routes::Index
+    use Menu::Routes::Site
     use Menu::Routes::Items
     use Menu::Routes::Session
     use Menu::Routes::Client

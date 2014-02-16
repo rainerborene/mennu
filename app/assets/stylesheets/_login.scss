@@ -13,12 +13,7 @@
   p {
     color: #575757;
     margin: 0;
-    font-weight: 500;
-  }
-
-  .message {
-    font-size: 13px;
-    margin-bottom: 10px;
+    font-weight: 400;
   }
 
   .logo {
@@ -30,13 +25,18 @@
     @include hide-text;
   }
 
+  .message {
+    font-size: em(13);
+    margin-bottom: em(10);
+  }
+
   .login-header {
-    margin-bottom: 40px;
+    margin-bottom: em(40);
   }
 
   .login-form {
-    width: 313px;
-    height: 337px;
+    width: em(313);
+    height: em(337);
     margin: 0 auto;
   }
 
@@ -45,25 +45,25 @@
   }
 
   .icon {
-    font-size: 16px;
-    top: 9px;
+    font-size: 1em;
+    top: em(9);
   }
 
   input[type="text"],
   input[type="password"] {
-    height: 42px;
-    padding: 8px 12px;
-    line-height: 1.467;
-    margin-bottom: 15px;
+    height: em(42);
+    padding: em(8) em(12);
+    margin-bottom: em(15);
+    line-height: 1.467em;
   }
 
   button {
     width: 100%;
-    font-size: 17px;
+    font-size: em(17);
     font-weight: bold;
     background-color: $base-accent-color;
     box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
-    margin-top: 20px;
+    margin-top: em(20);
     outline: none;
     color: #ffffff;
 

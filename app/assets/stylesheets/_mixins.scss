@@ -1,0 +1,9 @@
+%header-common {
+  height: em(90);
+  @include clearfix;
+
+  h2 {
+    line-height: em(41);
+    font-weight: 400;
+  }
+}
