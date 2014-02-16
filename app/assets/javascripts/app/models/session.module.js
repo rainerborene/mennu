@@ -5,19 +5,15 @@ var j       = jQuery
 var Session = {
 
   setBloodhound: function(words){
-    if (words !== undefined && words.length) {
-      this.Bloodhound = new Bloodhound({
-        datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.value); },
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        local: words.map(function(value){
-          return { value: value };
-        })
-      });
+    this.Bloodhound = new Bloodhound({
+      datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.value); },
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      local: words.map(function(value){
+        return { value: value };
+      })
+    });
 
-      this.Bloodhound.initialize();
-    }
-
-    return this.Bloodhound;
+    this.Bloodhound.initialize();
   },
 
   setUser: function(attrs){

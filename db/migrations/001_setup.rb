@@ -110,6 +110,7 @@ Sequel.migration do
       column :position, :integer
       column :self_service, :boolean, default: false
       foreign_key :category_id, :categories, type: :uuid, key: [:id]
+      foreign_key :place_id, :places, type: :uuid, key: [:id]
       column :published_at, 'timestamp without time zone'
       column :created_at, 'timestamp without time zone'
       column :updated_at, 'timestamp without time zone'
@@ -117,6 +118,7 @@ Sequel.migration do
       primary_key [:id]
 
       index [:category_id]
+      index [:place_id]
     end
 
     create_table :photos do

@@ -1,8 +1,8 @@
-var MenuPage    = require('app/components/menu_page')
+var page        = require('page')
+  , MenuPage    = require('app/components/menu_page')
   , LoginPage   = require('app/components/login_page')
   , AccountPage = require('app/components/account_page')
-  , Session     = require('app/models/session')
-  , page        = require('page');
+  , Session     = require('app/models/session');
 
 page.base('/admin');
 page('/login', login);
