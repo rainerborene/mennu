@@ -10,6 +10,8 @@ Dotenv.load
 require 'sprockets/commonjs'
 require 'sinatra/sequel'
 require 'rack/csrf'
+require 'active_support/core_ext/array'
+require 'active_support/core_ext/hash'
 
 require 'app/extensions'
 require 'app/models'

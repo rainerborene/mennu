@@ -1,5 +1,3 @@
-require 'pry-meta'
-
 module Menu
   module Models
     class Category < Sequel::Model
@@ -7,9 +5,9 @@ module Menu
       one_to_many :items
 
       dataset_module do
-        def items_published_at(time)
-          sql = model_object.items_dataset.select(:category_id).distinct.at(time).sql
-          where("id in (#{sql})").eager items: -> (ds) { ds.at(time) }
+        def items_at(time)
+          sql = Item.distinct.select(:category_id).at(time).sql
+          where("id in (#{sql})").eager items: -> (ds) { ds.at time }
         end
       end
 
@@ -24,6 +22,7 @@ module Menu
       def validate
         super
         validates_presence [:name, :place_id]
+        validates_unique [:name, :place_id]
       end
     end
   end

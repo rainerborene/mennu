@@ -9,6 +9,8 @@ gem 'dotenv'
 gem 'rack_csrf'
 gem 'rake'
 gem 'warden'
+gem 'httparty', require: false
+gem 'pry-meta', require: false
 
 # DB
 gem 'sinatra-sequel'
@@ -29,5 +31,11 @@ gem 'yui-compressor'
 
 group :development do
   gem 'thin'
-  gem 'pry-meta'
+end
+
+group :test do
+  gem 'minispec-metadata'
+  gem 'machinist'
+  gem 'fakeweb'
+  gem 'vcr'
 end

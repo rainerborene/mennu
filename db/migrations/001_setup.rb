@@ -31,12 +31,8 @@ Sequel.migration do
       column :password_digest, :citext, null: false
       column :description, :citext, null: false
       column :logo, :citext, null: false
-      column :facebook, :citext
-      column :foursquare, :citext
-      column :twitter, :citext
       column :website, :citext
       column :establishment_types, 'citext[]'
-      column :payment_method_ids, 'uuid[]'
       column :opened_to_public, :boolean, default: true
       column :expire_at, 'timestamp without time zone'
       column :created_at, 'timestamp without time zone'
@@ -62,6 +58,8 @@ Sequel.migration do
       column :updated_at, 'timestamp without time zone'
 
       primary_key [:id]
+
+      index [:place_id]
     end
 
     create_table :business_hours do
@@ -77,12 +75,18 @@ Sequel.migration do
       index [:place_id]
     end
 
-    create_table :payment_methods do
+    create_table :subscriptions do
       column :id, :uuid, null: false, default: Sequel::LiteralString.new('uuid_generate_v4()')
-      column :name, :citext, null: false
-      column :group, :integer
+      column :uid, :integer, null: false
+      column :status, :citext, null: false
+      column :card_brand, :citext, null: false
+      column :card_last_digits, :integer, null: false
+      column :date_created, 'timestamp without time zone'
+      foreign_key :place_id, :places, type: :uuid, key: [:id]
 
       primary_key [:id]
+
+      index [:place_id]
     end
 
     create_table :categories do
@@ -93,7 +97,7 @@ Sequel.migration do
 
       primary_key [:id]
 
-      index [:place_id, :slug], unique: true
+      index [:place_id]
     end
 
     create_table :items do
@@ -105,7 +109,6 @@ Sequel.migration do
       column :code, :integer
       column :position, :integer
       column :self_service, :boolean, default: false
-      foreign_key :place_id, :places, type: :uuid, key: [:id]
       foreign_key :category_id, :categories, type: :uuid, key: [:id]
       column :published_at, 'timestamp without time zone'
       column :created_at, 'timestamp without time zone'
@@ -113,7 +116,7 @@ Sequel.migration do
 
       primary_key [:id]
 
-      index [:place_id, :category_id]
+      index [:category_id]
     end
 
     create_table :photos do
@@ -129,6 +132,8 @@ Sequel.migration do
       column :updated_at, 'timestamp without time zone'
 
       primary_key [:id]
+
+      index [:attachable_id, :attachable_type]
     end
   end
 end

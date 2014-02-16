@@ -1,11 +1,19 @@
 require_relative 'app'
+require 'rake/testtask'
 require 'rake/sprocketstask'
 require 'dotenv/tasks'
+
+task default: [:test]
 
 Rake::SprocketsTask.new do |t|
   t.environment = Menu::Routes::Base.assets
   t.output      = './public/assets'
   t.assets      = %w( application.js application.css site.css site.js )
+end
+
+Rake::TestTask.new do |t|
+  t.ruby_opts = ['-Ispec']
+  t.pattern = "spec/*/*_spec.rb"
 end
 
 namespace :db do

@@ -2,7 +2,6 @@ module Menu
   module Models
     class Item < Sequel::Model
       many_to_one :category
-      many_to_one :place
 
       dataset_module do
         def at(time = Time.now)
@@ -20,7 +19,7 @@ module Menu
 
       def validate
         super
-        validates_presence [:name, :place_id, :category_id]
+        validates_presence [:name, :category_id]
       end
 
       def to_json(options = {})

@@ -1,6 +1,3 @@
-require 'active_support/core_ext/array'
-require 'active_support/core_ext/hash'
-
 require 'lib/sequel/polymorphic'
 
 Sequel.default_timezone = :utc
@@ -22,7 +19,7 @@ module Menu
     autoload :Place, 'app/models/place'
     autoload :Address, 'app/models/address'
     autoload :BusinessHour, 'app/models/business_hour'
-    autoload :PaymentMethod, 'app/models/payment_method'
+    autoload :Subscription, 'app/models/subscription'
     autoload :Category, 'app/models/category'
     autoload :Item, 'app/models/item'
   end
