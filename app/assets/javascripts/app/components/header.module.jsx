@@ -23,7 +23,7 @@ var Header = React.createClass({
 
           <ul className="nav">
             <li><a onClick={this.navigate} href="/admin" className={adminClass}>Cardápio</a></li>
-            <li><a onClick={this.navigate} href="/admin/account" className={accountClass}>Sua conta</a></li>
+            <li><a onClick={this.navigate} href="/admin/account" className={accountClass}>Minha conta</a></li>
             <li><a onClick={this.navigate} href="/admin/logout">Sair</a></li>
           </ul>
         </div>

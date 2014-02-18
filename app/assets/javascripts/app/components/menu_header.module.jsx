@@ -30,8 +30,8 @@ var MenuHeader = React.createClass({
             <li title="Anterior">
               <a href="#" className="fui-arrow-left" onClick={this.handleBack} />
             </li>
-            <li>
-              <a href="#" className="today" onClick={this.handleToday}>Ir para hoje</a>
+            <li title="Ir para hoje">
+              <a href="#" className="today" onClick={this.handleToday}>Hoje</a>
             </li>
             <li title="Próximo">
               <a href="#" className="fui-arrow-right" onClick={this.handleNext} />

@@ -26,13 +26,16 @@
 
   a {
     position: relative;
-    border: 1px solid #e9ecef;
     height: 40px;
     float: left;
+    background-color: #D6DBDF;
     margin-left: -1px;
+    color: #fff;
+    @include transition(background-color 0.2s ease-out);
 
     &:hover {
-      background-color: #f7f9fa;
+      color: #fff;
+      background-color: $base-accent-color;
     }
   }
 
@@ -42,9 +45,9 @@
   }
 
   .today {
-    font-size: em(21);
-    font-weight: 300;
-    line-height: 39px;
+    font-size: em(18);
+    font-weight: 400;
+    line-height: 40px;
     padding: 0 16px;
   }
 
@@ -52,7 +55,7 @@
   .fui-arrow-right {
     display: inline-block;
     width: 45px;
-    font-size: 21px;
+    font-size: 18px;
     text-align: center;
     line-height: 38px;
   }
@@ -111,15 +114,20 @@
     padding-bottom: em(14);
     vertical-align: top;
     border: none;
-
-    span {
-      display: none;
-      cursor: pointer;
-    }
   }
 
   tr:hover span {
     display: block;
+  }
+
+  .fui-cross {
+    display: none;
+    cursor: pointer;
+    color: #bababa;
+
+    &:hover {
+      color: darken(#bababa, 20%);
+    }
   }
 
   .form-control, .tt-hint {
@@ -127,7 +135,7 @@
     font-weight: 300;
     font-size: em(14);
     border: none;
-    padding: 1px;
+    padding: 0;
     height: em(27);
     margin: 0;
   } 

@@ -6,13 +6,13 @@
     font-size: em(14);
     color: #b0babf;
     &:hover {
-      color: #333;
+      color: $base-accent-color;
     }
   }
 
   li {
     display: inline;
-    margin-left: em(10);
+    margin-left: em(15);
   }
 
   .logo {
@@ -30,6 +30,6 @@
   }
 
   .active {
-    color: #333;
+    color: $base-accent-color;
   }
 }

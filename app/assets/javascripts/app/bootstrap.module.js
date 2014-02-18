@@ -18,14 +18,17 @@ function auth(ctx, next) {
 }
 
 function login() {
+  title('Login');
   React.renderComponent(LoginPage(), document.body);
 }
 
 function index(ctx) {
+  title('Cardápio');
   React.renderComponent(MenuPage({ pathname: ctx.pathname }), document.body);
 }
 
 function account(ctx){
+  title('Minha conta');
   React.renderComponent(AccountPage({ pathname: ctx.pathname }), document.body);
 }
 
@@ -33,6 +36,10 @@ function redirect(to) {
   return setTimeout(function(){
     page(to);
   }, 0); // TODO: lame
+}
+
+function title(string) {
+  document.title = string + ' • Mennu';
 }
 
 module.exports = function(options){
