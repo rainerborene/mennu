@@ -19,5 +19,4 @@ module Menu
       end
     end
   end
-
 end

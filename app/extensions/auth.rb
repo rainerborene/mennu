@@ -1,3 +1,5 @@
+require 'warden'
+require 'omniauth-facebook'
 require 'lib/warden/strategies'
 
 module Menu

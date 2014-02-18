@@ -5,7 +5,7 @@ GEM
       activesupport (= 3.0.0)
     activesupport (3.0.0)
     awesome_print (1.2.0)
-    backports (3.4.0)
+    backports (3.6.0)
     bcrypt-ruby (3.1.2)
     bourbon (3.1.8)
       sass (>= 3.2.0)
@@ -28,7 +28,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     hashie (2.0.5)
     hike (1.2.3)
-    httparty (0.12.0)
+    httparty (0.13.0)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
     httpauth (0.2.1)
@@ -60,7 +60,7 @@ GEM
       oauth2 (~> 0.8.0)
       omniauth (~> 1.0)
     pg (0.17.1)
-    pry (0.9.12.4)
+    pry (0.9.12.6)
       coderay (~> 1.0)
       method_source (~> 0.8)
       slop (~> 3.4)
@@ -72,7 +72,7 @@ GEM
       pry
       pry-debugger
       pry-remote
-    pry-remote (0.1.7)
+    pry-remote (0.1.8)
       pry (~> 0.9)
       slop (~> 3.0)
     rack (1.5.2)
@@ -85,8 +85,8 @@ GEM
     rake (10.1.1)
     react-source (0.8.0)
     ref (1.0.5)
-    sass (3.2.13)
-    sequel (4.6.0)
+    sass (3.2.14)
+    sequel (4.7.0)
     sequel_secure_password (0.2.3)
       bcrypt-ruby (>= 3.1, < 4.0)
       sequel (>= 4.1.0, < 5.0)
@@ -115,7 +115,7 @@ GEM
     sprockets-sass (1.0.2)
       sprockets (~> 2.0)
       tilt (~> 1.1)
-    therubyracer (0.12.0)
+    therubyracer (0.12.1)
       libv8 (~> 3.16.14.0)
       ref
     thin (1.6.1)
@@ -127,7 +127,7 @@ GEM
     vcr (2.8.0)
     warden (1.2.3)
       rack (>= 1.0)
-    yui-compressor (0.11.0)
+    yui-compressor (0.12.0)
 
 PLATFORMS
   ruby

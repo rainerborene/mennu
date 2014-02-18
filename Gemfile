@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'sinatra', require: 'sinatra/base'
+gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'i18n'
 gem 'active_support'
@@ -9,8 +9,8 @@ gem 'dotenv'
 gem 'rack_csrf'
 gem 'rake'
 gem 'warden'
-gem 'httparty', require: false
-gem 'pry-meta', require: false
+gem 'httparty'
+gem 'pry-meta'
 
 # DB
 gem 'sinatra-sequel'
@@ -22,7 +22,7 @@ gem 'pg'
 gem 'bourbon'
 gem 'closure-compiler'
 gem 'execjs'
-gem 'react-source', require: false
+gem 'react-source'
 gem 'sprockets'
 gem 'sprockets-commonjs', '0.0.6'
 gem 'sprockets-sass'

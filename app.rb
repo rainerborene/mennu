@@ -1,14 +1,16 @@
-require 'bundler'
+require 'bundler/setup'
 
 # Setup load paths
-Bundler.require
 $: << File.expand_path('../', __FILE__)
 $: << File.expand_path('../lib', __FILE__)
+
+require 'dotenv'
 
 Dotenv.load
 
 require 'sprockets/commonjs'
 require 'sinatra/sequel'
+require 'sinatra/reloader'
 require 'rack/csrf'
 require 'active_support/core_ext/array'
 require 'active_support/core_ext/hash'
