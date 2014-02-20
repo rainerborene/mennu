@@ -1,3 +1,5 @@
+require 'bourbon'
+
 require 'lib/sass/script/functions'
 require 'lib/react/jsx'
 

@@ -155,7 +155,7 @@ DEPENDENCIES
   sinatra-contrib
   sinatra-sequel
   sprockets
-  sprockets-commonjs (= 0.0.6)
+  sprockets-commonjs
   sprockets-sass
   therubyracer
   thin

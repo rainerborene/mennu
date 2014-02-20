@@ -38,10 +38,9 @@ module Menu
       }
 
       set :sessions,
-        key: '_menu_session',
         httponly: true,
         secure: false,
-        expire_after: 3600,
+        expire_after: 1.year,
         secret: ENV['SESSION_SECRET']
     end
 

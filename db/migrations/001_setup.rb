@@ -65,7 +65,8 @@ Sequel.migration do
     create_table :business_hours do
       column :id, :uuid, null: false, default: Sequel::LiteralString.new('uuid_generate_v4()')
       column :weekday, :integer, null: false
-      column :interval, :int4range, null: false
+      column :start_time, :time, null: false
+      column :end_time, :interval, null: false
       foreign_key :place_id, :places, type: :uuid, key: [:id]
       column :created_at, 'timestamp without time zone'
       column :updated_at, 'timestamp without time zone'
