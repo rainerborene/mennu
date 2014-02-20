@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 
 var AntiScroll = require('app/mixins').AntiScroll
+  , HoursTable = require('app/components/hours_table')
   , Header     = require('app/components/header')
   , Session    = require('app/models/session');
 
@@ -22,13 +23,13 @@ var AccountPage = React.createClass({
             <header className="header-page">
               <div className="container">
                 <h2>Sobre o estabelecimento</h2>
-                <p>Essas informações aparecem em seu perfil público, resultados de pesquisa, e mais além.</p>
+                <p className="legend">Essas informações aparecem em sua página pública e resultados de pesquisa.</p>
               </div>
             </header>
 
             <div className="container account">
-              <div className="form-group">
-                <table>
+              <form onSubmit={this.handleSubmit}>
+                <table className="table-details">
                   <tbody>
                     <tr className="first">
                       <th>Nome</th>
@@ -64,18 +65,19 @@ var AccountPage = React.createClass({
                     <tr>
                       <th>Logotipo</th>
                       <td>
-                        <input type="file" />
+                        <input type="file"/>
                       </td>
                     </tr>
                   </tbody>
                 </table>
 
-                <h4>Endereço</h4>
-                
                 <h4>Horário de funcionamento</h4>
-                
-                <h4>Cobrança</h4>
-              </div>
+                <p className="legend">Mostramos em sua página um selo aberto ou fechado de acordo com a hora atual.</p>
+
+                <HoursTable />
+
+                <h4>Endereço</h4>
+              </form>
             </div>
           </div>
         </div>

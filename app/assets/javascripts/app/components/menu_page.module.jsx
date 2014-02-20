@@ -14,7 +14,7 @@ var MenuPage = React.createClass({
   mixins: [AntiScroll],
 
   getInitialState: function(){
-    return { menu: [], date: moment() };
+    return { menu: [], date: moment(), animate: true };
   },
 
   masonryOptions: {
@@ -26,17 +26,14 @@ var MenuPage = React.createClass({
 
   componentDidMount: function(){
     this.masonry = new Masonry(this.refs.masonry.getDOMNode(), this.masonryOptions);
-
     Menu.on('load', this.handleLoad);
     Menu.today();
   },
 
   componentDidUpdate: function(){
-    if (this.masonry){
-      this.masonry.reloadItems();
-      this.masonry._resetLayout();
-      this.masonry.layoutItems(this.masonry.items, true);
-    }
+    this.masonry.reloadItems();
+    this.masonry._resetLayout();
+    this.masonry.layoutItems(this.masonry.items, true);
   },
 
   componentWillUnmount: function(){
@@ -86,9 +83,13 @@ var MenuPage = React.createClass({
 
   handleLoad: function(menu, date){
     this.setState({ menu: menu, date: date }, function(){
-      this.masonry.items.forEach(function(item){
-        item.reveal();
-      });
+      if (this.state.animate) {
+        this.masonry.items.forEach(function(item){
+          item.reveal();
+        });
+      }
+
+      this.state.animate = false;
     }.bind(this));
   },
 
@@ -121,7 +122,9 @@ var MenuPage = React.createClass({
   },
 
   render: function(){
-    var templateBlock = null, menu = null;
+    var template = null
+      , message = null
+      , menu = null;
 
     menu = this.state.menu.map(function(category){
       return <MenuBlock
@@ -135,12 +138,18 @@ var MenuPage = React.createClass({
     }, this);
 
     if (this.editable()){
-      templateBlock = (
+      template = (
         <div className="menu-template">
           <a href="#" onClick={this.handleCreateBlock}>
             <span className="fui-new"></span>
-            <span>Crie uma nova categoria</span>
+            <span>Criar nova categoria</span>
           </a>
+        </div>
+      );
+    } else {
+      message = (
+        <div className="chef">
+          <p>Nenhum lançamento neste dia</p>
         </div>
       );
     }
@@ -157,7 +166,7 @@ var MenuPage = React.createClass({
 
         <div className="antiscroll-wrap menu" ref="wrap">
           <div className="antiscroll-inner">
-            <div className="container" ref="masonry">{menu} {templateBlock}</div>
+            <div className="container" ref="masonry">{menu} {template} {message}</div>
           </div>
         </div>
       </div>
