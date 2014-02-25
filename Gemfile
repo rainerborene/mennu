@@ -9,8 +9,8 @@ gem 'dotenv'
 gem 'rack_csrf'
 gem 'rake'
 gem 'warden'
-gem 'httparty'
 gem 'pry-meta'
+gem 'pagseguro-oficial', github: 'pagseguro/ruby'
 
 # DB
 gem 'sinatra-sequel'

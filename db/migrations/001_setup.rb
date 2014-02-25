@@ -76,20 +76,6 @@ Sequel.migration do
       index [:place_id]
     end
 
-    create_table :subscriptions do
-      column :id, :uuid, null: false, default: Sequel::LiteralString.new('uuid_generate_v4()')
-      column :uid, :integer, null: false
-      column :status, :citext, null: false
-      column :card_brand, :citext, null: false
-      column :card_last_digits, :integer, null: false
-      column :date_created, 'timestamp without time zone'
-      foreign_key :place_id, :places, type: :uuid, key: [:id]
-
-      primary_key [:id]
-
-      index [:place_id]
-    end
-
     create_table :categories do
       column :id, :uuid, null: false, default: Sequel::LiteralString.new('uuid_generate_v4()')
       column :name, :citext, null: false

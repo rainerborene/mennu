@@ -70,14 +70,21 @@ var AccountPage = React.createClass({
                     </tr>
                   </tbody>
                 </table>
-
-                <h4>Horário de funcionamento</h4>
-                <p className="legend">Mostramos em sua página um selo aberto ou fechado de acordo com a hora atual.</p>
-
-                <HoursTable />
-
-                <h4>Endereço</h4>
               </form>
+
+              <h4>Pagamento</h4>
+              <p className="legend">O pagamento é efetuado de forma recorrente pelo PagSeguro</p>
+              <form action="https://pagseguro.uol.com.br/v2/pre-approvals/request.html" method="post" className="pagseguro">
+                <input type="hidden" name="code" value="9179E8727878123994FA8F9EF29EDC70" />
+                <input type="image" src="https://p.simg.uol.com.br/out/pagseguro/i/botoes/assinaturas/205x30-assinar-azul.gif" name="submit" width="205" height="30" />
+              </form>
+
+              <h4>Horário de funcionamento</h4>
+              <p className="legend">Mostramos em sua página um selo aberto ou fechado de acordo com a hora atual.</p>
+
+              <HoursTable />
+
+              <h4>Endereço</h4>
             </div>
           </div>
         </div>

@@ -32,7 +32,8 @@
     margin: 0;
   }
 
-  input {
+  input[type="text"],
+  input[type="email"] {
     width: 50%;
     margin-bottom: 0;
   }
@@ -59,5 +60,9 @@
   .description-label {
     vertical-align: top;
     line-height: 34px;
+  }
+
+  .pagseguro {
+    margin-top: 20px;
   }
 }
