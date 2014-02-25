@@ -1,15 +1,15 @@
 @import 'bourbon';
 @import 'bitters/bitters';
 @import 'normalize';
-@import 'icons';
 @import 'animate';
 @import 'antiscroll';
 @import 'ladda';
 
-@import 'base';
-@import 'mixins';
-@import 'typeahead';
-@import 'header';
-@import 'account';
-@import 'menu';
-@import 'login';
+@import 'app/base';
+@import 'app/icons';
+@import 'app/mixins';
+@import 'app/typeahead';
+@import 'app/header';
+@import 'app/menu';
+@import 'app/profile';
+@import 'app/login';

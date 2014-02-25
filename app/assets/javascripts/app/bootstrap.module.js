@@ -1,12 +1,12 @@
 var page        = require('page')
   , MenuPage    = require('app/components/menu_page')
   , LoginPage   = require('app/components/login_page')
-  , AccountPage = require('app/components/account_page')
+  , ProfilePage = require('app/components/profile_page')
   , Session     = require('app/models/session');
 
 page.base('/admin');
 page('/login', login);
-page('/account', auth, account);
+page('/profile', auth, profile);
 page('/', auth, index);
 
 function auth(ctx, next) {
@@ -27,9 +27,9 @@ function index(ctx) {
   React.renderComponent(MenuPage({ pathname: ctx.pathname }), document.body);
 }
 
-function account(ctx){
+function profile(ctx){
   title('Minha conta');
-  React.renderComponent(AccountPage({ pathname: ctx.pathname }), document.body);
+  React.renderComponent(ProfilePage({ pathname: ctx.pathname }), document.body);
 }
 
 function redirect(to) {

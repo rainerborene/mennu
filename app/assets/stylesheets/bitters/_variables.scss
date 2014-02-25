@@ -17,40 +17,29 @@ $base-border-radius: 6px;
 
 $blue: #477DCA;
 $dark-gray: #333;
-$medium-gray: #999;
+$medium-gray: #BDC3C7;
 $light-gray: #DDD;
 $light-red: #FBE3E4;
 $light-yellow: #FFF6BF;
 $light-green: #E6EFC2;
-
-// Flat UI
 $turquoise: #1abc9c;
 $green-sea: #16a085;
-
 $emerald: #2ecc71;
 $nephritis: #27ae60;
-
 $peter-river: #3498db;
 $belize-hole: #2980b9;
-
 $amethyst: #9b59b6;
 $wisteria: #8e44ad;
-
 $wet-asphalt: #34495e;
 $midnight-blue: #2c3e50;
-
 $sun-flower: #f1c40f;
 $orange: #f39c12;
-
 $carrot: #e67e22;
 $pumpkin: #d35400;
-
 $alizarin: #e74c3c;
 $pomegranate: #c0392b;
-
 $clouds: #ecf0f1;
 $silver: #bdc3c7;
-
 $concrete: #95a5a6;
 $asbestos: #7f8c8d;
 
@@ -66,7 +55,7 @@ $base-link-color: $base-accent-color;
 $hover-link-color: darken($base-accent-color, 15);
 
 // Border color
-$base-border-color: $light-gray;
+$base-border-color: $medium-gray;
 
 // Flash Colors
 $error-color: $light-red;

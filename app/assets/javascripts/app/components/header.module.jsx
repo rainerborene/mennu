@@ -13,7 +13,7 @@ var Header = React.createClass({
   },
 
   render: function(){
-    var accountClass = this.props.pathname === '/admin/account' ? 'active' : ''
+    var profileClass = this.props.pathname === '/admin/profile' ? 'active' : ''
       , adminClass   = this.props.pathname === '/admin'         ? 'active' : '';
 
     return (
@@ -23,7 +23,7 @@ var Header = React.createClass({
 
           <ul className="nav">
             <li><a onClick={this.navigate} href="/admin" className={adminClass}>Cardápio</a></li>
-            <li><a onClick={this.navigate} href="/admin/account" className={accountClass}>Minha conta</a></li>
+            <li><a onClick={this.navigate} href="/admin/profile" className={profileClass}>Minha conta</a></li>
             <li><a onClick={this.navigate} href="/admin/logout">Sair</a></li>
           </ul>
         </div>

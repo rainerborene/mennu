@@ -10,3 +10,8 @@
 $small-screen: new-breakpoint(min-width em(540) 2);
 $medium-screen: new-breakpoint(min-width em(760) 4);
 $large-screen: new-breakpoint(min-width em(920) 8);
+
+// Bourbon Overrides
+///////////////////////////////////////////////////////////////////////////////
+$gw-column: 68px;
+$gw-gutter: 14px;

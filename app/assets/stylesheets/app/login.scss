@@ -17,12 +17,12 @@
   }
 
   .logo {
+    @include hide-text;
     width: 150px;
     height: 29px;
     background: inline-image('logo.png') no-repeat left top;
     margin-top: 0;
     margin-bottom: 30px;
-    @include hide-text;
   }
 
   .message {
@@ -58,21 +58,11 @@
   }
 
   button {
+    @include button-variant;
     width: 100%;
     font-size: em(17);
     font-weight: bold;
-    background-color: $base-accent-color;
-    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
-    margin-top: em(20);
     outline: none;
-    color: #ffffff;
-
-    &:hover {
-      background-color: mix($base-accent-color, white, 80%);
-    }
-
-    &:focus {
-      background-color: mix($base-accent-color, black, 85%);
-    }
+    margin-top: em(20);
   }
 }

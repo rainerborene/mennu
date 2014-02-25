@@ -5,7 +5,7 @@ var AntiScroll = require('app/mixins').AntiScroll
   , Header     = require('app/components/header')
   , Session    = require('app/models/session');
 
-var AccountPage = React.createClass({
+var ProfilePage = React.createClass({
 
   mixins: [AntiScroll],
 
@@ -27,11 +27,20 @@ var AccountPage = React.createClass({
               </div>
             </header>
 
-            <div className="container account">
-              <form onSubmit={this.handleSubmit}>
+            <div className="container profile">
+              <form action="/admin/profile" onSubmit={this.handleSubmit}>
                 <table className="table-details">
                   <tbody>
                     <tr className="first">
+                      <th>Logotipo</th>
+                      <td>
+                        <span className="btn-file">                        
+                          <span className="fui-upload"></span>&nbsp;&nbsp;Selecionar imagem
+                          <input type="file" name="logo" />
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
                       <th>Nome</th>
                       <td>
                         <input type="text" defaultValue={this.state.instance.attr('name')} required />
@@ -63,20 +72,13 @@ var AccountPage = React.createClass({
                       </td>
                     </tr>
                     <tr>
-                      <th>Logotipo</th>
+                      <th></th>
                       <td>
-                        <input type="file"/>
+                        <input type="submit" value="Salvar alterações" />
                       </td>
                     </tr>
                   </tbody>
                 </table>
-              </form>
-
-              <h4>Pagamento</h4>
-              <p className="legend">O pagamento é efetuado de forma recorrente pelo PagSeguro</p>
-              <form action="https://pagseguro.uol.com.br/v2/pre-approvals/request.html" method="post" className="pagseguro">
-                <input type="hidden" name="code" value="9179E8727878123994FA8F9EF29EDC70" />
-                <input type="image" src="https://p.simg.uol.com.br/out/pagseguro/i/botoes/assinaturas/205x30-assinar-azul.gif" name="submit" width="205" height="30" />
               </form>
 
               <h4>Horário de funcionamento</h4>
@@ -85,6 +87,13 @@ var AccountPage = React.createClass({
               <HoursTable />
 
               <h4>Endereço</h4>
+
+              <h4>Pagamento</h4>
+              <p className="legend">O pagamento do plano contratado é efetuado de forma recorrente pelo PagSeguro.</p>
+              <form action="https://pagseguro.uol.com.br/v2/pre-approvals/request.html" method="post" className="pagseguro">
+                <input type="hidden" name="code" value="9179E8727878123994FA8F9EF29EDC70" />
+                <input type="image" src="https://p.simg.uol.com.br/out/pagseguro/i/botoes/assinaturas/205x30-assinar-azul.gif" name="submit" width="205" height="30" />
+              </form>
             </div>
           </div>
         </div>
@@ -94,4 +103,4 @@ var AccountPage = React.createClass({
 
 });
 
-module.exports = AccountPage;
+module.exports = ProfilePage;

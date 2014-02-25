@@ -81,10 +81,6 @@ input[type="checkbox"], input[type="radio"] {
   margin-right: $base-line-height / 4;
 }
 
-input[type="file"] {
-  width: 100%;
-}
-
 select {
   width: auto;
   margin-bottom: $base-line-height;
@@ -94,8 +90,36 @@ button,
 input[type="submit"] {
   @extend %button;
   @include appearance(none);
+  @include button-variant;
   cursor: pointer;
   user-select: none;
   vertical-align: middle;
   white-space: nowrap;
+}
+
+input[type="file"] {
+  width: 100%;
+}
+
+.btn-file {
+  @extend %button;
+  @include button-variant;
+  display: inline-block;
+  position: relative;
+  vertical-align: top;
+  overflow: hidden;
+  
+  > input[type="file"] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin: 0;
+    opacity: 0;
+    font-size: 23px;
+    direction: ltr;
+    cursor: pointer;
+    width: 100%;
+  }
 }

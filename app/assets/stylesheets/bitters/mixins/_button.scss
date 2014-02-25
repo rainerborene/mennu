@@ -1,0 +1,13 @@
+@mixin button-variant($color: #fff, $background-color: $base-accent-color) {
+  color: #fff;
+  background-color: $background-color;
+
+  &:hover,
+  &:focus {
+    background-color: mix($background-color, white, 80%);
+  }
+
+  &:active {
+    background-color: mix($background-color, black, 85%);
+  }
+}

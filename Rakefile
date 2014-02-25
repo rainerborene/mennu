@@ -8,7 +8,7 @@ task default: [:test]
 Rake::SprocketsTask.new do |t|
   t.environment = Menu::Routes::Base.assets
   t.output      = './public/assets'
-  t.assets      = %w( application.js application.css site.css site.js )
+  t.assets      = %w( application.js application.css site.css )
 end
 
 Rake::TestTask.new do |t|
