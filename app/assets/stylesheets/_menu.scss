@@ -126,6 +126,10 @@
     border: none;
   }
 
+  tr:last-child td {
+    padding-bottom: 6px;
+  }
+
   tr:hover span {
     display: block;
   }

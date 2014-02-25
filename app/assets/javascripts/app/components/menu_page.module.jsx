@@ -146,7 +146,7 @@ var MenuPage = React.createClass({
           </a>
         </div>
       );
-    } else {
+    } else if (!this.state.menu.length) {
       message = (
         <div className="chef">
           <p>Nenhum lançamento neste dia</p>

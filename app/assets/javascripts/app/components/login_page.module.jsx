@@ -17,7 +17,6 @@ var LoginPage = React.createClass({
   },
 
   handleCompleted: function(){
-    clearInterval(this.interval);
     this.ladda.stop();
   },
 
@@ -25,10 +24,8 @@ var LoginPage = React.createClass({
     var email = this.refs.email.getDOMNode().value.trim()
       , password = this.refs.password.getDOMNode().value.trim();
 
-    this.interval = setTimeout(this.ladda.start.bind(this.ladda), 50);
-
+    this.ladda.start();
     Session.authenticate(email, password);
-
     event.preventDefault();
   },
 
