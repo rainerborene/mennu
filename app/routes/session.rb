@@ -16,12 +16,8 @@ module Menu
         json({ error: 'access denied' })
       end
 
-      post '/login' do
-        json authenticate
-      end
-
       get '/logout' do
-        session.destroy
+        logout :user
         redirect '/'
       end
     end

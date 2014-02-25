@@ -10,7 +10,7 @@ var ProfilePage = React.createClass({
   mixins: [AntiScroll],
 
   getInitialState: function(){
-    return { instance: Session.user };
+    return { instance: Session.place };
   },
 
   render: function(){

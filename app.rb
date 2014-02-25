@@ -49,6 +49,7 @@ module Menu
     use Rack::Csrf
 
     use Menu::Routes::Site
+    use Menu::Routes::Admin
     use Menu::Routes::Items
     use Menu::Routes::Session
     use Menu::Routes::Client

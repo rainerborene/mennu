@@ -26,19 +26,21 @@ module Menu
           scope ? warden.user(scope) : warden.user
         end
 
-        def current_user?
-          !!current_user
+        def current_place
+          user(:place)
         end
 
-        alias :current_user :user
+        def current_place?
+          authenticated? :place
+        end
       end
 
       def registered(app)
         app.use Warden::Manager do |manager|
-          manager.default_strategies :admin
+          manager.default_strategies :place
           manager.failure_app = Menu::Routes::Session
-          manager.serialize_into_session {|model| model.id }
-          manager.serialize_from_session {|id| Place[id] }
+          manager.serialize_into_session(:place) {|model| model.id }
+          manager.serialize_from_session(:place) {|id| Place[id] }
         end
 
         app.use OmniAuth::Builder do
@@ -47,7 +49,7 @@ module Menu
 
         app.set :auth do |type|
           condition do
-            error 403 unless current_user?
+            error 403 unless current_place?
           end
         end
 

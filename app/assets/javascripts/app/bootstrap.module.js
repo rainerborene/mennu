@@ -44,7 +44,7 @@ function title(string) {
 
 module.exports = function(options){
   jQuery.extend(Session, options);
-  Session.setUser(options.user);
+  Session.setPlace(options.place);
   Session.setBloodhound(options.autocomplete);
   Session.setCSRFToken(options.csrfToken);
   page.start({ click: false });

@@ -13,13 +13,13 @@ module Menu
       get '/setup.js' do
         content_type :javascript
 
-        menu = current_user.menu if current_user?
+        menu = current_place.menu if current_place?
 
         @options = {
           autocomplete: Item.names,
           environment: settings.environment,
           csrfToken:   csrf_token,
-          user:        current_user,
+          place:       current_place,
           menu:        menu
         }
 

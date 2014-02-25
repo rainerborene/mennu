@@ -1,6 +1,6 @@
 var j       = jQuery
   , Emitter = require('emitter')
-  , User    = require('app/models/user');
+  , Place   = require('app/models/place');
 
 var Session = {
 
@@ -16,8 +16,8 @@ var Session = {
     this.Bloodhound.initialize();
   },
 
-  setUser: function(attrs){
-    this.user = new User(attrs);
+  setPlace: function(attrs){
+    this.place = new Place(attrs);
   },
 
   setCSRFToken: function(securityToken){
@@ -27,20 +27,20 @@ var Session = {
   },
 
   authenticated: function(){
-    return this.user.attr('id') !== undefined;
+    return this.place.attr('id') !== undefined;
   },
 
   authenticate: function(email, password){
     j.ajax({
       type: 'POST',
-      url: '/login',
+      url: '/admin/login',
       dataType: 'json',
       data: { email: email, password: password },
       error: function(){
         this.emit('unauthorized');
       }.bind(this),
       success: function(data, textStatus, jqXHR){
-        this.user.attr(data);
+        this.place.attr(data);
         this.emit('authenticated');
       }.bind(this),
       complete: function(){

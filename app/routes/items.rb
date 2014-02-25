@@ -14,8 +14,8 @@ module Menu
 
       post '/v1/items', auth: true do
         params = json_params[:item]
-        category = current_user.categories_dataset.find_or_create name: params[:category_name]
-        json current_user.add_item({
+        category = current_place.categories_dataset.find_or_create name: params[:category_name]
+        json current_place.add_item({
           name: params[:name],
           published_at: params[:published_at],
           category_id: category.id,
@@ -24,7 +24,7 @@ module Menu
       end
 
       delete '/v1/items/:id', auth: true do
-        current_user.items_dataset.first!(id: params[:id]).destroy
+        current_place.items_dataset.first!(id: params[:id]).destroy
         halt 204
       end
     end

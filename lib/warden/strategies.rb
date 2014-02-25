@@ -2,7 +2,7 @@ Warden::Manager.before_failure do |env,opts|
   env['REQUEST_METHOD'] = 'POST'
 end
 
-Warden::Strategies.add(:admin) do
+Warden::Strategies.add(:place) do
   def valid?
     params['email'] || params['password']
   end

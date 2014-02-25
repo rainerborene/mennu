@@ -30,7 +30,7 @@ Menu = {
       , path;
 
     params.timestamp = moment.format('X');
-    params.id = Session.user.attr('id');
+    params.id = Session.place.attr('id');
     path = this.path('/v1/places/:id/items/:timestamp', params);
 
     if (this.xhr){
