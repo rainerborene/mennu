@@ -2,10 +2,9 @@ var j       = jQuery
   , moment  = require('moment')
   , Emitter = require('emitter')
   , Session = require('app/models/session')
-  , Item    = require('app/models/item')
-  , Menu;
+  , Item    = require('app/models/item');
 
-Menu = {
+var Menu = {
 
   path: function(string, params){
     return string.replace(/:(\w+)/g, function(_, name){

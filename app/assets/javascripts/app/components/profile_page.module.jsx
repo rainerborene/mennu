@@ -1,9 +1,13 @@
 /** @jsx React.DOM */
 
-var AntiScroll = require('app/mixins').AntiScroll
+var uuid       = require('uuid')
+  , Ladda      = require('ladda')
+  , AntiScroll = require('app/mixins').AntiScroll
   , HoursTable = require('app/components/hours_table')
   , Header     = require('app/components/header')
-  , Session    = require('app/models/session');
+  , Session    = require('app/models/session')
+  , Place      = require('app/models/place')
+  , Hour       = require('app/models/hour');
 
 var ProfilePage = React.createClass({
 
@@ -11,6 +15,56 @@ var ProfilePage = React.createClass({
 
   getInitialState: function(){
     return { instance: Session.place };
+  },
+
+  componentDidMount: function(){
+    this.ladda = Ladda.create(this.refs.submit.getDOMNode());
+    Hour.bind('add', this.refresh);
+    Hour.bind('remove', this.refresh);
+    Hour.bind('destroy', this.refresh);
+  },
+
+  componentWillUnmount: function(){
+    Hour.unbind('add');
+    Hour.unbind('remove');
+    Hour.unbind('destroy');
+  },
+
+  handleSubmit: function(event){
+    var form = document.forms[0]
+      , data = new FormData(form);
+
+    this.ladda.start();
+
+    Place.update(data, {
+      success: function(){
+        Session.place.attr(data);
+      },
+      complete: function(){
+        setTimeout(this.ladda.stop.bind(this.ladda), 250);
+      }.bind(this)
+    });
+
+    event.preventDefault();
+  },
+
+  saveHour: function(){
+    var hour = new Hour({ id: uuid() });
+    Hour.add(hour);
+  },
+
+  changeHour: function(hour, attributes){
+    hour.attr(attributes);
+    hour.save();
+  },
+
+  destroyHour: function(hour){
+    hour.destroy();
+    Hour.remove(hour);
+  },
+
+  refresh: function(){
+    this.forceUpdate();
   },
 
   render: function(){
@@ -28,53 +82,56 @@ var ProfilePage = React.createClass({
             </header>
 
             <div className="container profile">
-              <form action="/admin/profile" onSubmit={this.handleSubmit}>
+              <form action="/admin/profile" onSubmit={this.handleSubmit} >
                 <table className="table-details">
                   <tbody>
                     <tr className="first">
                       <th>Logotipo</th>
                       <td>
-                        <span className="btn-file">                        
-                          <span className="fui-upload"></span>&nbsp;&nbsp;Selecionar imagem
-                          <input type="file" name="logo" />
+                        <span className="btn-file">
+                          <span className="fui-upload"></span>
+                          <span>&nbsp;&nbsp;Selecionar imagem</span>
+                          <input type="file" name="place[logo]" />
                         </span>
                       </td>
                     </tr>
                     <tr>
                       <th>Nome</th>
                       <td>
-                        <input type="text" defaultValue={this.state.instance.attr('name')} required />
+                        <input type="text" name="place[name]" defaultValue={this.state.instance.attr('name')} required />
                       </td>
                     </tr>
                     <tr>
                       <th>E-mail</th>
                       <td>
-                        <input type="email" defaultValue={this.state.instance.attr('email')} required />
+                        <input type="email" name="place[email]" defaultValue={this.state.instance.attr('email')} required />
                       </td>
                     </tr>
                     <tr>
                       <th>Website</th>
                       <td>
-                        <input type="text" defaultValue={this.state.instance.attr('website')} required />
+                        <input type="text" name="place[website]" defaultValue={this.state.instance.attr('website')} required />
                       </td>
                     </tr>
                     <tr>
                       <th>Endereço Mennu</th>
                       <td>
                         <span>http://mennu.com.br/</span>
-                        <input type="text" defaultValue={this.state.instance.attr('slug')} required className="slug-field"/>
+                        <input type="text" name="place[slug]" defaultValue={this.state.instance.attr('slug')} required className="slug-field"/>
                       </td>
                     </tr>
                     <tr>
                       <th className="description-label">Sobre</th>
                       <td>
-                        <textarea rows="5"/>
+                        <textarea rows="5" name="place[description]" defaultValue={this.state.instance.attr('description')} />
                       </td>
                     </tr>
                     <tr>
                       <th></th>
                       <td>
-                        <input type="submit" value="Salvar alterações" />
+                        <button type="submit" className="ladda-button" data-style="slide-down" ref="submit">
+                          <span className="ladda-label">Salvar alterações</span>
+                        </button>
                       </td>
                     </tr>
                   </tbody>
@@ -84,7 +141,7 @@ var ProfilePage = React.createClass({
               <h4>Horário de funcionamento</h4>
               <p className="legend">Mostramos em sua página um selo aberto ou fechado de acordo com a hora atual.</p>
 
-              <HoursTable />
+              <HoursTable onSave={this.saveHour} onChange={this.changeHour} onDestroy={this.destroyHour} hours={Hour.sortBy('weekday')} />
 
               <h4>Endereço</h4>
 

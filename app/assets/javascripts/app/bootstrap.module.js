@@ -2,7 +2,8 @@ var page        = require('page')
   , MenuPage    = require('app/components/menu_page')
   , LoginPage   = require('app/components/login_page')
   , ProfilePage = require('app/components/profile_page')
-  , Session     = require('app/models/session');
+  , Session     = require('app/models/session')
+  , Hour        = require('app/models/hour');
 
 page.base('/admin');
 page('/login', login);
@@ -47,5 +48,10 @@ module.exports = function(options){
   Session.setPlace(options.place);
   Session.setBloodhound(options.autocomplete);
   Session.setCSRFToken(options.csrfToken);
+
+  options.hours.forEach(function(attr){
+    Hour.add(new Hour(attr));
+  });
+
   page.start({ click: false });
 };

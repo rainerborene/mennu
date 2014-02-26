@@ -6,13 +6,13 @@ module Menu
         json place.menu
       end
 
-      get '/v1/places/:id/items/:timestamp' do
+      get '/v1/places/:id/items/:timestamp', auth: :place do
         time = Time.at params[:timestamp].to_i
         place = Place.first! id: params[:id]
         json place.menu(time)
       end
 
-      post '/v1/items', auth: true do
+      post '/v1/place/items', auth: :place do
         params = json_params[:item]
         category = current_place.categories_dataset.find_or_create name: params[:category_name]
         json current_place.add_item({
@@ -23,7 +23,7 @@ module Menu
         })
       end
 
-      delete '/v1/items/:id', auth: true do
+      delete '/v1/place/items/:id', auth: :place do
         current_place.items_dataset.first!(id: params[:id]).destroy
         halt 204
       end

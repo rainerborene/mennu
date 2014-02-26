@@ -51,6 +51,7 @@ module Menu
     use Menu::Routes::Site
     use Menu::Routes::Admin
     use Menu::Routes::Items
+    use Menu::Routes::Hours
     use Menu::Routes::Session
     use Menu::Routes::Client
   end

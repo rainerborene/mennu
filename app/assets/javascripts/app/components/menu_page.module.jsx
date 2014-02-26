@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-var uuid       = require('uuid').uuid
+var uuid       = require('uuid')
   , moment     = require('moment')
   , AntiScroll = require('app/mixins').AntiScroll
   , Header     = require('app/components/header')
@@ -105,7 +105,7 @@ var MenuPage = React.createClass({
   },
 
   handleCreateBlock: function(event){
-    var id = uuid().toLowerCase();
+    var id = uuid();
 
     this.state.menu.push({ id: id, name: 'Nova Categoria', items: [] });
     this.forceUpdate(function(){

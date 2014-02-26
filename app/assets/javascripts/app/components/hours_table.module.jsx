@@ -4,15 +4,43 @@ var Hours = require('app/helpers').hours;
 
 var HoursRow = React.createClass({
 
+  getInitialState: function(){
+    return {
+      weekday: this.props.instance.attr('weekday'),
+      startTime: this.props.instance.format('start_time'),
+      endTime: this.props.instance.format('end_time')
+    };
+  },
+
   handleChange: function(){
-    console.log('it works');
+    var attrs = {
+      weekday: this.refs.weekday.getDOMNode().value,
+      start_time: this.refs.startTime.getDOMNode().value,
+      end_time: this.refs.endTime.getDOMNode().value
+    };
+
+    this.props.onChange(this.props.instance, attrs);
+    this.setState({
+      weekday: attrs.weekday,
+      startTime: attrs.start_time,
+      endTime: attrs.end_time
+    });
+  },
+
+  handleRemove: function(event){
+    this.props.onDestroy(this.props.instance);
+    event.preventDefault();
+  },
+
+  makeOption: function(hour){
+    return <option key={hour}>{hour}</option>
   },
 
   render: function(){
     return (
       <tr>
         <td>
-          <select>
+          <select onChange={this.handleChange} value={this.state.weekday} ref="weekday">
             <option value="1">Segunda-feira</option>
             <option value="2">Terça-feira</option>
             <option value="3">Quarta-feira</option>
@@ -23,25 +51,17 @@ var HoursRow = React.createClass({
           </select>
         </td>
         <td>
-          <select onChange={this.handleChange}>
-            {
-              Hours.map(function(hour){
-                return <option>{hour}</option>
-              })
-            }
+          <select onChange={this.handleChange} value={this.state.startTime} ref="startTime">
+            {Hours.map(this.makeOption)}
           </select>
         </td>
         <td>
-          <select onChange={this.handleChange}>
-            {
-              Hours.map(function(hour){
-                return <option>{hour}</option>
-              })
-            }
+          <select onChange={this.handleChange} defaultValue={this.state.endTime} ref="endTime">
+            {Hours.map(this.makeOption)}
           </select>
         </td>
         <td>
-          <a href="#" className="fui-cross" onClick={this.props.onRemove}></a>
+          <a href="#" className="fui-cross" onClick={this.handleRemove}></a>
         </td>
       </tr>
     );
@@ -51,7 +71,23 @@ var HoursRow = React.createClass({
 
 var HoursTable = React.createClass({
 
+  getDefaultProps: function(){
+    return { hours: [] };
+  },
+
+  handleSave: function(event){
+    this.props.onSave();
+    event.preventDefault();
+  },
+
   render: function(){
+    var hours = this.props.hours.map(function(instance){
+      return <HoursRow key={instance.id()} instance={instance}
+        onDestroy={this.props.onDestroy}
+        onChange={this.props.onChange}
+      />
+    }, this);
+
     return (
       <table className="hours-table">
         <thead>
@@ -62,13 +98,14 @@ var HoursTable = React.createClass({
             <th></th>
           </tr>
         </thead>
-        <tbody>
-          <HoursRow />
-          <HoursRow />
-        </tbody>
+        <tbody>{hours}</tbody>
         <tfoot>
           <tr>
-            <td colSpan="4"></td>
+            <td colSpan="4">
+              <button className="hours-button" onClick={this.handleSave}>
+                <span className="fui-plus"/>
+              </button>
+            </td>
           </tr>
         </tfoot>
       </table>

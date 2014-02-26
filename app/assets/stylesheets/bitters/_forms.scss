@@ -86,6 +86,10 @@ select {
   margin-bottom: $base-line-height;
 }
 
+button > span {
+  color: #fff;
+}
+
 button,
 input[type="submit"] {
   @extend %button;
