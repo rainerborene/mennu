@@ -8,31 +8,30 @@ require 'dotenv'
 
 Dotenv.load
 
-require 'sprockets/commonjs'
-require 'sinatra/sequel'
-require 'sinatra/reloader'
 require 'rack/csrf'
+require 'sprockets/commonjs'
+require 'sinatra/reloader'
+require 'sinatra/sequel'
+require 'carrierwave/sequel'
 require 'active_support/core_ext/array'
 require 'active_support/core_ext/hash'
 
 require 'app/extensions'
+require 'app/uploaders'
 require 'app/models'
 require 'app/routes'
 
+I18n.enforce_available_locales = false
+
 module Menu
   class App < Sinatra::Application
-    configure :development do
-      register Sinatra::Reloader
-    end
-
     configure do
       disable :method_override
       disable :static
 
-      set :protection, except: :session_hijacking
-
+      set :root, __dir__
       set :erb, escape_html: true
-
+      set :protection, except: :session_hijacking
       set :database, lambda {
         ENV['DATABASE_URL'] || "postgres://localhost:5432/menu_#{environment}"
       }
@@ -43,6 +42,31 @@ module Menu
         expire_after: 1.year,
         secret: ENV['SESSION_SECRET']
     end
+
+    configure :production do
+      CarrierWave.configure do |config|
+        config.storage = :fog
+        config.fog_directory = ENV['FOG_DIRECTORY'],
+        config.fog_credentials = {
+          provider:              ENV['FOG_PROVIDER'],
+          aws_access_key_id:     ENV['AWS_ACCESS_KEY'],
+          aws_secret_access_key: ENV['AWS_SECRET_KEY'],
+          region:                ENV['AWS_REGION'],
+          host:                  ENV['AWS_HOST'],
+          endpoint:              ENV['AWS_ENDPOINT']
+        }
+      end
+    end
+
+    configure :development do
+      CarrierWave.configure do |config|
+        config.storage = :file
+        config.root = "#{settings.root}/public"
+        config.store_dir = "#{settings.root}/public/uploads"
+      end
+    end
+
+    register Sinatra::Reloader if development?
 
     use Rack::Deflater
     use Rack::Runtime
@@ -59,3 +83,4 @@ end
 
 # To easily access models in the console
 include Menu::Models
+include Menu::Uploaders

@@ -5,10 +5,16 @@ require 'minispec-metadata'
 require 'rack/test'
 require 'machinist'
 require 'vcr'
+require 'carrierwave/test/matchers'
 
 Sequel::Model.extend Machinist::Machinable
 
 require_relative 'blueprints'
+
+CarrierWave.configure do |config|
+  config.storage = :file
+  config.enable_processing = false
+end
 
 VCR.configure do |c|
   c.cassette_library_dir = 'spec/cassettes'
@@ -17,6 +23,7 @@ end
 
 class MiniTest::Spec
   include Rack::Test::Methods
+  include CarrierWave::Test::Matchers
 
   alias_method :_original_run, :run
 

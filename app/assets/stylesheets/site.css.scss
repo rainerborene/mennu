@@ -199,13 +199,12 @@ body {
     text-decoration: none;
     text-transform: uppercase;
     width: 402px;
-    font-weight: bold;
     outline: none;
     @include transition(all 0.2s ease-in-out);
 
     &:hover {
       background: #fff;
-      color: #1cb772;
+      color: #000;
     }
   }
 

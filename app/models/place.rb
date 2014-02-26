@@ -11,6 +11,8 @@ module Menu
       set_allowed_columns :name, :slug, :email, :description, :logo, :website,
         :establishment_types, :opened_to_public
 
+      mount_uploader :logo, LogoUploader
+
       def menu(time = Time.now)
         categories_dataset.items_at(time)
       end
