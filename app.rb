@@ -78,6 +78,7 @@ module Menu
     use Menu::Routes::Hours
     use Menu::Routes::Session
     use Menu::Routes::Client
+    use Menu::Routes::Geocode
   end
 end
 

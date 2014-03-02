@@ -1,6 +1,7 @@
-var j       = jQuery
-  , Emitter = require('emitter')
-  , Place   = require('app/models/place');
+var Emitter = require('emitter')
+  , Address = require('app/models/address')
+  , Place   = require('app/models/place')
+  , Hour    = require('app/models/hour');
 
 var Session = {
 
@@ -21,8 +22,18 @@ var Session = {
   },
 
   setCSRFToken: function(securityToken){
-    j.ajaxPrefilter(function(options, _, xhr){
+    $.ajaxPrefilter(function(options, _, xhr){
       xhr.setRequestHeader('X-CSRF-Token', securityToken);
+    });
+  },
+
+  setAddress: function(attrs){
+    this.address = new Address(attrs);
+  },
+
+  setHours: function(hours){
+    hours.forEach(function(attr){
+      Hour.add(new Hour(attr));
     });
   },
 
@@ -31,7 +42,7 @@ var Session = {
   },
 
   authenticate: function(email, password){
-    j.ajax({
+    $.ajax({
       type: 'POST',
       url: '/admin/login',
       dataType: 'json',

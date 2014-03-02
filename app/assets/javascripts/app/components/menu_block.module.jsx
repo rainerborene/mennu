@@ -1,14 +1,12 @@
 /** @jsx React.DOM */
 
-var j = jQuery;
-
 var MenuBlock = React.createClass({
 
   componentDidMount: function(){
     var blood = require('app/models/session').Bloodhound;
 
     if (this.refs.itemInput){
-      j(this.refs.itemInput.getDOMNode())
+      $(this.refs.itemInput.getDOMNode())
         .typeahead(null, { source: blood.ttAdapter() })
         .bind('typeahead:selected', this.handleSelected);
     }
@@ -16,7 +14,7 @@ var MenuBlock = React.createClass({
 
   componentWillUnmount: function(){
     if (this.refs.itemInput){
-      j(this.refs.itemInput.getDOMNode()).typeahead('destroy');
+      $(this.refs.itemInput.getDOMNode()).typeahead('destroy');
     }
   },
 
@@ -42,7 +40,7 @@ var MenuBlock = React.createClass({
   },
 
   closeTypeahead: function(){
-    j(this.refs.itemInput.getDOMNode()).val('')
+    $(this.refs.itemInput.getDOMNode()).val('')
       .typeahead('close')
       .typeahead('val', '');
   },

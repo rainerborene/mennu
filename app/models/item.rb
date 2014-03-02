@@ -5,12 +5,12 @@ module Menu
       many_to_one :place
 
       dataset_module do
-        def selfservice
+        def self_service
           where self_service: true
         end
 
         def at(time = Time.now)
-          where("date(published_at - interval '3 hours') = ?", time.to_date).selfservice
+          where("date(published_at - interval '3 hours') = ?", time.to_date).self_service
         end
       end
 

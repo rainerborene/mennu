@@ -1,7 +1,6 @@
 module Menu
   module Models
-    class Address < Sequel::Model
-      many_to_one :place
+    class Photo < Sequel::Model
     end
   end
 end

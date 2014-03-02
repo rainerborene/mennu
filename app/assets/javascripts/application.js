@@ -5,6 +5,7 @@
 //= require jquery.mousewheel
 //= require jquery.antiscroll
 //= require jquery.masonry
+//= require jquery.maskedinput
 //
 // Library modules:
 //= require sprockets/commonjs
@@ -15,6 +16,7 @@
 //= require moment.module
 //= require ladda.module
 //= require spin.module
+//= require map.module
 //
 // App libs v1.0
 //= require_tree ./app

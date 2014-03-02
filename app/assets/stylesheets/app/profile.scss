@@ -28,9 +28,8 @@
     font-size: em(14);
   }
 
-  table {
-    margin: 0;
-  }
+  table    { margin: 0; }
+  textarea { max-width: 73%; }
 
   input[type="text"],
   input[type="email"] {
@@ -38,20 +37,16 @@
     margin-bottom: 0;
   }
 
-  textarea {
-    max-width: 73%;
-  }
-
   h4 {
     font-weight: 300;
     margin-top: 50px;
   }
 
-  .first td,
-  .first th {
-    padding-top: 0;
+  .first {
+    td, 
+    th { padding-top: 0; }
   }
-
+  
   .slug-field {
     display: inline-block;
     margin-left: 15px;
@@ -62,14 +57,51 @@
     line-height: 34px;
   }
 
+  .hours-button {
+    padding: 9px 13px;
+    font-size: 13px;
+    line-height: 1.385;
+  }
+
   .pagseguro {
     margin-top: 20px;
     margin-bottom: 50px;
   }
 }
 
-.hours-button {
-  padding: 9px 13px;
-  font-size: 13px;
-  line-height: 1.385;
+.address {
+  margin-top: 10px;
+  margin-left: 10px;
+  font-style: normal;
+}
+
+.address-group { margin-top: 20px; }
+
+.address-submit {
+  margin-top: 20px;
+  margin-left: 100px;
+}
+
+.address-form {
+  position: relative;
+  margin-top: 30px;
+
+  label {
+    width: 100px;
+    display: inline-block;
+    font-size: em(14);
+    vertical-align: middle;
+  }
+
+  input[type="text"] {
+    width: 391px;
+    display: inline-block;
+  }
+
+  img {
+    position: absolute;
+    right: 0;
+    top: -90px;
+    border-radius: 280px;
+  }
 }

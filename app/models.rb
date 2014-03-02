@@ -9,8 +9,8 @@ Sequel.extension :pg_array_ops
 Sequel::Model.plugin :timestamps
 Sequel::Model.plugin :validation_helpers
 Sequel::Model.plugin :json_serializer
-Sequel::Model.plugin :pg_array_associations
 Sequel::Model.plugin :polymorphic
+Sequel::Model.plugin :nested_attributes
 Sequel::Model.raise_on_save_failure = false
 
 module Menu

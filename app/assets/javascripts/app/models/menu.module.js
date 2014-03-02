@@ -1,5 +1,4 @@
-var j       = jQuery
-  , moment  = require('moment')
+var moment  = require('moment')
   , Emitter = require('emitter')
   , Session = require('app/models/session')
   , Item    = require('app/models/item');
@@ -36,7 +35,7 @@ var Menu = {
       this.xhr.abort();
     }
 
-    this.xhr = j.getJSON(path, function(response){
+    this.xhr = $.getJSON(path, function(response){
       self.parse(response);
       self.emit('load', response, moment);
     });

@@ -30,7 +30,7 @@ Sequel.migration do
       column :email, :citext, null: false
       column :password_digest, :citext, null: false
       column :description, :citext, null: false
-      column :logo, :citext, null: false
+      column :logo, :citext
       column :website, :citext
       column :establishment_types, 'citext[]'
       column :opened_to_public, :boolean, default: true
@@ -47,12 +47,13 @@ Sequel.migration do
     create_table :addresses do
       column :id, :uuid, null: false, default: Sequel::LiteralString.new('uuid_generate_v4()')
       column :street, :citext, null: false
+      column :street_number, :citext, null: false
       column :neighborhood, :citext, null: false
       column :city, :citext, null: false
       column :state, :citext, null: false
       column :postal_code, :citext, null: false
-      column :geolocation, :geography
-      column :phone, :citext
+      column :geolocation, 'geometry(Point)', null: false
+      column :phone, :citext, null: false
       foreign_key :place_id, :places, type: :uuid, key: [:id]
       column :created_at, 'timestamp without time zone'
       column :updated_at, 'timestamp without time zone'

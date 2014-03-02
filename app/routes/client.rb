@@ -20,7 +20,8 @@ module Menu
           environment: settings.environment,
           csrfToken:   csrf_token,
           place:       current_place,
-          hours:       current_place.business_hours,
+          address:     current_place.try(:address),
+          hours:       current_place.try(:business_hours) || [],
           menu:        menu
         }
 

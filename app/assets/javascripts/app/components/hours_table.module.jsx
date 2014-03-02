@@ -1,6 +1,8 @@
 /** @jsx React.DOM */
 
-var Hours = require('app/helpers').hours;
+var uuid  = require('uuid')
+  , Hour  = require('app/models/hour')
+  , Hours = require('app/helpers').hours;
 
 var HoursRow = React.createClass({
 
@@ -19,7 +21,9 @@ var HoursRow = React.createClass({
       end_time: this.refs.endTime.getDOMNode().value
     };
 
-    this.props.onChange(this.props.instance, attrs);
+    this.props.instance.attr(attrs);
+    this.props.instance.save();
+
     this.setState({
       weekday: attrs.weekday,
       startTime: attrs.start_time,
@@ -28,7 +32,8 @@ var HoursRow = React.createClass({
   },
 
   handleRemove: function(event){
-    this.props.onDestroy(this.props.instance);
+    this.props.instance.destroy();
+    Hour.remove(this.props.instance);
     event.preventDefault();
   },
 
@@ -76,7 +81,7 @@ var HoursTable = React.createClass({
   },
 
   handleSave: function(event){
-    this.props.onSave();
+    Hour.add(new Hour({ id: uuid() }));
     event.preventDefault();
   },
 

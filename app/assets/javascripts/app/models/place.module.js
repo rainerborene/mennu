@@ -1,20 +1,25 @@
-var j     = jQuery
-  , Model = require('model')
+var Model = require('model')
   , Place = Model('place');
 
 Place.extend({
 
   update: function(data, options){
-    j.ajax({
+    options = options || {};
+
+    var ajaxOptions = {
       url: '/v1/place',
       type: 'POST',
       data: data,
       cache: false,
-      contentType: false,
-      processData: false,
       complete: options.complete,
       success: options.success
-    });
+    };
+
+    if (data instanceof FormData) {
+      $.extend(ajaxOptions, { contentType: false, processData: false });
+    }
+
+    $.ajax(ajaxOptions);
   }
 
 });

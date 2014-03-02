@@ -7,4 +7,7 @@ var hours = (function(){
   return hours;
 })();
 
-module.exports = { hours: hours };
+module.exports = { 
+  blankGif: "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==", 
+  hours: hours 
+};

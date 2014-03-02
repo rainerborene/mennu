@@ -10,7 +10,7 @@ module Menu
         json authenticate(:place, scope: :place)
       end
 
-      get '/admin/logout', auth: :place do
+      get '/admin/logout' do
         logout :place
         redirect '/'
       end

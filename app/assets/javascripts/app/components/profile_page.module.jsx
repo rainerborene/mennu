@@ -1,10 +1,11 @@
 /** @jsx React.DOM */
 
-var uuid       = require('uuid')
-  , Ladda      = require('ladda')
+var Ladda      = require('ladda')
   , AntiScroll = require('app/mixins').AntiScroll
-  , HoursTable = require('app/components/hours_table')
   , Header     = require('app/components/header')
+  , Addresses  = require('app/components/addresses')
+  , HoursTable = require('app/components/hours_table')
+  , Address    = require('app/models/address')
   , Session    = require('app/models/session')
   , Place      = require('app/models/place')
   , Hour       = require('app/models/hour');
@@ -13,21 +14,22 @@ var ProfilePage = React.createClass({
 
   mixins: [AntiScroll],
 
-  getInitialState: function(){
-    return { instance: Session.place };
-  },
-
   componentDidMount: function(){
     this.ladda = Ladda.create(this.refs.submit.getDOMNode());
+
     Hour.bind('add', this.refresh);
     Hour.bind('remove', this.refresh);
     Hour.bind('destroy', this.refresh);
+
+    Session.address.bind('update', this.updateAddress);
   },
 
   componentWillUnmount: function(){
     Hour.unbind('add');
     Hour.unbind('remove');
     Hour.unbind('destroy');
+
+    Session.address.unbind('update');
   },
 
   handleSubmit: function(event){
@@ -48,19 +50,9 @@ var ProfilePage = React.createClass({
     event.preventDefault();
   },
 
-  saveHour: function(){
-    var hour = new Hour({ id: uuid() });
-    Hour.add(hour);
-  },
-
-  changeHour: function(hour, attributes){
-    hour.attr(attributes);
-    hour.save();
-  },
-
-  destroyHour: function(hour){
-    hour.destroy();
-    Hour.remove(hour);
+  updateAddress: function(address){
+    debugger;
+    Place.update({ place: address.toJSON() });
   },
 
   refresh: function(){
@@ -82,7 +74,7 @@ var ProfilePage = React.createClass({
             </header>
 
             <div className="container profile">
-              <form action="/admin/profile" onSubmit={this.handleSubmit} >
+              <form onSubmit={this.handleSubmit} >
                 <table className="table-details">
                   <tbody>
                     <tr className="first">
@@ -98,39 +90,50 @@ var ProfilePage = React.createClass({
                     <tr>
                       <th>Nome</th>
                       <td>
-                        <input type="text" name="place[name]" defaultValue={this.state.instance.attr('name')} required />
+                        <input type="text" name="place[name]"
+                          defaultValue={this.props.instance.attr('name')}
+                          required />
                       </td>
                     </tr>
                     <tr>
                       <th>E-mail</th>
                       <td>
-                        <input type="email" name="place[email]" defaultValue={this.state.instance.attr('email')} required />
+                        <input type="email" name="place[email]"
+                          defaultValue={this.props.instance.attr('email')}
+                          required />
                       </td>
                     </tr>
                     <tr>
                       <th>Website</th>
                       <td>
-                        <input type="text" name="place[website]" defaultValue={this.state.instance.attr('website')} required />
+                        <input type="text" name="place[website]"
+                          defaultValue={this.props.instance.attr('website')}
+                          required />
                       </td>
                     </tr>
                     <tr>
                       <th>Endereço Mennu</th>
                       <td>
                         <span>http://mennu.com.br/</span>
-                        <input type="text" name="place[slug]" defaultValue={this.state.instance.attr('slug')} required className="slug-field"/>
+                        <input type="text" name="place[slug]"
+                          defaultValue={this.props.instance.attr('slug')}
+                          required className="slug-field"/>
                       </td>
                     </tr>
                     <tr>
                       <th className="description-label">Sobre</th>
                       <td>
-                        <textarea rows="5" name="place[description]" defaultValue={this.state.instance.attr('description')} />
+                        <textarea rows="5" name="place[description]"
+                          defaultValue={this.props.instance.attr('description')}
+                        />
                       </td>
                     </tr>
                     <tr>
                       <th></th>
                       <td>
-                        <button type="submit" className="ladda-button" data-style="slide-down" ref="submit">
-                          <span className="ladda-label">Salvar alterações</span>
+                        <button type="submit" className="ladda-button"
+                          data-style="slide-down" ref="submit">
+                            <span className="ladda-label">Salvar alterações</span>
                         </button>
                       </td>
                     </tr>
@@ -138,12 +141,13 @@ var ProfilePage = React.createClass({
                 </table>
               </form>
 
+              <h4>Endereço</h4>
+              <p className="legend">Escreva o endereço e telefone do seu estabelecimento nos campos abaixo.</p>
+              <Addresses instance={Session.address} />
+
               <h4>Horário de funcionamento</h4>
               <p className="legend">Mostramos em sua página um selo aberto ou fechado de acordo com a hora atual.</p>
-
-              <HoursTable onSave={this.saveHour} onChange={this.changeHour} onDestroy={this.destroyHour} hours={Hour.sortBy('weekday')} />
-
-              <h4>Endereço</h4>
+              <HoursTable hours={Hour.sortBy('weekday')} />
 
               <h4>Pagamento</h4>
               <p className="legend">O pagamento do plano contratado é efetuado de forma recorrente pelo PagSeguro.</p>

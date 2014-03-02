@@ -6,41 +6,41 @@
 var Model = function(name, func) {
   // The model constructor.
   var model = function(attributes) {
-    this.attributes = Model.Utils.extend({}, attributes)
+    this.attributes = Model.Utils.extend({}, attributes);
     this.changes = {};
     this.errors = new Model.Errors(this);
-    this.uid = [name, Model.UID.generate()].join("-")
-    if (Model.Utils.isFunction(this.initialize)) this.initialize()
+    this.uid = [name, Model.UID.generate()].join("-");
+    if (Model.Utils.isFunction(this.initialize)) this.initialize();
   };
 
   // Use module functionality to extend itself onto the constructor. Meta!
-  Model.Module.extend.call(model, Model.Module)
+  Model.Module.extend.call(model, Model.Module);
 
-  model._name = name
-  model.collection = []
-  model.unique_key = "id"
+  model._name = name;
+  model.collection = [];
+  model.unique_key = "id";
   model
     .extend(Model.Callbacks)
-    .extend(Model.ClassMethods)
+    .extend(Model.ClassMethods);
 
-  model.prototype = new Model.Base
-  model.prototype.constructor = model
+  model.prototype = new Model.Base();
+  model.prototype.constructor = model;
 
-  if (Model.Utils.isFunction(func)) func.call(model, model, model.prototype)
+  if (Model.Utils.isFunction(func)) func.call(model, model, model.prototype);
 
   return model;
 };
 
 Model.Callbacks = {
   bind: function(event, callback) {
-    this.callbacks = this.callbacks || {}
+    this.callbacks = this.callbacks || {};
     this.callbacks[event] = this.callbacks[event] || [];
     this.callbacks[event].push(callback);
     return this;
   },
 
   trigger: function(name, data) {
-    this.callbacks = this.callbacks || {}
+    this.callbacks = this.callbacks || {};
 
     var callbacks = this.callbacks[name];
 
@@ -54,7 +54,7 @@ Model.Callbacks = {
   },
 
   unbind: function(event, callback) {
-    this.callbacks = this.callbacks || {}
+    this.callbacks = this.callbacks || {};
 
     if (callback) {
       var callbacks = this.callbacks[event] || [];
@@ -74,23 +74,23 @@ Model.Callbacks = {
 
 Model.ClassMethods = {
   add: function(model) {
-    var id = model.id()
+    var id = model.id();
 
     if (Model.Utils.inArray(this.collection, model) === -1 && !(id && this.find(id))) {
-      this.collection.push(model)
-      this.trigger("add", [model])
+      this.collection.push(model);
+      this.trigger("add", [model]);
     }
 
     return this;
   },
 
   all: function() {
-    return this.collection.slice()
+    return this.collection.slice();
   },
 
   // Convenience method to allow a simple method of chaining class methods.
   chain: function(collection) {
-    return Model.Utils.extend({}, this, { collection: collection || [] })
+    return Model.Utils.extend({}, this, { collection: collection || [] });
   },
 
   count: function() {
@@ -99,19 +99,19 @@ Model.ClassMethods = {
 
   detect: function(func) {
     var all = this.all(),
-        model
+        model;
 
     for (var i = 0, length = all.length; i < length; i++) {
-      model = all[i]
-      if (func.call(model, model, i)) return model
+      model = all[i];
+      if (func.call(model, model, i)) return model;
     }
   },
 
   each: function(func, context) {
-    var all = this.all()
+    var all = this.all();
 
     for (var i = 0, length = all.length; i < length; i++) {
-      func.call(context || all[i], all[i], i, all)
+      func.call(context || all[i], all[i], i, all);
     }
 
     return this;
@@ -120,78 +120,78 @@ Model.ClassMethods = {
   find: function(id) {
     return this.detect(function() {
       return this.id() == id;
-    })
+    });
   },
 
   first: function() {
-    return this.all()[0]
+    return this.all()[0];
   },
 
   load: function(callback) {
     if (this._persistence) {
-      var self = this
+      var self = this;
 
       this._persistence.read(function(models) {
         for (var i = 0, length = models.length; i < length; i++) {
-          self.add(models[i])
+          self.add(models[i]);
         }
 
-        if (callback) callback.call(self, models)
-      })
+        if (callback) callback.call(self, models);
+      });
     }
 
-    return this
+    return this;
   },
 
   last: function() {
     var all = this.all();
-    return all[all.length - 1]
+    return all[all.length - 1];
   },
 
   map: function(func, context) {
-    var all = this.all()
-    var values = []
+    var all = this.all();
+    var values = [];
 
     for (var i = 0, length = all.length; i < length; i++) {
-      values.push(func.call(context || all[i], all[i], i, all))
+      values.push(func.call(context || all[i], all[i], i, all));
     }
 
-    return values
+    return values;
   },
 
   persistence: function(adapter) {
-    if (arguments.length == 0) {
-      return this._persistence
+    if (arguments.length === 0) {
+      return this._persistence;
     } else {
-      var options = Array.prototype.slice.call(arguments, 1)
-      options.unshift(this)
-      this._persistence = adapter.apply(adapter, options)
-      return this
+      var options = Array.prototype.slice.call(arguments, 1);
+      options.unshift(this);
+      this._persistence = adapter.apply(adapter, options);
+      return this;
     }
   },
 
   pluck: function(attribute) {
-    var all = this.all()
-    var plucked = []
+    var all = this.all();
+    var plucked = [];
 
     for (var i = 0, length = all.length; i < length; i++) {
-      plucked.push(all[i].attr(attribute))
+      plucked.push(all[i].attr(attribute));
     }
 
-    return plucked
+    return plucked;
   },
 
   remove: function(model) {
-    var index
+    var index;
 
     for (var i = 0, length = this.collection.length; i < length; i++) {
       if (this.collection[i] === model) {
-        index = i
-        break
+        index = i;
+        break;
       }
     }
 
-    if (index != undefined) {
+    if (index !== undefined) {
       this.collection.splice(index, 1);
       this.trigger("remove", [model]);
       return true;
@@ -201,52 +201,52 @@ Model.ClassMethods = {
   },
 
   reverse: function() {
-    return this.chain(this.all().reverse())
+    return this.chain(this.all().reverse());
   },
 
   select: function(func, context) {
     var all = this.all(),
         selected = [],
-        model
+        model;
 
     for (var i = 0, length = all.length; i < length; i++) {
-      model = all[i]
-      if (func.call(context || model, model, i, all)) selected.push(model)
+      model = all[i];
+      if (func.call(context || model, model, i, all)) selected.push(model);
     }
 
     return this.chain(selected);
   },
 
   sort: function(func) {
-    var sorted = this.all().sort(func)
+    var sorted = this.all().sort(func);
     return this.chain(sorted);
   },
 
   sortBy: function(attribute_or_func) {
-    var is_func = Model.Utils.isFunction(attribute_or_func)
+    var is_func = Model.Utils.isFunction(attribute_or_func);
     var extract = function(model) {
-      return attribute_or_func.call(model)
-    }
+      return attribute_or_func.call(model);
+    };
 
     return this.sort(function(a, b) {
-      var a_attr = is_func ? extract(a) : a.attr(attribute_or_func)
-      var b_attr = is_func ? extract(b) : b.attr(attribute_or_func)
+      var a_attr = is_func ? extract(a) : a.attr(attribute_or_func);
+      var b_attr = is_func ? extract(b) : b.attr(attribute_or_func);
 
       if (a_attr < b_attr) {
-        return -1
+        return -1;
       } else if (a_attr > b_attr) {
-        return 1
+        return 1;
       } else {
-        return 0
+        return 0;
       }
-    })
+    });
   },
 
   use: function(plugin) {
-    var args = Array.prototype.slice.call(arguments, 1)
-    args.unshift(this)
-    plugin.apply(this, args)
-    return this
+    var args = Array.prototype.slice.call(arguments, 1);
+    args.unshift(this);
+    plugin.apply(this, args);
+    return this;
   }
 };
 
@@ -259,7 +259,7 @@ Model.Errors.prototype = {
   add: function(attribute, message) {
     if (!this.errors[attribute]) this.errors[attribute] = [];
     this.errors[attribute].push(message);
-    return this
+    return this;
   },
 
   all: function() {
@@ -268,7 +268,7 @@ Model.Errors.prototype = {
 
   clear: function() {
     this.errors = {};
-    return this
+    return this;
   },
 
   each: function(func) {
@@ -277,7 +277,7 @@ Model.Errors.prototype = {
         func.call(this, attribute, this.errors[attribute][i]);
       }
     }
-    return this
+    return this;
   },
 
   on: function(attribute) {
@@ -293,7 +293,7 @@ Model.Errors.prototype = {
 
 Model.InstanceMethods = {
   asJSON: function() {
-    return this.attr()
+    return this.attr();
   },
 
   attr: function(name, value) {
@@ -308,14 +308,14 @@ Model.InstanceMethods = {
       } else {
         this.changes[name] = value;
       }
-      this.trigger("change:" + name, [this])
+      this.trigger("change:" + name, [this]);
       return this;
     } else if (typeof name === "object") {
       // Mass-assign attributes.
       for (var key in name) {
         this.attr(key, name[key]);
       }
-      this.trigger("change", [this])
+      this.trigger("change", [this]);
       return this;
     } else {
       // Changes take precedent over attributes.
@@ -331,9 +331,9 @@ Model.InstanceMethods = {
     // Automatically manage adding and removing from the model's Collection.
     var manageCollection = function() {
       if (method === "destroy") {
-        self.constructor.remove(self)
+        self.constructor.remove(self);
       } else {
-        self.constructor.add(self)
+        self.constructor.add(self);
       }
     };
 
@@ -352,7 +352,7 @@ Model.InstanceMethods = {
         manageCollection();
 
         // Trigger the event before executing the callback.
-        self.trigger(method);
+        self.trigger(method, [self]);
       }
 
       // Store the return value of the callback.
@@ -386,7 +386,7 @@ Model.InstanceMethods = {
   },
 
   newRecord: function() {
-    return this.id() === undefined
+    return this.id() === undefined;
   },
 
   reset: function() {
@@ -417,96 +417,24 @@ Model.InstanceMethods = {
   }
 };
 
-Model.localStorage = function(klass) {
-  if (!window.localStorage) {
-    return {
-      create: function(model, callback) {
-        callback(true)
-      },
-
-      destroy: function(model, callback) {
-        callback(true)
-      },
-
-      read: function(callback) {
-        callback([])
-      },
-
-      update: function(model, callback) {
-        callback(true)
-      }
-    }
-  }
-
-  var collection_uid = [klass._name, "collection"].join("-")
-  var readIndex = function() {
-    var data = localStorage[collection_uid]
-    return data ? JSON.parse(data) : []
-  }
-  var writeIndex = function(uids) {
-    localStorage.setItem(collection_uid, JSON.stringify(uids))
-  }
-  var addToIndex = function(uid) {
-    var uids = readIndex()
-
-    if (Model.Utils.inArray(uids, uid) === -1) {
-      uids.push(uid)
-      writeIndex(uids)
-    }
-  }
-  var removeFromIndex = function(uid) {
-    var uids = readIndex()
-    var index = Model.Utils.inArray(uids, uid)
-
-    if (index > -1) {
-      uids.splice(index, 1)
-      writeIndex(uids)
-    }
-  }
-  var store = function(model) {
-    localStorage.setItem(model.uid, JSON.stringify(model.asJSON()))
-    addToIndex(model.uid)
-  }
-
+Model.NullStorage = function(klass) {
   return {
     create: function(model, callback) {
-      store(model)
-      callback(true)
+      callback(true);
     },
 
     destroy: function(model, callback) {
-      localStorage.removeItem(model.uid)
-      removeFromIndex(model.uid)
-      callback(true)
+      callback(true);
     },
 
     read: function(callback) {
-      if (!callback) return false
-
-      var existing_uids = klass.map(function() { return this.uid })
-      var uids = readIndex()
-      var models = []
-      var attributes, model, uid
-
-      for (var i = 0, length = uids.length; i < length; i++) {
-        uid = uids[i]
-
-        if (Model.Utils.inArray(existing_uids, uid) == -1) {
-          attributes = JSON.parse(localStorage[uid])
-          model = new klass(attributes)
-          model.uid = uid
-          models.push(model)
-        }
-      }
-
-      callback(models)
+      callback([]);
     },
 
     update: function(model, callback) {
-      store(model)
-      callback(true)
+      callback(true);
     }
-  }
+  };
 };
 
 Model.Log = function() {
@@ -515,28 +443,28 @@ Model.Log = function() {
 
 Model.Module = {
   extend: function(obj) {
-    Model.Utils.extend(this, obj)
-    return this
+    Model.Utils.extend(this, obj);
+    return this;
   },
 
   include: function(obj) {
-    Model.Utils.extend(this.prototype, obj)
-    return this
+    Model.Utils.extend(this.prototype, obj);
+    return this;
   }
 };
 
 Model.REST = function(klass, resource, methods) {
   var PARAM_NAME_MATCHER = /:([\w\d]+)/g;
   var resource_param_names = (function() {
-    var resource_param_names = []
-    var param_name
+    var resource_param_names = [];
+    var param_name;
 
     while ((param_name = PARAM_NAME_MATCHER.exec(resource)) !== null) {
-      resource_param_names.push(param_name[1])
+      resource_param_names.push(param_name[1]);
     }
 
-    return resource_param_names
-  })()
+    return resource_param_names;
+  })();
 
   return Model.Utils.extend({
     path: function(model) {
@@ -566,7 +494,7 @@ Model.REST = function(klass, resource, methods) {
     params: function(model) {
       var params;
       if (model) {
-        var attributes = model.asJSON()
+        var attributes = model.asJSON();
         delete attributes[model.constructor.unique_key];
         params = {};
         params[model.constructor._name.toLowerCase()] = attributes;
@@ -574,26 +502,26 @@ Model.REST = function(klass, resource, methods) {
         params = null;
       }
       if(jQuery.ajaxSettings.data){
-        params = Model.Utils.extend({}, jQuery.ajaxSettings.data, params)
+        params = Model.Utils.extend({}, jQuery.ajaxSettings.data, params);
       }
-      return JSON.stringify(params)
+      return JSON.stringify(params);
     },
 
     read: function(callback) {
       return this.xhr("GET", this.read_path(), null, function(success, xhr, data) {
-        data = jQuery.makeArray(data)
-        var models = []
+        data = jQuery.makeArray(data);
+        var models = [];
 
         for (var i = 0, length = data.length; i < length; i++) {
-          models.push(new klass(data[i]))
+          models.push(new klass(data[i]));
         }
 
-        callback(models)
-      })
+        callback(models);
+      });
     },
 
     read_path: function() {
-      return resource
+      return resource;
     },
 
     update: function(model, callback) {
@@ -615,32 +543,29 @@ Model.REST = function(klass, resource, methods) {
         dataType: "json",
         data: data,
         dataFilter: function(data, type) {
-          return /\S/.test(data) ? data : undefined;
+          return (/\S/).test(data) ? data : undefined;
         },
         complete: function(xhr, textStatus) {
-          self.xhrComplete(xhr, textStatus, model, callback)
+          self.xhrComplete(xhr, textStatus, model, callback);
         }
       });
     },
 
     xhrComplete: function(xhr, textStatus, model, callback) {
       // Allow custom handlers to be defined per-HTTP status code.
-      var handler = Model.REST["handle" + xhr.status]
-      if (handler) handler.call(this, xhr, textStatus, model)
+      var handler = Model.REST["handle" + xhr.status];
+      if (handler) handler.call(this, xhr, textStatus, model);
 
-      var success = textStatus === "success"
-      var data = Model.REST.parseResponseData(xhr)
+      var success = textStatus === "success";
+      var data = Model.REST.parseResponseData(xhr);
 
       // Remote data is the definitive source, update model.
-      if (success && model && data) model.attr(data)
+      if (success && model && data) model.attr(data);
 
-      if (callback) callback.call(model, success, xhr, data)
+      if (callback) callback.call(model, success, xhr, data);
     }
-  }, methods)
+  }, methods);
 };
-
-// TODO: Remove in v1 if it ever gets there.
-Model.RestPersistence = Model.REST;
 
 // Rails' preferred failed validation response code, assume the response
 // contains errors and replace current model errors with them.
@@ -648,11 +573,11 @@ Model.REST.handle422 = function(xhr, textStatus, model) {
   var data = Model.REST.parseResponseData(xhr);
 
   if (data) {
-    model.errors.clear()
+    model.errors.clear();
 
     for (var attribute in data) {
       for (var i = 0; i < data[attribute].length; i++) {
-        model.errors.add(attribute, data[attribute][i])
+        model.errors.add(attribute, data[attribute][i]);
       }
     }
   }
@@ -660,7 +585,7 @@ Model.REST.handle422 = function(xhr, textStatus, model) {
 
 Model.REST.parseResponseData = function(xhr) {
   try {
-    return /\S/.test(xhr.responseText) ?
+    return (/\S/).test(xhr.responseText) ?
       jQuery.parseJSON(xhr.responseText) :
       undefined;
   } catch(e) {
@@ -672,49 +597,49 @@ Model.UID = {
   counter: 0,
 
   generate: function() {
-    return [new Date().valueOf(), this.counter++].join("-")
+    return [new Date().valueOf(), this.counter++].join("-");
   },
 
   reset: function() {
-    this.counter = 0
-    return this
+    this.counter = 0;
+    return this;
   }
 };
 
 Model.Utils = {
   extend: function(receiver) {
-    var objs = Array.prototype.slice.call(arguments, 1)
+    var objs = Array.prototype.slice.call(arguments, 1);
 
     for (var i = 0, length = objs.length; i < length; i++) {
       for (var property in objs[i]) {
-        receiver[property] = objs[i][property]
+        receiver[property] = objs[i][property];
       }
     }
 
-    return receiver
+    return receiver;
   },
 
   inArray: function(array, obj) {
-    if (array.indexOf) return array.indexOf(obj)
+    if (array.indexOf) return array.indexOf(obj);
 
     for (var i = 0, length = array.length; i < length; i++) {
-      if (array[i] === obj) return i
+      if (array[i] === obj) return i;
     }
 
-    return -1
+    return -1;
   },
 
   isFunction: function(obj) {
-    return Object.prototype.toString.call(obj) === "[object Function]"
+    return Object.prototype.toString.call(obj) === "[object Function]";
   }
-}
+};
 
 Model.VERSION = "0.11.0";
 
 Model.Base = (function() {
   function Base() {}
-  Base.prototype = Model.Utils.extend({}, Model.Callbacks, Model.InstanceMethods)
-  return Base
+  Base.prototype = Model.Utils.extend({}, Model.Callbacks, Model.InstanceMethods);
+  return Base;
 })();
 
 module.exports = Model;
