@@ -4,7 +4,7 @@ module Menu
       configure do
         set :views, 'app/views'
         set :root, File.expand_path('../../../', __FILE__)
-        set :erb, escape_html: true, layout_options: { views: 'app/views/layouts' }
+        set :erb, escape_html: true
 
         disable :method_override
         disable :protection

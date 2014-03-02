@@ -1,22 +1,14 @@
 require 'bourbon'
-
-require 'lib/sass/script/functions'
+require 'sprockets'
+require 'sprockets/helpers'
+require 'sprockets/commonjs'
 require 'lib/react/jsx'
 
 module Menu
   module Extensions
     module Assets extend self
-      module Helpers
-        def asset_path(name)
-          asset = settings.assets[name]
-          raise UnknownAsset, "Unknown asset: #{name}" unless asset
-          "#{settings.asset_host}/assets/#{asset.digest_path}"
-        end
-      end
-
       def registered(app)
         app.set :assets, assets = Sprockets::Environment.new(app.settings.root)
-        app.set :asset_host, ENV['ASSET_HOST']
 
         assets.append_path 'app/assets/stylesheets'
         assets.append_path 'app/assets/javascripts'
@@ -27,18 +19,32 @@ module Menu
         assets.append_path 'vendor/assets/images'
         assets.append_path 'vendor/assets/fonts'
 
+        Sprockets::Helpers.configure do |config|
+          config.environment = assets
+          config.prefix      = "/assets"
+          config.digest      = app.production?
+        end
+
+        if app.production?
+          require 'yui/compressor'
+          require 'lib/sprockets/cache/redis_store'
+        end
+
         app.configure :development do
           assets.cache = Sprockets::Cache::FileStore.new('./tmp')
         end
 
         app.configure :production do
-          assets.js_compressor  = Closure::Compiler.new
-          assets.css_compressor = YUI::CssCompressor.new
+          assets.cache          = Sprockets::Cache::RedisStore.new
+          assets.js_compressor  = YUI::JavaScriptCompressor.new
+          assets.css_compressor = YUI::CssCompressor.new({
+            jar_file: File.expand_path('~/yuicompressor/build/yuicompressor-2.4.8.jar')
+          })
         end
 
         React::JSX.setup(assets)
 
-        app.helpers Helpers
+        app.helpers Sprockets::Helpers
       end
     end
   end

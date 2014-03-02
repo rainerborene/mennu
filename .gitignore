@@ -2,3 +2,4 @@ tmp
 public/assets
 public/uploads
 spec/cassettes/*.yml
+.env

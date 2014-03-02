@@ -20,7 +20,7 @@
     @include hide-text;
     width: 150px;
     height: 29px;
-    background: inline-image('logo.png') no-repeat left top;
+    background: image-url('logo.png') no-repeat left top;
     margin-top: 0;
     margin-bottom: 30px;
   }

@@ -19,7 +19,7 @@
     width: 90px;
     height: 18px;
     margin: 19px 0 0 0;
-    background: url('logo-small.png') no-repeat left top;
+    background: asset-url('logo-small.png') no-repeat left top;
     float: left;
     @include hide-text;
   }

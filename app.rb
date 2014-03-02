@@ -9,7 +9,6 @@ require 'dotenv'
 Dotenv.load
 
 require 'rack/csrf'
-require 'sprockets/commonjs'
 require 'sinatra/sequel'
 require 'carrierwave/sequel'
 require 'active_support/core_ext/array'
@@ -31,6 +30,7 @@ module Menu
       set :root, __dir__
       set :erb, escape_html: true
       set :protection, except: :session_hijacking
+
       set :database, lambda {
         ENV['DATABASE_URL'] || "postgres://localhost:5432/menu_#{environment}"
       }
@@ -54,11 +54,9 @@ module Menu
         config.fog_directory = ENV['FOG_DIRECTORY'],
         config.fog_credentials = {
           provider:              ENV['FOG_PROVIDER'],
+          region:                ENV['FOG_REGION'],
           aws_access_key_id:     ENV['AWS_ACCESS_KEY'],
-          aws_secret_access_key: ENV['AWS_SECRET_KEY'],
-          region:                ENV['AWS_REGION'],
-          host:                  ENV['AWS_HOST'],
-          endpoint:              ENV['AWS_ENDPOINT']
+          aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
         }
       end
 
@@ -67,6 +65,7 @@ module Menu
 
     configure :development do
       require 'sinatra/reloader'
+
       register Sinatra::Reloader
 
       CarrierWave.configure do |config|

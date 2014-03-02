@@ -14,7 +14,8 @@ gem 'carrierwave-sequel'
 gem 'mini_magick'
 gem 'faraday'
 gem 'fog'
-gem 'sentry-raven'
+gem 'thin'
+gem 'redis'
 
 # DB
 gem 'sinatra-sequel'
@@ -23,18 +24,17 @@ gem 'sequel_secure_password'
 gem 'pg'
 
 # Assets
+gem 'sass'
 gem 'bourbon'
-gem 'closure-compiler'
 gem 'execjs'
 gem 'react-source'
-gem 'sprockets'
 gem 'sprockets-commonjs'
-gem 'sprockets-sass'
+gem 'sprockets-helpers'
 gem 'therubyracer'
-gem 'yui-compressor'
 
-group :development do
-  gem 'thin'
+group :production do
+  gem 'sentry-raven'
+  gem 'yui-compressor'
 end
 
 group :test do

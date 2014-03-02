@@ -9,7 +9,7 @@
 
 body {
   color: #fff;
-  background: #1cb772 url('pattern.png') repeat left top;
+  background: #1cb772 asset-url('pattern.png') repeat left top;
   font-family: 'Roboto', sans-serif;
 }
 
@@ -141,14 +141,14 @@ body {
 }
 
 .header {
-  background: #faf8fd url('header.jpg') no-repeat center -178px;
+  background: #faf8fd asset-url('header.jpg') no-repeat center -178px;
   height: 350px;
   padding-top: 80px;
 
   .logo {
     width: 660px;
     height: 187px;
-    background: url('logo-large.png') no-repeat left top;
+    background: asset-url('logo-large.png') no-repeat left top;
     margin: 0 auto;
     @include hide-text;
   }
@@ -157,7 +157,7 @@ body {
     position: relative;
     width: 292px;
     height: 40px;
-    background: url('menu.png') no-repeat left top;
+    background: asset-url('menu.png') no-repeat left top;
     margin: 0 auto;
     top: 62px;
     @include hide-text;

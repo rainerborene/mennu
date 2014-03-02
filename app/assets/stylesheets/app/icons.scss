@@ -1,4 +1,4 @@
-@include font-face('Flat-UI-Icons', 'Flat-UI-Icons', normal);
+@include font-face('Flat-UI-Icons', 'Flat-UI-Icons', normal, $asset-pipeline: true);
 
 [data-icon]:before {
   font-family: 'Flat-UI-Icons';
