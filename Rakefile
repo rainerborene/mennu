@@ -16,6 +16,13 @@ Rake::TestTask.new do |t|
   t.pattern = "spec/*/*_spec.rb"
 end
 
+namespace :assets do
+  desc "Compile assets"
+  task :precompile do
+    Rake::Task['assets'].invoke
+  end
+end
+
 namespace :db do
   desc 'Run DB migrations'
   task migrate: :dotenv do

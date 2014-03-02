@@ -14,6 +14,7 @@ gem 'carrierwave-sequel'
 gem 'mini_magick'
 gem 'faraday'
 gem 'fog'
+gem 'sentry-raven'
 
 # DB
 gem 'sinatra-sequel'

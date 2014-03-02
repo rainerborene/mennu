@@ -10,7 +10,6 @@ Dotenv.load
 
 require 'rack/csrf'
 require 'sprockets/commonjs'
-require 'sinatra/reloader'
 require 'sinatra/sequel'
 require 'carrierwave/sequel'
 require 'active_support/core_ext/array'
@@ -44,6 +43,12 @@ module Menu
     end
 
     configure :production do
+      require 'raven'
+
+      Raven.configure do |config|
+        config.dsn = ENV['SENTRY_DSN']
+      end
+
       CarrierWave.configure do |config|
         config.storage = :fog
         config.fog_directory = ENV['FOG_DIRECTORY'],
@@ -56,17 +61,20 @@ module Menu
           endpoint:              ENV['AWS_ENDPOINT']
         }
       end
+
+      use Raven::Rack
     end
 
     configure :development do
+      require 'sinatra/reloader'
+      register Sinatra::Reloader
+
       CarrierWave.configure do |config|
         config.storage = :file
         config.root = "#{settings.root}/public"
         config.store_dir = "#{settings.root}/public/uploads"
       end
     end
-
-    register Sinatra::Reloader if development?
 
     use Rack::Deflater
     use Rack::Runtime

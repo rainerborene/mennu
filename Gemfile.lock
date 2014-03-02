@@ -122,6 +122,10 @@ GEM
     react-source (0.9.0)
     ref (1.0.5)
     sass (3.2.14)
+    sentry-raven (0.7.1)
+      faraday (>= 0.7.6)
+      hashie (>= 1.1.0)
+      uuidtools
     sequel (4.8.0)
     sequel_secure_password (0.2.4)
       bcrypt-ruby (>= 3.1, < 4.0)
@@ -164,6 +168,7 @@ GEM
       atomic (>= 1.1.7, < 2)
     tilt (1.4.1)
     tzinfo (0.3.38)
+    uuidtools (2.1.4)
     vcr (2.8.0)
     warden (1.2.3)
       rack (>= 1.0)
@@ -192,6 +197,7 @@ DEPENDENCIES
   rack_csrf
   rake
   react-source
+  sentry-raven
   sequel
   sequel_secure_password
   sinatra
