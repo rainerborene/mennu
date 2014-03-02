@@ -1,7 +1,6 @@
 /** @jsx React.DOM */
 
-var Ladda      = require('ladda')
-  , AntiScroll = require('app/mixins').AntiScroll
+var Mixins     = require('app/mixins')
   , Header     = require('app/components/header')
   , Addresses  = require('app/components/addresses')
   , HoursTable = require('app/components/hours_table')
@@ -12,11 +11,9 @@ var Ladda      = require('ladda')
 
 var ProfilePage = React.createClass({
 
-  mixins: [AntiScroll],
+  mixins: [Mixins.AntiScroll, Mixins.LaddaButton],
 
   componentDidMount: function(){
-    this.ladda = Ladda.create(this.refs.submit.getDOMNode());
-
     Hour.bind('add', this.refresh);
     Hour.bind('remove', this.refresh);
     Hour.bind('destroy', this.refresh);
@@ -43,7 +40,7 @@ var ProfilePage = React.createClass({
         Session.place.attr(data);
       },
       complete: function(){
-        setTimeout(this.ladda.stop.bind(this.ladda), 250);
+        this.stopLadda();
       }.bind(this)
     });
 
@@ -51,13 +48,11 @@ var ProfilePage = React.createClass({
   },
 
   updateAddress: function(address){
-    var ladda = this.refs.address.ladda;
-
     Place.update({ 
       place: address.toJSON(),
       complete: function(){
-        ladda.stop();   
-      }
+        this.refs.address.stopLadda();
+      }.bind(this)
     });
   },
 

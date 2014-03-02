@@ -1,4 +1,7 @@
-var AntiScroll = {
+var Ladda  = require('ladda')
+  , Mixins = {};
+
+Mixins.AntiScroll = {
 
   antiscrollOptions: { initialDisplay: false, x: false },
 
@@ -27,4 +30,16 @@ var AntiScroll = {
 
 };
 
-module.exports = { AntiScroll: AntiScroll };
+Mixins.LaddaButton = {
+
+  componentDidMount: function(){
+    this.ladda = Ladda.create(this.refs.submit.getDOMNode());
+  },
+
+  stopLadda: function(){
+    setTimeout(this.ladda.stop.bind(this.ladda), 250);
+  }
+
+};
+
+module.exports = Mixins;

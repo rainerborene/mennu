@@ -1,11 +1,13 @@
 /** @jsx React.DOM */
 
-var Ladda    = require('ladda')
-  , BlankGif = require('app/helpers').blankGif
-  , Geocode  = require('app/models/geocode')
-  , Map      = require('map');
+var LaddaButton = require('app/mixins').LaddaButton
+  , BlankGif    = require('app/helpers').blankGif
+  , Geocode     = require('app/models/geocode')
+  , Map         = require('map');
 
 var Addresses = React.createClass({
+
+  mixins: [LaddaButton],
 
   getInitialState: function(){
     return { mapSrc: BlankGif, location: {} };
@@ -18,15 +20,12 @@ var Addresses = React.createClass({
     }
 
     $(this.refs.phone.getDOMNode()).mask("(99) 9999-9999");
-
-    this.ladda = Ladda.create(this.refs.submit.getDOMNode());
   },
 
   handleChange: function(event){
     Geocode.locateTimeout(event.target.value.trim(), function(location){
       this.changeLocation.apply(this, location.coordinates);
       this.setState({ location: location });
-      this.ladda.stop();
     }, this);
   },
 
