@@ -32,6 +32,10 @@ module Menu
         env['PATH_INFO'].sub!(%r{^/assets}, '')
         settings.assets.call(env)
       end
+
+      get '/' do
+        erb :site
+      end
     end
   end
 end

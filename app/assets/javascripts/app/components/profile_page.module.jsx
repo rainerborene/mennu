@@ -51,8 +51,14 @@ var ProfilePage = React.createClass({
   },
 
   updateAddress: function(address){
-    debugger;
-    Place.update({ place: address.toJSON() });
+    var ladda = this.refs.address.ladda;
+
+    Place.update({ 
+      place: address.toJSON(),
+      complete: function(){
+        ladda.stop();   
+      }
+    });
   },
 
   refresh: function(){
@@ -143,7 +149,7 @@ var ProfilePage = React.createClass({
 
               <h4>Endereço</h4>
               <p className="legend">Escreva o endereço e telefone do seu estabelecimento nos campos abaixo.</p>
-              <Addresses instance={Session.address} />
+              <Addresses ref="address" instance={Session.address} />
 
               <h4>Horário de funcionamento</h4>
               <p className="legend">Mostramos em sua página um selo aberto ou fechado de acordo com a hora atual.</p>

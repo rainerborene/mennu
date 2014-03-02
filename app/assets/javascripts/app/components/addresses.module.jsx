@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 
-var BlankGif = require('app/helpers').blankGif
+var Ladda    = require('ladda')
+  , BlankGif = require('app/helpers').blankGif
   , Geocode  = require('app/models/geocode')
   , Map      = require('map');
 
@@ -17,17 +18,22 @@ var Addresses = React.createClass({
     }
 
     $(this.refs.phone.getDOMNode()).mask("(99) 9999-9999");
+
+    this.ladda = Ladda.create(this.refs.submit.getDOMNode());
   },
 
   handleChange: function(event){
     Geocode.locateTimeout(event.target.value.trim(), function(location){
       this.changeLocation.apply(this, location.coordinates);
       this.setState({ location: location });
+      this.ladda.stop();
     }, this);
   },
 
   handleSubmit: function(event){
     var phone = this.refs.phone.getDOMNode().value.trim();
+
+    this.ladda.start();
 
     this.props.instance.attr('phone', phone);
     this.props.instance.attr(this.state.location);
@@ -59,15 +65,18 @@ var Addresses = React.createClass({
         <img src={this.state.mapSrc} ref="map" width="280" height="280" />
         <div className="address-group">
           <label>Endereço</label>
-          <input ref="query" type="text" onChange={this.handleChange}
-            defaultValue={this.props.instance.toString()} className="address-query" required />
+          <input className="address-query" ref="query" type="text"
+            onChange={this.handleChange}
+            defaultValue={this.props.instance.toString()}  required />
         </div>
         <div className="address-group">
           <label>Telefone</label>
-          <input ref="phone" type="text" className="address-phone"
+          <input className="address-phone" ref="phone" type="text" 
             defaultValue={this.props.instance.attr('phone')} required />
         </div>
-        <input type="submit" className="address-submit" value="Confirmar" />
+        <button className="ladda-button address-submit" type="submit" data-style="slide-down" ref="submit">
+          <span className="ladda-label">Confirmar</span>
+        </button>
       </form>
     );
   }

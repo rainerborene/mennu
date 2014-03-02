@@ -72,7 +72,6 @@ module Menu
     use Rack::Runtime
     use Rack::Csrf
 
-    use Menu::Routes::Site
     use Menu::Routes::Admin
     use Menu::Routes::Items
     use Menu::Routes::Hours
