@@ -20,6 +20,15 @@ module Menu
         logout :user
         redirect '/'
       end
+
+      post '/admin/login' do
+        json authenticate(:place, scope: :place)
+      end
+
+      get '/admin/logout' do
+        logout :place
+        redirect '/'
+      end
     end
   end
 end

@@ -14,6 +14,19 @@ module Menu
       register Extensions::Auth
       register Extensions::Assets
       register Extensions::JSON
+
+      error Sequel::ValidationFailed do
+        status 406
+        json error: {
+          type: 'validation_failed',
+          messages: env['sinatra.error'].errors
+        }
+      end
+
+      error Sequel::NoMatchingRow do
+        status 404
+        json error: {type: 'unknown_record'}
+      end
     end
   end
 end

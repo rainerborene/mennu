@@ -42,6 +42,11 @@ module Menu
           })
         end
 
+        app.get '/assets/*' do
+          env['PATH_INFO'].sub!(%r{^/assets}, '')
+          settings.assets.call(env)
+        end
+
         React::JSX.setup(assets)
 
         app.helpers Sprockets::Helpers

@@ -20,6 +20,12 @@ var Addresses = React.createClass({
     }
 
     $(this.refs.phone.getDOMNode()).mask("(99) 9999-9999");
+
+    this.props.instance.bind("update", this.ladda.stop.bind(this.ladda));
+  },
+
+  componentWillUnmount: function(){
+    this.props.instance.unbind("update");
   },
 
   handleChange: function(event){

@@ -9,6 +9,11 @@ module Menu
         geolocation.scan(/[0-9\.-]+/).map(&:to_f)
       end
 
+      def coordinates=(values)
+        value = "ST_MakePoint(#{values.join ','})"
+        self.geolocation = Sequel::LiteralString.new(value)
+      end
+
       def to_json(options = {})
         super({
           except: [:created_at, :updated_at, :place_id, :geolocation],

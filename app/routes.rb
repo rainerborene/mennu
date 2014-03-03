@@ -1,7 +1,7 @@
 module Menu
   module Routes
     autoload :Base, 'app/routes/base'
-    autoload :Admin, 'app/routes/admin'
+    autoload :Places, 'app/routes/places'
     autoload :Items, 'app/routes/items'
     autoload :Hours, 'app/routes/hours'
     autoload :Session, 'app/routes/session'

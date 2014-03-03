@@ -14,7 +14,8 @@ module Menu
 
       post '/v1/place/items', auth: :place do
         params = json_params[:item]
-        category = current_place.categories_dataset.find_or_create name: params[:category_name]
+        category_name = params[:category_name]
+        category = current_place.categories_dataset.find_or_create name: category_name
         json current_place.add_item({
           name: params[:name],
           published_at: params[:published_at],

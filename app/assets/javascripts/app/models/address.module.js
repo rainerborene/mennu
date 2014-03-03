@@ -13,6 +13,21 @@ Address.include({
     var params = $.extend({}, this.attributes);
     delete params.coordinates;
     return { address_attributes: params };
+  },
+
+  save: function(){
+    $.ajax({
+      method: "PUT",
+      url: "/v1/place/address",
+      data: { address: this.changes },
+      dataType: "json",
+      success: function(attributes){
+        this.merge(self.changes).reset();
+      }.bind(this),
+      complete: function(){
+        this.trigger("update");
+      }.bind(this)
+    });
   }
 
 });

@@ -32,9 +32,11 @@ var Session = {
   },
 
   setHours: function(hours){
-    hours.forEach(function(attr){
-      Hour.add(new Hour(attr));
-    });
+    if (hours instanceof Array) {
+      hours.forEach(function(attr){
+        Hour.add(new Hour(attr));
+      });
+    }
   },
 
   authenticated: function(){

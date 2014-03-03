@@ -4,7 +4,6 @@ var Mixins     = require('app/mixins')
   , Header     = require('app/components/header')
   , Addresses  = require('app/components/addresses')
   , HoursTable = require('app/components/hours_table')
-  , Address    = require('app/models/address')
   , Session    = require('app/models/session')
   , Place      = require('app/models/place')
   , Hour       = require('app/models/hour');
@@ -17,16 +16,12 @@ var ProfilePage = React.createClass({
     Hour.bind('add', this.refresh);
     Hour.bind('remove', this.refresh);
     Hour.bind('destroy', this.refresh);
-
-    Session.address.bind('update', this.updateAddress);
   },
 
   componentWillUnmount: function(){
     Hour.unbind('add');
     Hour.unbind('remove');
     Hour.unbind('destroy');
-
-    Session.address.unbind('update');
   },
 
   handleSubmit: function(event){
@@ -45,15 +40,6 @@ var ProfilePage = React.createClass({
     });
 
     event.preventDefault();
-  },
-
-  updateAddress: function(address){
-    Place.update({ 
-      place: address.toJSON(),
-      complete: function(){
-        this.refs.address.stopLadda();
-      }.bind(this)
-    });
   },
 
   refresh: function(){

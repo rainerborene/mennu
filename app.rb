@@ -23,6 +23,9 @@ I18n.enforce_available_locales = false
 
 module Menu
   class App < Sinatra::Application
+    mime_type :javascript, 'application/javascript'
+    mime_type :cache_manifest, 'text/cache-manifest'
+
     configure do
       disable :method_override
       disable :static
@@ -79,7 +82,7 @@ module Menu
     use Rack::Runtime
     use Rack::Csrf
 
-    use Menu::Routes::Admin
+    use Menu::Routes::Places
     use Menu::Routes::Items
     use Menu::Routes::Hours
     use Menu::Routes::Session
