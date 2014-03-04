@@ -49,6 +49,8 @@ function title(string) {
 }
 
 module.exports = function(data){
+  var production = data.env === 'production';
+
   Session.menu = data.menu;
   Session.environment = data.environment;
   Session.setPlace(data.place);
@@ -56,6 +58,14 @@ module.exports = function(data){
   Session.setCSRFToken(data.csrfToken);
   Session.setAddress(data.address);
   Session.setHours(data.hours);
+
+  if (production) {
+    Raven.config('https://e2f82d25fef348dc93f758ac996f1978@app.getsentry.com/20304').install();
+  }
+
+  if (production && data.place) {
+    Raven.setUser({ id: data.place.id, email: data.place.email });
+  }
 
   page.start({ click: false });
 };
