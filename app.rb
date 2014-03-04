@@ -50,6 +50,10 @@ module Menu
 
       Raven.configure do |config|
         config.dsn = ENV['SENTRY_DSN']
+        config.excluded_exceptions = [
+          'Sequel::NoMatchingRow',
+          'Sequel::ValidationFailed'
+        ]
       end
 
       CarrierWave.configure do |config|
@@ -62,14 +66,10 @@ module Menu
           aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
         }
       end
-
-      use Raven::Rack
     end
 
     configure :development do
       require 'sinatra/reloader'
-
-      register Sinatra::Reloader
 
       CarrierWave.configure do |config|
         config.storage = :file
@@ -78,6 +78,9 @@ module Menu
       end
     end
 
+    register Sinatra::Reloader if development?
+
+    use Raven::Rack if production?
     use Rack::Deflater
     use Rack::Runtime
     use Rack::Csrf

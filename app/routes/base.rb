@@ -15,6 +15,12 @@ module Menu
       register Extensions::Assets
       register Extensions::JSON
 
+      before do
+        if settings.production? and current_place?
+          Raven.user_context name: current_place.name, email: current_place.email
+        end
+      end
+
       error Sequel::ValidationFailed do
         status 406
         json error: {

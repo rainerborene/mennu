@@ -63,3 +63,8 @@ namespace :db do
     `pg_dump --schema-only #{database.url} > db/schema.sql`
   end
 end
+
+desc "Inpsect the middleware stack"
+task middleware: :dotenv do
+  puts Menu::App.instance_variable_get("@middleware").map(&:first).map(&:to_s).join("\n")
+end

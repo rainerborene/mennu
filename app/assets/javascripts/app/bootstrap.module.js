@@ -49,7 +49,7 @@ function title(string) {
 }
 
 module.exports = function(data){
-  var production = data.env === 'production';
+  var production = data.environment === 'production';
 
   Session.menu = data.menu;
   Session.environment = data.environment;
