@@ -3,3 +3,4 @@ public/assets
 public/uploads
 spec/cassettes/*.yml
 .env
+db/items.txt

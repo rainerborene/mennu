@@ -1,3 +1,5 @@
+require 'lib/autocomplete'
+
 module Menu
   module Routes
     class Client < Base
@@ -7,7 +9,7 @@ module Menu
         menu = current_place.menu if current_place?
 
         @options = {
-          autocomplete: Item.names,
+          autocomplete: Autocomplete.items,
           environment: settings.environment,
           csrfToken:   Rack::Csrf.csrf_token(env),
           place:       current_place,
