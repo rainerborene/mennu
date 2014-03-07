@@ -7,7 +7,7 @@ task default: [:test]
 
 Rake::TestTask.new do |t|
   t.ruby_opts = ['-Ispec']
-  t.pattern = "spec/*/*_spec.rb"
+  t.pattern = "spec/**/*_spec.rb"
 end
 
 Rake::SprocketsTask.new do |t|
@@ -62,9 +62,4 @@ namespace :db do
     `sequel -d #{database.url} > db/schema.rb`
     `pg_dump --schema-only #{database.url} > db/schema.sql`
   end
-end
-
-desc "Inpsect the middleware stack"
-task middleware: :dotenv do
-  puts Menu::App.instance_variable_get("@middleware").map(&:first).map(&:to_s).join("\n")
 end

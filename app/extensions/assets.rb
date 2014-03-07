@@ -1,5 +1,4 @@
 require 'bourbon'
-require 'sprockets'
 require 'sprockets/helpers'
 require 'sprockets/commonjs'
 require 'lib/react/jsx'
@@ -25,10 +24,7 @@ module Menu
           config.digest      = app.production?
         end
 
-        if app.production?
-          require 'yui/compressor'
-          require 'lib/sprockets/cache/redis_store'
-        end
+        require 'lib/sprockets/cache/redis_store' if app.production?
 
         app.configure :development do
           assets.cache = Sprockets::Cache::FileStore.new('./tmp')
@@ -36,10 +32,8 @@ module Menu
 
         app.configure :production do
           assets.cache          = Sprockets::Cache::RedisStore.new
-          assets.js_compressor  = YUI::JavaScriptCompressor.new
-          assets.css_compressor = YUI::CssCompressor.new({
-            jar_file: File.expand_path('~/yuicompressor/build/yuicompressor-2.4.8.jar')
-          })
+          assets.js_compressor  = :uglifier
+          assets.css_compressor = :scss
         end
 
         app.get '/assets/*' do
