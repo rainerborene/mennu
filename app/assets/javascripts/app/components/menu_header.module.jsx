@@ -2,6 +2,8 @@
 
 'use strict';
 
+var React = require('react');
+
 var MenuHeader = React.createClass({
 
   handleBack: function(event) {
@@ -51,3 +53,4 @@ var MenuHeader = React.createClass({
 });
 
 module.exports = MenuHeader;
+

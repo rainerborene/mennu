@@ -1,4 +1,3 @@
-//= require react
 //= require jquery
 //= require jquery.dropdown
 //= require jquery.typeahead
@@ -9,6 +8,7 @@
 //
 // Library modules:
 //= require sprockets/commonjs
+//= require react.module
 //= require emitter.module
 //= require page.module
 //= require uuid.module

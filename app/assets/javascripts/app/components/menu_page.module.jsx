@@ -6,14 +6,17 @@
 
 var uuid       = require('uuid'),
     moment     = require('moment'),
+    React      = require('react'),
     AntiScroll = require('app/mixins').AntiScroll,
+    Menu       = require('app/models/menu'),
+    Item       = require('app/models/item'),
     Header     = require('app/components/header'),
     MenuBlock  = require('app/components/menu_block'),
     MenuHeader = require('app/components/menu_header'),
-    Menu       = require('app/models/menu'),
-    Item       = require('app/models/item');
+    MenuPage;
 
-var MenuPage = React.createClass({
+
+MenuPage = React.createClass({
 
   mixins: [AntiScroll],
 

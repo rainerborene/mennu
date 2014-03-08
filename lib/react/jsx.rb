@@ -16,7 +16,7 @@ module React
     def setup(assets)
       tmp_path = Pathname(assets.root + '/tmp/react')
       FileUtils.mkdir_p tmp_path
-      FileUtils.cp Source.bundled_path_for('react.js'), tmp_path.join('react.js')
+      FileUtils.cp Source.bundled_path_for('react.js'), tmp_path.join('react.module.js')
       FileUtils.cp Source.bundled_path_for('JSXTransformer.js'), tmp_path.join('JSXTransformer.js')
       assets.append_path tmp_path
       assets.register_engine '.jsx', React::JSX::Template

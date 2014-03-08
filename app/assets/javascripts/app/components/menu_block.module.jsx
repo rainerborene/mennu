@@ -2,6 +2,8 @@
 
 'use strict';
 
+var React = require('react');
+
 var MenuBlock = React.createClass({
 
   componentDidMount: function() {

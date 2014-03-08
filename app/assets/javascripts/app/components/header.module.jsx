@@ -2,9 +2,12 @@
 
 'use strict';
 
-var page = require('page');
+var page  = require('page'),
+    React = require('react'),
+    Header;
 
-var Header = React.createClass({
+
+Header = React.createClass({
 
   navigate: function(event) {
     var href = event.target.getAttribute('href');

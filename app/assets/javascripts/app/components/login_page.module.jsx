@@ -2,11 +2,14 @@
 
 'use strict';
 
-var Session = require('app/models/session'),
+var page    = require('page'),
+    React   = require('react'),
     Ladda   = require('ladda'),
-    page    = require('page');
+    Session = require('app/models/session'),
+    LoginPage;
 
-var LoginPage = React.createClass({
+  
+LoginPage = React.createClass({
 
   handleAuthenticated: function() {
     this.setState({ success: true });
@@ -62,14 +65,20 @@ var LoginPage = React.createClass({
         </header>
         {this.state && this.state.success === false ? message : null}
         <div className="login-group">
-          <input type="text" id="email" required autoFocus placeholder="E-mail" ref="email"/>
+          <input type="text" id="email" required autoFocus placeholder="E-mail"
+            ref="email"/>
+
           <label className="icon fui-user" htmlFor="email"></label>
         </div>
         <div className="login-group">
-          <input type="password" id="password" required placeholder="Senha" ref="password"/>
+          <input type="password" id="password" required placeholder="Senha"
+            ref="password"/>
+
           <label className="icon fui-lock" htmlFor="password"></label>
         </div>
-        <button type="submit" className="ladda-button" data-style="slide-down" ref="submit">
+        <button type="submit" className="ladda-button" data-style="slide-down"
+          ref="submit">
+
           <span className="ladda-label">Entrar</span>
         </button>
       </form>

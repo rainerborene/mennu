@@ -3,6 +3,7 @@
 'use strict';
 
 var page        = require('page'),
+    React       = require('react'),
     MenuPage    = require('app/components/menu_page'),
     LoginPage   = require('app/components/login_page'),
     ProfilePage = require('app/components/profile_page'),

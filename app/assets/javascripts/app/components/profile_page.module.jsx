@@ -2,15 +2,18 @@
 
 'use strict';
 
-var Mixins     = require('app/mixins'),
+var React      = require('react'),
+    Mixins     = require('app/mixins'),
+    Session    = require('app/models/session'),
+    Place      = require('app/models/place'),
+    Hour       = require('app/models/hour'),
     Header     = require('app/components/header'),
     Addresses  = require('app/components/addresses'),
     HoursTable = require('app/components/hours_table'),
-    Session    = require('app/models/session'),
-    Place      = require('app/models/place'),
-    Hour       = require('app/models/hour');
+    ProfilePage;
 
-var ProfilePage = React.createClass({
+
+ProfilePage = React.createClass({
 
   mixins: [Mixins.AntiScroll, Mixins.LaddaButton],
 

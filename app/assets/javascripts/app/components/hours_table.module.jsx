@@ -3,10 +3,14 @@
 'use strict';
 
 var uuid  = require('uuid'),
+    React = require('react'),
     Hour  = require('app/models/hour'),
-    Hours = require('app/helpers').hours;
+    Hours = require('app/helpers').hours,
+    HoursRow,
+    HoursTable;
 
-var HoursRow = React.createClass({
+
+HoursRow = React.createClass({
 
   getInitialState: function() {
     return {
@@ -80,7 +84,7 @@ var HoursRow = React.createClass({
 
 });
 
-var HoursTable = React.createClass({
+HoursTable = React.createClass({
 
   getDefaultProps: function() {
     return { hours: [] };

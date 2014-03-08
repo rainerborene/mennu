@@ -2,12 +2,15 @@
 
 'use strict';
 
-var LaddaButton = require('app/mixins').LaddaButton,
+var React       = require('react'),
+    LaddaButton = require('app/mixins').LaddaButton,
     BlankGif    = require('app/helpers').blankGif,
     Geocode     = require('app/models/geocode'),
-    StaticMap   = require('map');
+    Map         = require('map'),
+    Addresses;
 
-var Addresses = React.createClass({
+
+Addresses = React.createClass({
 
   mixins: [LaddaButton],
 
@@ -53,9 +56,9 @@ var Addresses = React.createClass({
   },
 
   changeLocation: function(latitude, longitude) {
-    var map = new StaticMap();
+    var img = new Map();
 
-    map
+    img
       .size(280, 280)
       .type('roadmap')
       .zoom(16)
@@ -65,7 +68,7 @@ var Addresses = React.createClass({
       ]);
 
     this.setState({
-      mapSrc: (map.url.slice(0, map.url.length - 1) + '&sensor=false')
+      mapSrc: (img.url.slice(0, img.url.length - 1) + '&sensor=false')
     });
   },
 
@@ -86,7 +89,9 @@ var Addresses = React.createClass({
           <input className="address-phone" ref="phone" type="text"
             defaultValue={this.props.instance.attr('phone')} required />
         </div>
-        <button className="ladda-button address-submit" type="submit" data-style="slide-down" ref="submit">
+        <button className="ladda-button address-submit" type="submit"
+          data-style="slide-down" ref="submit">
+
           <span className="ladda-label">Confirmar</span>
         </button>
       </form>
