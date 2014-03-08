@@ -7,7 +7,7 @@ module Menu
 
       get '/v1/places/:id/items' do
         @place = Place.find_by_pk_or_slug! params[:id]
-        @categories = @place.recent_items.all
+        @categories = @place.latest_menu.all
         respond_to do |format|
           format.xml  { nokogiri :items }
           format.json { @categories.to_json }
