@@ -2,6 +2,8 @@
 
 'use strict';
 
+var RAVEN = 'https://e2f82d25fef348dc93f758ac996f1978@app.getsentry.com/20304';
+
 var page        = require('page'),
     React       = require('react'),
     MenuPage    = require('app/components/menu_page'),
@@ -61,9 +63,7 @@ module.exports = function(data) {
   Session.setAddress(data.address);
   Session.setHours(data.hours);
 
-  if (production) {
-    Raven.config(data.sentry).install();
-  }
+  if (production) Raven.config(RAVEN).install();
 
   if (production && data.place) {
     Raven.setUser({ id: data.place.id, email: data.place.email });
