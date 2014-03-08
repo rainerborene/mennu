@@ -1,10 +1,14 @@
-require 'lib/sequel/polymorphic'
-
-Sequel.default_timezone = :utc
+require 'lib/sequel/plugins/polymorphic'
+require 'lib/sequel/plugins/sluggable'
+require 'lib/find_methods'
 
 Sequel.extension :core_extensions
 Sequel.extension :pg_array
 Sequel.extension :pg_array_ops
+Sequel.extension :named_timezones
+
+Sequel.database_timezone = :utc
+Sequel.application_timezone = 'America/Sao_Paulo'
 
 Sequel::Model.raise_on_save_failure = false
 

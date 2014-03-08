@@ -1,11 +1,11 @@
-require 'lib/find_methods'
-
 module Menu
   module Models
     class Place < Sequel::Model
       plugin :secure_password
+      plugin :sluggable
+
       one_to_many :items
-      one_to_many :categories, extend: FindMethods
+      one_to_many :categories, extend: ::FindMethods
       one_to_many :business_hours
       one_to_one :address
 
@@ -15,9 +15,8 @@ module Menu
 
       mount_uploader :logo, LogoUploader
 
-      def menu(time = Time.now)
-        categories_dataset.items_at(time)
-      end
+      delegate :menu, to: :categories_dataset
+      delegate :latest_menu, to: :categories_dataset
 
       def validate
         super

@@ -61,7 +61,7 @@ var MenuPage = React.createClass({
   save: function(category, title){
     var item = new Item({
       name: title,
-      published_at: this.state.date,
+      published_at: this.state.date.format(),
       category_name: category.name
     });
 

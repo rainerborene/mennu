@@ -6,26 +6,31 @@ module Menu
       register Sinatra::RespondWith
 
       get '/v1/places/:id/items' do
-        @place = Place.first! id: params[:id]
+        @place = Place.find_by_pk_or_slug! params[:id]
+        @categories = @place.recent_items.all
         respond_to do |format|
           format.xml  { nokogiri :items }
-          format.json { @place.menu.to_json }
+          format.json { @categories.to_json }
         end
       end
 
       get '/v1/places/:id/items/:timestamp', auth: :place do
         time = Time.at params[:timestamp].to_i
         place = Place.first! id: params[:id]
-        json place.menu(time)
+        json place.menu(time).all
       end
 
       post '/v1/place/items', auth: :place do
         params = json_params[:item]
-        category_name = params[:category_name]
-        category = current_place.categories_dataset.find_or_create name: category_name
+        category = current_place.categories_dataset.find_or_create name: params[:category_name]
+
+        now = Time.now
+        published_at = Time.parse params[:published_at]
+        published_at = published_at.change hour: now.hour, min: now.min, sec: now.sec
+
         json current_place.add_item({
           name: params[:name],
-          published_at: params[:published_at],
+          published_at: published_at,
           category_id: category.id,
           self_service: true
         })

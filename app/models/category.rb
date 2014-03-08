@@ -5,9 +5,14 @@ module Menu
       one_to_many :items
 
       dataset_module do
-        def items_at(time)
+        def menu(time = Time.now)
           sql = model_object.items_dataset.select(:category_id).distinct.at(time).sql
           where("id in (#{sql})").eager items: -> (ds) { ds.at(time) }
+        end
+
+        def latest_menu
+          sql = model_object.items_dataset.select(:category_id).distinct.recents.sql
+          where("id in (#{sql})").eager items: -> (ds) { ds.recents }
         end
       end
 
