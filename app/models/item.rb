@@ -14,12 +14,8 @@ module Menu
         end
       end
 
-      def self.names
-        distinct(:name).select_map(:name)
-      end
-
-      def to_json(options = {})
-        super({ only: [:id, :name] }.merge(options))
+      def as_json(options = nil)
+        { id: id, name: name }
       end
 
       def validate

@@ -11,8 +11,8 @@ module Menu
         end
       end
 
-      def to_json(options={})
-        super({ only: [:id, :name], include: :items }.merge(options))
+      def as_json(options = nil)
+        { id: id, name: name, items: items }
       end
 
       def before_validation

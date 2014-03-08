@@ -3,8 +3,13 @@ module Menu
     class BusinessHour < Sequel::Model
       many_to_one :place
 
-      def to_json(options={})
-        super({ only: [:id, :weekday, :start_time, :end_time] }.merge(options))
+      def as_json(options = nil)
+        {
+          id: id,
+          weekday: weekday,
+          start_time: start_time.strftime("%H:%M"),
+          end_time: end_time[0..4]
+        }
       end
     end
   end

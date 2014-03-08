@@ -25,16 +25,22 @@
   th, td {
     padding: 20px 10px;
     border-color: #ececec;
-    font-size: em(14);
+    font-size: 14px;
   }
 
   table    { margin: 0; }
-  textarea { max-width: 73%; }
 
   input[type="text"],
-  input[type="email"] {
+  input[type="email"],
+  textarea {
     width: 50%;
     margin-bottom: 0;
+    font-size: 14px;
+  }
+
+  textarea { 
+    width: 73%;
+    max-width: 73%; 
   }
 
   h4 {
@@ -57,16 +63,21 @@
     line-height: 34px;
   }
 
-  .hours-button {
-    padding: 9px 13px;
-    font-size: 13px;
-    line-height: 1.385;
-  }
-
   .pagseguro {
     margin-top: 20px;
     margin-bottom: 50px;
   }
+}
+
+.hours-table tbody td { 
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.hours-button {
+  padding: 9px 13px;
+  font-size: 13px;
+  line-height: 1.385;
 }
 
 .address {
@@ -89,7 +100,7 @@
   label {
     width: 100px;
     display: inline-block;
-    font-size: em(14);
+    font-size: 14px;
     vertical-align: middle;
   }
 

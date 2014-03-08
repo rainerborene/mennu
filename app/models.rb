@@ -6,12 +6,12 @@ Sequel.extension :core_extensions
 Sequel.extension :pg_array
 Sequel.extension :pg_array_ops
 
+Sequel::Model.raise_on_save_failure = false
+
 Sequel::Model.plugin :timestamps
 Sequel::Model.plugin :update_or_create
 Sequel::Model.plugin :validation_helpers
-Sequel::Model.plugin :json_serializer
 Sequel::Model.plugin :polymorphic
-Sequel::Model.raise_on_save_failure = false
 
 module Menu
   module Models

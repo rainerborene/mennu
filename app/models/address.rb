@@ -3,7 +3,9 @@ module Menu
     class Address < Sequel::Model
       one_to_one :place
 
-      set_dataset dataset.select_append {st_astext(:geolocation).as(:geolocation)}
+      set_dataset dataset.select_append {
+        st_astext(:geolocation).as(:geolocation)
+      }
 
       def coordinates
         geolocation.scan(/[0-9\.-]+/).map(&:to_f)
@@ -14,11 +16,18 @@ module Menu
         self.geolocation = Sequel::LiteralString.new(value)
       end
 
-      def to_json(options = {})
-        super({
-          except: [:created_at, :updated_at, :place_id, :geolocation],
-          include: :coordinates
-        }.merge(options))
+      def as_json(options = nil)
+        {
+          id: id,
+          street: street,
+          street_number: street_number,
+          neighborhood: neighborhood,
+          city: city,
+          state: state,
+          postal_code: postal_code,
+          coordinates: coordinates,
+          phone: phone
+        }
       end
 
       def validate

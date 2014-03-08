@@ -11,6 +11,7 @@ Dotenv.load
 require 'rack/csrf'
 require 'sinatra/sequel'
 require 'carrierwave/sequel'
+require 'active_support/json'
 require 'active_support/core_ext/array'
 require 'active_support/core_ext/hash'
 

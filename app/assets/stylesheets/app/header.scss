@@ -1,9 +1,9 @@
 .header {
-  height: em(55);
+  height: 55px;
   border-bottom: 1px solid #ececec;
 
   a {
-    font-size: em(14);
+    font-size: 14px;
     color: #b0babf;
     &:hover {
       color: $base-accent-color;
@@ -12,7 +12,7 @@
 
   li {
     display: inline;
-    margin-left: em(15);
+    margin-left: 15px;
   }
 
   .logo {

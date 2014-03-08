@@ -26,17 +26,17 @@
   }
 
   .message {
-    font-size: em(13);
-    margin-bottom: em(10);
+    font-size: 13px;
+    margin-bottom: 10px;
   }
 
   .login-header {
-    margin-bottom: em(40);
+    margin-bottom: 40px;
   }
 
   .login-form {
-    width: em(313);
-    height: em(337);
+    width: 313px;
+    height: 337px;
     margin: 0 auto;
   }
 
@@ -45,24 +45,24 @@
   }
 
   .icon {
-    font-size: 1em;
-    top: em(9);
+    font-size: 16px;
+    top: 9px;
   }
 
   input[type="text"],
   input[type="password"] {
-    height: em(42);
-    padding: em(8) em(12);
-    margin-bottom: em(15);
+    height: 42px;
+    padding: 8px 12px;
+    margin-bottom: 15px;
     line-height: 1.467em;
   }
 
   button {
     @include button-variant;
     width: 100%;
-    font-size: em(17);
+    font-size: 17px;
     font-weight: bold;
     outline: none;
-    margin-top: em(20);
+    margin-top: 20px;
   }
 }

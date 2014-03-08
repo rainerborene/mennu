@@ -7,7 +7,7 @@
 
   small {
     font-weight: 300;
-    margin-left: em(3);
+    margin-left: 3px;
     color: #b4b4b4;
   }
 
@@ -32,11 +32,11 @@
 
   .pagination {
     float: right;
-    margin-top: em(25);
+    margin-top: 25px;
   }
 
   .today {
-    font-size: em(18);
+    font-size: 18px;
     font-weight: 400;
     line-height: 40px;
     padding: 0 16px;
@@ -76,7 +76,7 @@
     color: #b3b3b3;
     margin: 80px auto 0;
     font-weight: 400;
-    font-size: em(21);
+    font-size: 21px;
   }
 }
 
@@ -94,7 +94,7 @@
   h4 {
     font-weight: 300;
     margin-top: 0;
-    margin-bottom: em(14);
+    margin-bottom: 14px;
     width: 192px;
     white-space: nowrap;
     overflow: hidden;
@@ -117,11 +117,11 @@
   }
 
   td {
-    font-size: em(14);
+    font-size: 14px;
     font-weight: 300;
     word-wrap: break-word;
     line-height: em(16);
-    padding-bottom: em(14);
+    padding-bottom: 14px;
     vertical-align: top;
     border: none;
   }
@@ -136,21 +136,15 @@
 
   .fui-cross {
     display: none;
-    cursor: pointer;
-    color: #bababa;
-
-    &:hover {
-      color: darken(#bababa, 20%);
-    }
   }
 
   .form-control, .tt-hint {
     width: 100%;
     font-weight: 300;
-    font-size: em(14);
+    font-size: 14px;
     border: none;
     padding: 0;
-    height: em(27);
+    height: 27px;
     margin: 0;
   } 
 }

@@ -9,8 +9,8 @@ var HoursRow = React.createClass({
   getInitialState: function(){
     return {
       weekday: this.props.instance.attr('weekday'),
-      startTime: this.props.instance.format('start_time'),
-      endTime: this.props.instance.format('end_time')
+      startTime: this.props.instance.attr('start_time'),
+      endTime: this.props.instance.attr('end_time')
     };
   },
 
@@ -61,7 +61,7 @@ var HoursRow = React.createClass({
           </select>
         </td>
         <td>
-          <select onChange={this.handleChange} defaultValue={this.state.endTime} ref="endTime">
+          <select onChange={this.handleChange} value={this.state.endTime} ref="endTime">
             {Hours.map(this.makeOption)}
           </select>
         </td>

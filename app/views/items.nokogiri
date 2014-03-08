@@ -1,0 +1,13 @@
+# vim: set ft=ruby : #
+xml.categories do
+  @place.menu.each do |category|
+    xml.category do
+      xml.name category.name
+      xml.items do
+        category.items.each do |item|
+          xml.name item.name
+        end
+      end
+    end
+  end
+end

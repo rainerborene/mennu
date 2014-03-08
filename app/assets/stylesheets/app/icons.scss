@@ -21,6 +21,15 @@
   -webkit-font-smoothing: antialiased;
 }
 
+.fui-cross {
+  cursor: pointer;
+  color: #bababa;
+
+  &:hover {
+    color: darken(#bababa, 20%);
+  }
+}
+
 .fui-triangle-up:before           { content: "\e000"; }
 .fui-triangle-up-small:before     { content: "\e001"; }
 .fui-triangle-right-large:before  { content: "\e002"; }

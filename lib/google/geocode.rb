@@ -31,7 +31,7 @@ module Google
       @response['geometry']['location'].values
     end
 
-    def to_json(options = {})
+    def as_json(options = nil)
       {
         city: city,
         neighborhood: neighborhood,
@@ -40,7 +40,7 @@ module Google
         street: street,
         street_number: street_number,
         coordinates: coordinates
-      }.to_json(options)
+      }
     end
 
     private

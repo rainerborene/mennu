@@ -1,9 +1,16 @@
+require 'sinatra/respond_with'
+
 module Menu
   module Routes
     class Items < Base
+      register Sinatra::RespondWith
+
       get '/v1/places/:id/items' do
-        place = Place.first! id: params[:id]
-        json place.menu
+        @place = Place.first! id: params[:id]
+        respond_to do |format|
+          format.xml  { nokogiri :items }
+          format.json { @place.menu.to_json }
+        end
       end
 
       get '/v1/places/:id/items/:timestamp', auth: :place do
