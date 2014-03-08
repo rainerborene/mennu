@@ -25,6 +25,7 @@ gem 'pg'
 gem 'redis'
 
 # Assets
+gem 'sass', '3.2.14'
 gem 'execjs'
 gem 'bourbon'
 gem 'react-source'
