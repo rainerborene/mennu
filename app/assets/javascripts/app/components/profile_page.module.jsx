@@ -1,40 +1,42 @@
 /** @jsx React.DOM */
 
-var Mixins     = require('app/mixins')
-  , Header     = require('app/components/header')
-  , Addresses  = require('app/components/addresses')
-  , HoursTable = require('app/components/hours_table')
-  , Session    = require('app/models/session')
-  , Place      = require('app/models/place')
-  , Hour       = require('app/models/hour');
+'use strict';
+
+var Mixins     = require('app/mixins'),
+    Header     = require('app/components/header'),
+    Addresses  = require('app/components/addresses'),
+    HoursTable = require('app/components/hours_table'),
+    Session    = require('app/models/session'),
+    Place      = require('app/models/place'),
+    Hour       = require('app/models/hour');
 
 var ProfilePage = React.createClass({
 
   mixins: [Mixins.AntiScroll, Mixins.LaddaButton],
 
-  componentDidMount: function(){
+  componentDidMount: function() {
     Hour.bind('add', this.refresh);
     Hour.bind('remove', this.refresh);
     Hour.bind('destroy', this.refresh);
   },
 
-  componentWillUnmount: function(){
+  componentWillUnmount: function() {
     Hour.unbind('add');
     Hour.unbind('remove');
     Hour.unbind('destroy');
   },
 
-  handleSubmit: function(event){
-    var form = document.forms[0]
-      , data = new FormData(form);
+  handleSubmit: function(event) {
+    var form = document.forms[0],
+        data = new FormData(form);
 
     this.ladda.start();
 
     Place.update(data, {
-      success: function(){
+      success: function() {
         Session.place.attr(data);
       },
-      complete: function(){
+      complete: function() {
         this.stopLadda();
       }.bind(this)
     });
@@ -42,11 +44,13 @@ var ProfilePage = React.createClass({
     event.preventDefault();
   },
 
-  refresh: function(){
+  refresh: function() {
     this.forceUpdate();
   },
 
-  render: function(){
+  /* jshint ignore:start */
+
+  render: function() {
     return (
       <div className="app">
         <Header pathname={this.props.pathname} />
@@ -56,7 +60,8 @@ var ProfilePage = React.createClass({
             <header className="header-page">
               <div className="container">
                 <h2>Sobre o estabelecimento</h2>
-                <p className="legend">Essas informações aparecem em sua página pública e resultados de pesquisa.</p>
+                <p className="legend">Essas informações aparecem em sua página
+                  pública e resultados de pesquisa.</p>
               </div>
             </header>
 
@@ -129,18 +134,28 @@ var ProfilePage = React.createClass({
               </form>
 
               <h4>Endereço</h4>
-              <p className="legend">Escreva o endereço e telefone do seu estabelecimento nos campos abaixo.</p>
+              <p className="legend">Escreva o endereço e telefone do seu
+                estabelecimento nos campos abaixo.</p>
+
               <Addresses ref="address" instance={Session.address} />
 
               <h4>Horário de funcionamento</h4>
-              <p className="legend">Mostramos em sua página um selo aberto ou fechado de acordo com a hora atual.</p>
+              <p className="legend">Mostramos em sua página um selo aberto ou
+                fechado de acordo com a hora atual.</p>
+
               <HoursTable hours={Hour.sortBy('weekday')} />
 
               <h4>Pagamento</h4>
-              <p className="legend">O pagamento do plano contratado é efetuado de forma recorrente pelo PagSeguro.</p>
-              <form action="https://pagseguro.uol.com.br/v2/pre-approvals/request.html" method="post" className="pagseguro">
+              <p className="legend">O pagamento do plano contratado é efetuado
+                de forma recorrente pelo PagSeguro.</p>
+
+              <form
+                action="https://pagseguro.uol.com.br/v2/pre-approvals/request.html"
+                method="post" className="pagseguro">
                 <input type="hidden" name="code" value="9179E8727878123994FA8F9EF29EDC70" />
-                <input type="image" src="https://p.simg.uol.com.br/out/pagseguro/i/botoes/assinaturas/205x30-assinar-azul.gif" name="submit" width="205" height="30" />
+                <input type="image"
+                  src="https://p.simg.uol.com.br/out/pagseguro/i/botoes/assinaturas/205x30-assinar-azul.gif"
+                  name="submit" width="205" height="30" />
               </form>
             </div>
           </div>
@@ -149,6 +164,9 @@ var ProfilePage = React.createClass({
     );
   }
 
+  /* jshint ignore:end */
+
 });
 
 module.exports = ProfilePage;
+

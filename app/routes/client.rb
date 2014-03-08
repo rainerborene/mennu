@@ -12,6 +12,7 @@ module Menu
           autocomplete: Autocomplete.items,
           environment: settings.environment,
           csrfToken:   Rack::Csrf.csrf_token(env),
+          sentry:      ENV['SENTRY_DSN'],
           place:       current_place,
           address:     current_place.try(:address),
           hours:       current_place.try(:business_hours),

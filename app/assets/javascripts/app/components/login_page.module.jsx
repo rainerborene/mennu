@@ -1,51 +1,55 @@
 /** @jsx React.DOM */
 
-var Session = require('app/models/session')
-  , Ladda   = require('ladda')
-  , page    = require('page');
+'use strict';
+
+var Session = require('app/models/session'),
+    Ladda   = require('ladda'),
+    page    = require('page');
 
 var LoginPage = React.createClass({
 
-  handleAuthenticated: function(){
+  handleAuthenticated: function() {
     this.setState({ success: true });
     page('/admin');
   },
 
-  handleUnauthorized: function(){
+  handleUnauthorized: function() {
     this.setState({ success: false });
     this.refs.password.getDOMNode().focus();
   },
 
-  handleCompleted: function(){
+  handleCompleted: function() {
     this.ladda.stop();
   },
 
-  handleSubmit: function(event){
-    var email = this.refs.email.getDOMNode().value.trim()
-      , password = this.refs.password.getDOMNode().value.trim();
+  handleSubmit: function(event) {
+    var email = this.refs.email.getDOMNode().value.trim(),
+        password = this.refs.password.getDOMNode().value.trim();
 
     this.ladda.start();
     Session.authenticate(email, password);
     event.preventDefault();
   },
 
-  componentDidMount: function(){
+  componentDidMount: function() {
     this.ladda = Ladda.create(this.refs.submit.getDOMNode());
   },
 
-  componentWillMount: function(){
+  componentWillMount: function() {
     Session.on('authenticated', this.handleAuthenticated);
     Session.on('unauthorized', this.handleUnauthorized);
     Session.on('completed', this.handleCompleted);
     document.documentElement.classList.add('login');
   },
 
-  componentWillUnmount: function(){
+  componentWillUnmount: function() {
     document.documentElement.classList.remove('login');
     Session.off();
   },
 
-  render: function(){
+  /* jshint ignore:start */
+
+  render: function() {
     var message = (
       <p className="message">O e-mail ou a senha inseridos estão incorretos.</p>
     );
@@ -72,6 +76,9 @@ var LoginPage = React.createClass({
     );
   }
 
+  /* jshint ignore:end */
+
 });
 
 module.exports = LoginPage;
+

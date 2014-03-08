@@ -1,20 +1,28 @@
 /** @jsx React.DOM */
 
-var uuid       = require('uuid')
-  , moment     = require('moment')
-  , AntiScroll = require('app/mixins').AntiScroll
-  , Header     = require('app/components/header')
-  , MenuBlock  = require('app/components/menu_block')
-  , MenuHeader = require('app/components/menu_header')
-  , Menu       = require('app/models/menu')
-  , Item       = require('app/models/item');
+/* global Masonry */
+
+'use strict';
+
+var uuid       = require('uuid'),
+    moment     = require('moment'),
+    AntiScroll = require('app/mixins').AntiScroll,
+    Header     = require('app/components/header'),
+    MenuBlock  = require('app/components/menu_block'),
+    MenuHeader = require('app/components/menu_header'),
+    Menu       = require('app/models/menu'),
+    Item       = require('app/models/item');
 
 var MenuPage = React.createClass({
 
   mixins: [AntiScroll],
 
-  getInitialState: function(){
-    return { menu: [], date: moment(), animate: true };
+  getInitialState: function() {
+    return {
+      menu: [],
+      date: moment(),
+      animate: true
+    };
   },
 
   masonryOptions: {
@@ -24,41 +32,42 @@ var MenuPage = React.createClass({
     gutter: 14
   },
 
-  componentDidMount: function(){
-    this.masonry = new Masonry(this.refs.masonry.getDOMNode(), this.masonryOptions);
+  componentDidMount: function() {
+    var masonryNode = this.refs.masonry.getDOMNode();
+    this.masonry = new Masonry(masonryNode, this.masonryOptions);
     Menu.on('load', this.handleLoad);
     Menu.today();
   },
 
-  componentDidUpdate: function(){
+  componentDidUpdate: function() {
     this.masonry.reloadItems();
     this.masonry._resetLayout();
     this.masonry.layoutItems(this.masonry.items, true);
   },
 
-  componentWillUnmount: function(){
+  componentWillUnmount: function() {
     Menu.off('load');
   },
 
-  editable: function(){
+  editable: function() {
     return this.state.date.isAfter(moment().subtract('d', 1));
   },
 
-  back: function(){
+  back: function() {
     Menu.at(this.state.date.clone().subtract('d', 1));
   },
 
-  today: function(){
+  today: function() {
     if (!this.state.date.isSame(undefined, 'day')) {
       Menu.at(moment());
     }
   },
 
-  next: function(){
+  next: function() {
     Menu.at(this.state.date.clone().add('d', 1));
   },
 
-  save: function(category, title){
+  save: function(category, title) {
     var item = new Item({
       name: title,
       published_at: this.state.date.format(),
@@ -72,7 +81,7 @@ var MenuPage = React.createClass({
     this.forceUpdate();
   },
 
-  destroy: function(category, model, block){
+  destroy: function(category, model, block) {
     var index = category.items.indexOf(model);
     if (index > -1) {
       model.destroy();
@@ -81,10 +90,10 @@ var MenuPage = React.createClass({
     }
   },
 
-  handleLoad: function(menu, date){
-    this.setState({ menu: menu, date: date }, function(){
+  handleLoad: function(menu, date) {
+    this.setState({ menu: menu, date: date }, function() {
       if (this.state.animate) {
-        this.masonry.items.forEach(function(item){
+        this.masonry.items.forEach(function(item) {
           item.reveal();
         });
       }
@@ -93,9 +102,9 @@ var MenuPage = React.createClass({
     }.bind(this));
   },
 
-  handleChangeTitle: function(id, title){
-    this.state.menu.forEach(function(category){
-      if (category.id === id){
+  handleChangeTitle: function(id, title) {
+    this.state.menu.forEach(function(category) {
+      if (category.id === id) {
         category.name = title;
         return true;
       }
@@ -104,13 +113,13 @@ var MenuPage = React.createClass({
     this.forceUpdate();
   },
 
-  handleCreateBlock: function(event){
+  handleCreateBlock: function(event) {
     var id = uuid();
 
     this.state.menu.push({ id: id, name: 'Nova Categoria', items: [] });
-    this.forceUpdate(function(){
-      this.masonry.items.forEach(function(item){
-        if (this.refs[id].getDOMNode() === item.element){
+    this.forceUpdate(function() {
+      this.masonry.items.forEach(function(item) {
+        if (this.refs[id].getDOMNode() === item.element) {
           item.reveal();
         }
       }, this);
@@ -121,12 +130,14 @@ var MenuPage = React.createClass({
     event.preventDefault();
   },
 
-  render: function(){
-    var template = null
-      , message = null
-      , menu = null;
+  /* jshint ignore: start */
 
-    menu = this.state.menu.map(function(category){
+  render: function() {
+    var template,
+        message,
+        menu;
+
+    menu = this.state.menu.map(function(category) {
       return <MenuBlock
         key={category.id + this.state.date}
         ref={category.id}
@@ -137,7 +148,7 @@ var MenuPage = React.createClass({
         onChangeTitle={this.handleChangeTitle} />
     }, this);
 
-    if (this.editable()){
+    if (this.editable()) {
       template = (
         <div className="menu-template">
           <a href="#" onClick={this.handleCreateBlock}>
@@ -171,8 +182,12 @@ var MenuPage = React.createClass({
         </div>
       </div>
     );
+
   }
+
+  /* jshint ignore:end */
 
 });
 
 module.exports = MenuPage;
+

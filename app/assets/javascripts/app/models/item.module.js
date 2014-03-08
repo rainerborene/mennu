@@ -1,6 +1,6 @@
-var Model = require('model')
-  , Item  = Model('item');
+var model = require('model'),
+    Item  = model('item');
 
-Item.persistence(Model.REST, '/v1/place/items');
+Item.persistence(model.REST, '/v1/place/items');
 
 module.exports = Item;

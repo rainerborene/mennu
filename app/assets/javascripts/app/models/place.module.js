@@ -1,9 +1,11 @@
-var Model = require('model')
-  , Place = Model('place');
+'use strict';
+
+var model = require('model'),
+    Place = model('place');
 
 Place.extend({
 
-  update: function(data, options){
+  update: function(data, options) {
     options = options || {};
 
     var ajaxOptions = {
@@ -25,3 +27,4 @@ Place.extend({
 });
 
 module.exports = Place;
+

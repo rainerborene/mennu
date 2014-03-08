@@ -1,41 +1,46 @@
 /** @jsx React.DOM */
 
-var LaddaButton = require('app/mixins').LaddaButton
-  , BlankGif    = require('app/helpers').blankGif
-  , Geocode     = require('app/models/geocode')
-  , Map         = require('map');
+'use strict';
+
+var LaddaButton = require('app/mixins').LaddaButton,
+    BlankGif    = require('app/helpers').blankGif,
+    Geocode     = require('app/models/geocode'),
+    StaticMap   = require('map');
 
 var Addresses = React.createClass({
 
   mixins: [LaddaButton],
 
-  getInitialState: function(){
-    return { mapSrc: BlankGif, location: {} };
+  getInitialState: function() {
+    return {
+      mapSrc: BlankGif,
+      location: {}
+    };
   },
 
-  componentDidMount: function(){
+  componentDidMount: function() {
     var coordinates = this.props.instance.attr('coordinates');
     if (coordinates instanceof Array) {
       this.changeLocation.apply(this, coordinates);
     }
 
-    $(this.refs.phone.getDOMNode()).mask("(99) 9999-9999");
+    $(this.refs.phone.getDOMNode()).mask('(99) 9999-9999');
 
-    this.props.instance.bind("update", this.ladda.stop.bind(this.ladda));
+    this.props.instance.bind('update', this.ladda.stop.bind(this.ladda));
   },
 
-  componentWillUnmount: function(){
-    this.props.instance.unbind("update");
+  componentWillUnmount: function() {
+    this.props.instance.unbind('update');
   },
 
-  handleChange: function(event){
-    Geocode.locateTimeout(event.target.value.trim(), function(location){
+  handleChange: function(event) {
+    Geocode.locateTimeout(event.target.value.trim(), function(location) {
       this.changeLocation.apply(this, location.coordinates);
       this.setState({ location: location });
     }, this);
   },
 
-  handleSubmit: function(event){
+  handleSubmit: function(event) {
     var phone = this.refs.phone.getDOMNode().value.trim();
 
     this.ladda.start();
@@ -47,8 +52,8 @@ var Addresses = React.createClass({
     event.preventDefault();
   },
 
-  changeLocation: function(latitude, longitude){
-    var map = new Map();
+  changeLocation: function(latitude, longitude) {
+    var map = new StaticMap();
 
     map
       .size(280, 280)
@@ -60,11 +65,13 @@ var Addresses = React.createClass({
       ]);
 
     this.setState({
-      mapSrc: (map.url.slice(0, map.url.length - 1) + '&sensor=false'),
+      mapSrc: (map.url.slice(0, map.url.length - 1) + '&sensor=false')
     });
   },
 
-  render: function(){
+  /* jshint ignore:start */
+
+  render: function() {
     return (
       <form className="address-form" onSubmit={this.handleSubmit}>
         <img src={this.state.mapSrc} ref="map" width="280" height="280" />
@@ -76,7 +83,7 @@ var Addresses = React.createClass({
         </div>
         <div className="address-group">
           <label>Telefone</label>
-          <input className="address-phone" ref="phone" type="text" 
+          <input className="address-phone" ref="phone" type="text"
             defaultValue={this.props.instance.attr('phone')} required />
         </div>
         <button className="ladda-button address-submit" type="submit" data-style="slide-down" ref="submit">
@@ -86,6 +93,9 @@ var Addresses = React.createClass({
     );
   }
 
+  /* jshint ignore:end */
+
 });
 
 module.exports = Addresses;
+

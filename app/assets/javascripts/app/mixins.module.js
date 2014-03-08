@@ -1,5 +1,7 @@
-var Ladda  = require('ladda')
-  , Mixins = {};
+'use strict';
+
+var Ladda  = require('ladda'),
+    Mixins = {};
 
 Mixins.AntiScroll = {
 
@@ -15,11 +17,11 @@ Mixins.AntiScroll = {
     this.resize();
   },
 
-  componentWillUnmount: function(){
+  componentWillUnmount: function() {
     window.removeEventListener('resize', this.resize);
   },
 
-  resize: function(event){
+  resize: function(event) {
     $('.antiscroll-inner').css({
       width: window.window.innerWidth,
       height: window.innerHeight - this.refs.wrap.getDOMNode().offsetTop
@@ -32,14 +34,15 @@ Mixins.AntiScroll = {
 
 Mixins.LaddaButton = {
 
-  componentDidMount: function(){
+  componentDidMount: function() {
     this.ladda = Ladda.create(this.refs.submit.getDOMNode());
   },
 
-  stopLadda: function(){
+  stopLadda: function() {
     setTimeout(this.ladda.stop.bind(this.ladda), 250);
   }
 
 };
 
 module.exports = Mixins;
+

@@ -1,23 +1,27 @@
 /** @jsx React.DOM */
 
+'use strict';
+
 var MenuHeader = React.createClass({
 
-  handleBack: function(event){
+  handleBack: function(event) {
     event.preventDefault();
     this.props.onBack();
   },
 
-  handleToday: function(event){
+  handleToday: function(event) {
     event.preventDefault();
     this.props.onGotoday();
   },
 
-  handleNext: function(event){
+  handleNext: function(event) {
     event.preventDefault();
     this.props.onNext();
   },
 
-  render: function(){
+  /* jshint ignore:start */
+
+  render: function() {
     return (
       <header className="menu-header">
         <div className="container">
@@ -41,6 +45,8 @@ var MenuHeader = React.createClass({
       </header>
     );
   }
+
+  /* jshint ignore:end */
 
 });
 

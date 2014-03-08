@@ -1,6 +1,6 @@
-var Model = require('model')
-  , Hour = Model('hour');
+var model = require('model'),
+    Hour = model('hour');
 
-Hour.persistence(Model.REST, '/v1/place/hours');
+Hour.persistence(model.REST, '/v1/place/hours');
 
 module.exports = Hour;

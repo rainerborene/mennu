@@ -1,12 +1,14 @@
 /** @jsx React.DOM */
 
-var uuid  = require('uuid')
-  , Hour  = require('app/models/hour')
-  , Hours = require('app/helpers').hours;
+'use strict';
+
+var uuid  = require('uuid'),
+    Hour  = require('app/models/hour'),
+    Hours = require('app/helpers').hours;
 
 var HoursRow = React.createClass({
 
-  getInitialState: function(){
+  getInitialState: function() {
     return {
       weekday: this.props.instance.attr('weekday'),
       startTime: this.props.instance.attr('start_time'),
@@ -14,7 +16,7 @@ var HoursRow = React.createClass({
     };
   },
 
-  handleChange: function(){
+  handleChange: function() {
     var attrs = {
       weekday: this.refs.weekday.getDOMNode().value,
       start_time: this.refs.startTime.getDOMNode().value,
@@ -31,17 +33,19 @@ var HoursRow = React.createClass({
     });
   },
 
-  handleRemove: function(event){
+  handleRemove: function(event) {
     this.props.instance.destroy();
     Hour.remove(this.props.instance);
     event.preventDefault();
   },
 
-  makeOption: function(hour){
+  /* jshint ignore:start */
+
+  makeOption: function(hour) {
     return <option key={hour}>{hour}</option>
   },
 
-  render: function(){
+  render: function() {
     return (
       <tr>
         <td>
@@ -72,21 +76,25 @@ var HoursRow = React.createClass({
     );
   }
 
+  /* jshint ignore:end */
+
 });
 
 var HoursTable = React.createClass({
 
-  getDefaultProps: function(){
+  getDefaultProps: function() {
     return { hours: [] };
   },
 
-  handleSave: function(event){
+  handleSave: function(event) {
     Hour.add(new Hour({ id: uuid() }));
     event.preventDefault();
   },
 
-  render: function(){
-    var hours = this.props.hours.map(function(instance){
+  /* jshint ignore:start */
+
+  render: function() {
+    var hours = this.props.hours.map(function(instance) {
       return <HoursRow key={instance.id()} instance={instance}
         onDestroy={this.props.onDestroy}
         onChange={this.props.onChange}
@@ -117,6 +125,9 @@ var HoursTable = React.createClass({
     );
   }
 
+  /* jshint ignore:end */
+
 });
 
 module.exports = HoursTable;
+
