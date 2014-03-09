@@ -5,6 +5,7 @@
 //= require jquery.antiscroll
 //= require jquery.masonry
 //= require jquery.maskedinput
+//= require jquery.nprogress
 //
 // Library modules:
 //= require sprockets/commonjs

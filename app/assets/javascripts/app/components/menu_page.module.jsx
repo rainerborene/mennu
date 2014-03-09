@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-/* global Masonry */
+/* global Masonry,NProgress */
 
 'use strict';
 
@@ -57,16 +57,19 @@ MenuPage = React.createClass({
   },
 
   back: function() {
+    NProgress.start();
     Menu.at(this.state.date.clone().subtract('d', 1));
   },
 
   today: function() {
     if (!this.state.date.isSame(undefined, 'day')) {
+      NProgress.start();
       Menu.at(moment());
     }
   },
 
   next: function() {
+    NProgress.start();
     Menu.at(this.state.date.clone().add('d', 1));
   },
 
@@ -94,6 +97,8 @@ MenuPage = React.createClass({
   },
 
   handleLoad: function(menu, date) {
+    NProgress.done();
+
     this.setState({ menu: menu, date: date }, function() {
       if (this.state.animate) {
         this.masonry.items.forEach(function(item) {
