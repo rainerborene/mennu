@@ -6,7 +6,7 @@ module Menu
       get '/setup.js' do
         content_type :javascript
 
-        menu = current_place.menu if current_place?
+        menu = current_place.menu.all if current_place?
 
         @options = {
           autocomplete: Autocomplete.items,
