@@ -21,28 +21,23 @@ ProfilePage = React.createClass({
     Hour.bind('add', this.refresh);
     Hour.bind('remove', this.refresh);
     Hour.bind('destroy', this.refresh);
+
+    this.props.instance.bind('complete', this.stopLadda);
   },
 
   componentWillUnmount: function() {
     Hour.unbind('add');
     Hour.unbind('remove');
     Hour.unbind('destroy');
+
+    this.props.instance.unbind('complete');
   },
 
   handleSubmit: function(event) {
-    var form = document.forms[0],
-        data = new FormData(form);
+    var data = new FormData(document.forms[0]);
 
     this.ladda.start();
-
-    Place.update(data, {
-      success: function() {
-        Session.place.attr(data);
-      },
-      complete: function() {
-        this.stopLadda();
-      }.bind(this)
-    });
+    this.props.instance.save(data);
 
     event.preventDefault();
   },
@@ -172,4 +167,3 @@ ProfilePage = React.createClass({
 });
 
 module.exports = ProfilePage;
-

@@ -12,13 +12,6 @@ module Menu
         def at(time = Time.now)
           where("date(published_at - interval '3 hours') = ?", time.to_date).self_service
         end
-
-        def recents
-          now = Time.now.to_date
-          dataset = where("date(published_at - interval '3 hours') >= ?", now)
-          dataset = dataset.self_service.order(:published_at).limit(1)
-          at dataset.select_map(:published_at).first
-        end
       end
 
       def as_json(options = nil)

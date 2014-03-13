@@ -15,7 +15,7 @@
     display: inline;
   }
 
-  a {
+  li > a {
     position: relative;
     height: 40px;
     float: left;
@@ -30,9 +30,25 @@
     }
   }
 
-  .pagination {
+  .actions {
     float: right;
     margin-top: 25px;
+  }
+
+  .publish-button {
+    background-color: #D6DBDF;
+    width: 40px;
+    height: 40px;
+    border-radius: $base-border-radius;
+    font-size: 24px;
+    line-height: 40px;
+    text-align: center;
+    margin-right: 10px;
+    color: #fff;
+  }
+  
+  .pagination {
+    float: right;
   }
 
   .today {
@@ -40,6 +56,10 @@
     font-weight: 400;
     line-height: 40px;
     padding: 0 16px;
+  }
+
+  .fui-checkbox-checked {
+    background-color: $turquoise;
   }
 
   .fui-arrow-left, 

@@ -37,7 +37,10 @@ function login() {
 function index(ctx) {
   title('Cardápio');
   React.renderComponent(
-    new MenuPage({ pathname: ctx.pathname }), document.body
+    new MenuPage({
+      pathname: ctx.pathname,
+      place: Session.place
+    }), document.body
   );
 }
 

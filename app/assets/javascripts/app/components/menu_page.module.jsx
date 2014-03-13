@@ -37,7 +37,11 @@ MenuPage = React.createClass({
 
   componentDidMount: function() {
     var masonryNode = this.refs.masonry.getDOMNode();
+
     this.masonry = new Masonry(masonryNode, this.masonryOptions);
+    this.props.place.bind('update', this.forceUpdate.bind(this));
+    this.props.place.bind('update', NProgress.done);
+
     Menu.on('load', this.handleLoad);
     Menu.today();
   },
@@ -50,6 +54,8 @@ MenuPage = React.createClass({
 
   componentWillUnmount: function() {
     Menu.off('load');
+
+    this.props.place.unbind('update');
   },
 
   editable: function() {
@@ -94,6 +100,11 @@ MenuPage = React.createClass({
       category.items.splice(index, 1);
       this.forceUpdate();
     }
+  },
+
+  publish: function() {
+    NProgress.start();
+    this.props.place.save({ last_publication: this.state.date.format() });
   },
 
   handleLoad: function(menu, date) {
@@ -179,9 +190,11 @@ MenuPage = React.createClass({
 
         <MenuHeader
           currentDate={this.state.date}
+          selected={this.props.place.attr('last_publication')}
           onBack={this.back}
           onGotoday={this.today}
-          onNext={this.next} />
+          onNext={this.next}
+          onPublish={this.publish} />
 
         <div className="antiscroll-wrap menu" ref="wrap">
           <div className="antiscroll-inner">

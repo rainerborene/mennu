@@ -11,12 +11,11 @@ module Menu
 
       set_allowed_columns :name, :password, :password_confirmation, :slug,
         :email, :description, :logo, :website, :establishment_types,
-        :opened_to_public, :address_attributes
+        :opened_to_public, :last_publication
 
       mount_uploader :logo, LogoUploader
 
       delegate :menu, to: :categories_dataset
-      delegate :latest_menu, to: :categories_dataset
 
       def validate
         super
