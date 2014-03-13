@@ -25,9 +25,9 @@ gem 'pg'
 gem 'redis'
 
 # Assets
-gem 'sass', '3.2.14'
+gem 'sass'
 gem 'execjs'
-gem 'bourbon'
+gem 'bourbon', github: 'thoughtbot/bourbon', tag: 'v3.2.0-beta.2'
 gem 'react-source'
 gem 'sprockets-commonjs'
 gem 'sprockets-helpers'
