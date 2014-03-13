@@ -23,6 +23,8 @@ ProfilePage = React.createClass({
     Hour.bind('destroy', this.refresh);
 
     this.props.instance.bind('complete', this.stopLadda);
+
+    $(this.refs.description.getDOMNode()).autosize();
   },
 
   componentWillUnmount: function() {
@@ -113,7 +115,7 @@ ProfilePage = React.createClass({
                     <tr>
                       <th className="description-label">Sobre</th>
                       <td>
-                        <textarea rows="5" name="place[description]"
+                        <textarea rows="5" name="place[description]" ref="description"
                           defaultValue={this.props.instance.attr('description')}
                         />
                       </td>
