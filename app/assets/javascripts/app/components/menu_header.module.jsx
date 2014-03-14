@@ -21,8 +21,11 @@ var MenuHeader = React.createClass({
     this.props.onNext();
   },
 
-  handlePublishClick: function() {
-    this.props.onPublish();
+  handlePublishClick: function(event) {
+    event.preventDefault();
+    if (!this.isSelected()) {
+      this.props.onPublish();
+    }
   },
 
   isSelected: function() {
