@@ -1,6 +1,6 @@
 require 'bourbon'
-require 'sprockets/helpers'
 require 'sprockets/commonjs'
+require 'sprockets/helpers'
 require 'lib/react/jsx'
 
 module Menu

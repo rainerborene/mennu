@@ -29,7 +29,7 @@ gem 'sass'
 gem 'execjs'
 gem 'bourbon', github: 'thoughtbot/bourbon', tag: 'v3.2.0-beta.2'
 gem 'react-source'
-gem 'sprockets-commonjs'
+gem 'sprockets-commonjs', github: 'rainerborene/sprockets-commonjs', branch: :edge
 gem 'sprockets-helpers'
 gem 'therubyracer'
 
