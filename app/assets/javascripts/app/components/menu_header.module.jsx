@@ -57,7 +57,7 @@ var MenuHeader = React.createClass({
       <header className="menu-header">
         <div className="container">
           <h2>
-            {this.props.currentDate.format('dddd')}
+            {this.props.currentDate.format('dddd').capitalize()}
             <small>{this.props.currentDate.format('D [de] MMMM')}</small>
           </h2>
 

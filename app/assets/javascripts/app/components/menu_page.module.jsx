@@ -6,6 +6,7 @@
 
 var uuid       = require('uuid'),
     moment     = require('moment'),
+    cookie     = require('cookie'),
     React      = require('react'),
     AntiScroll = require('app/mixins').AntiScroll,
     Menu       = require('app/models/menu'),
@@ -21,9 +22,11 @@ MenuPage = React.createClass({
   mixins: [AntiScroll],
 
   getInitialState: function() {
+    var last_date = moment(cookie.get('last_date'));
+
     return {
       menu: [],
-      date: moment(),
+      date: last_date.isValid() ? last_date : moment(),
       animate: true
     };
   },
@@ -43,7 +46,7 @@ MenuPage = React.createClass({
     this.props.place.bind('update', NProgress.done);
 
     Menu.on('load', this.handleLoad);
-    Menu.today();
+    Menu.current();
   },
 
   componentDidUpdate: function() {
@@ -108,6 +111,8 @@ MenuPage = React.createClass({
   },
 
   handleLoad: function(menu, date) {
+    date = date || this.state.date;
+
     NProgress.done();
 
     this.setState({ menu: menu, date: date }, function() {
@@ -118,6 +123,8 @@ MenuPage = React.createClass({
       }
 
       this.state.animate = false;
+
+      cookie.set({ last_date: this.state.date.format() });
     }.bind(this));
   },
 

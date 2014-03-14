@@ -43,14 +43,14 @@ var Menu = {
     });
   },
 
-  today: function() {
+  current: function() {
     var menu = Session.menu;
     if (menu) {
       if (this.parsed === undefined) {
         this.parse(menu);
       }
 
-      this.emit('load', menu, moment());
+      this.emit('load', menu);
       this.parsed = true;
       return;
     }

@@ -19,6 +19,7 @@
 //= require ladda.module
 //= require spin.module
 //= require map.module
+//= require cookie.module
 //
 // App libs v1.0
 //= require_tree ./app

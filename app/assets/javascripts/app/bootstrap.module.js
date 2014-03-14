@@ -2,8 +2,6 @@
 
 'use strict';
 
-var RAVEN = 'https://e2f82d25fef348dc93f758ac996f1978@app.getsentry.com/20304';
-
 var page        = require('page'),
     React       = require('react'),
     MenuPage    = require('app/components/menu_page'),
@@ -56,7 +54,10 @@ function profile(ctx) {
 }
 
 module.exports = function(data) {
-  var production = data.environment === 'production';
+  var production = data.environment === 'production',
+      dsn = 'https://e2f82d25fef348dc93f758ac996f1978@app.getsentry.com/20304';
+
+  require('app/helpers');
 
   Session.menu = data.menu;
   Session.environment = data.environment;
@@ -66,7 +67,7 @@ module.exports = function(data) {
   Session.setAddress(data.address);
   Session.setHours(data.hours);
 
-  if (production) Raven.config(RAVEN).install();
+  if (production) Raven.config(dsn).install();
 
   if (production && data.place) {
     Raven.setUser({ id: data.place.id, email: data.place.email });

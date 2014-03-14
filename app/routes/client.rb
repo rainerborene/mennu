@@ -1,12 +1,17 @@
 require 'lib/autocomplete'
+require 'sinatra/cookies'
 
 module Menu
   module Routes
     class Client < Base
+      helpers Sinatra::Cookies
+
       get '/setup.js' do
         content_type :javascript
 
-        menu = current_place.menu.all if current_place?
+        date = Time.parse(cookies[:last_date]) rescue Time.now
+
+        menu = current_place.menu(date).all if current_place?
 
         @options = {
           autocomplete: Autocomplete.items,
