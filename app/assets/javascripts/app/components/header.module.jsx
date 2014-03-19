@@ -2,23 +2,22 @@
 
 'use strict';
 
-var page  = require('page'),
-    React = require('react'),
-    Header;
+var Backbone = require('backbone'),
+    React    = require('react');
 
 
-Header = React.createClass({
+var Header = React.createClass({
 
   navigate: function(event) {
-    var href = event.target.getAttribute('href');
-    if ( ! href.match('logout') ) {
-      page(href);
-      event.preventDefault();
-    }
+    Backbone.history.navigate(event.target.getAttribute('href'), {
+      trigger: true
+    });
+
+    event.preventDefault();
   },
 
   current: function(pathname) {
-    return this.props.pathname === pathname ? 'active' : '';
+    return location.pathname === pathname ? 'active' : '';
   },
 
   /* jshint ignore:start */
@@ -39,7 +38,7 @@ Header = React.createClass({
                 className={this.current('/admin/profile')}>Minha conta</a>
             </li>
             <li>
-              <a onClick={this.navigate} href="/admin/logout">Sair</a>
+              <a href="/admin/logout">Sair</a>
             </li>
           </ul>
         </div>

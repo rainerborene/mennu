@@ -7,7 +7,7 @@ var React = require('react');
 var MenuBlock = React.createClass({
 
   componentDidMount: function() {
-    var blood = require('app/models/session').Bloodhound;
+    var blood = require('app/state').Bloodhound;
 
     if (this.refs.itemInput) {
       $(this.refs.itemInput.getDOMNode())
@@ -80,8 +80,8 @@ var MenuBlock = React.createClass({
 
     var items = this.props.instance.items.map(function(model) {
       return (
-        <tr key={model.uid} ref={model.uid}>
-          <td>{model.attr('name')}</td>
+        <tr key={model.cid} ref={model.cid}>
+          <td>{model.get('name')}</td>
           <td width="18">
             <span
               title="Remover prato do cardápio"

@@ -22,14 +22,17 @@
         }
       }
     </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
     <script>
-      window.onload = function(){
-        var overlay = document.querySelector(".overlay");
-        setTimeout(function(){
-          overlay.classList.add("hide");
+      $(window).load(function() {
+        var overlay = $(".overlay");
+        setTimeout(function() {
+          overlay.addClass("hide");
         }, 500);
-        setTimeout(overlay.remove.bind(overlay), 700);
-      };
+        setTimeout(function() {
+          overlay.remove();
+        }, 700);
+      });
     </script>
   </head>
   <body>

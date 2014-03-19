@@ -1,44 +1,26 @@
 'use strict';
 
-var model   = require('model'),
-    Address = model('address');
+var Backbone = require('backbone');
 
-Address.include({
+var Address = Backbone.Model.extend({
 
-  toString: function() {
-    if ('street' in this.attributes && 'street_number' in this.attributes) {
-      return [
-        this.attr('street'),
-        this.attr('street_number'),
-        this.attr('neighborhood')
-      ].join(', ');
-    }
+  modelName: 'address',
+
+  url: function(){
+    return '/v1/place/address';
   },
 
-  save: function() {
-    if (!Object.keys(this.changes).length) {
-      return setTimeout(function() {
-        this.trigger('update');
-      }.bind(this), 250);
+  toString: function() {
+    if (this.has('street') && this.has('street_number')) {
+      return [
+        this.get('street'),
+        this.get('street_number'),
+        this.get('neighborhood')
+      ].join(', ');
     }
-
-    $.ajax({
-      method: 'PUT',
-      url: '/v1/place/address',
-      data: { address: this.changes },
-      dataType: 'json',
-      success: function(attributes) {
-        this.merge(this.changes).reset();
-      }.bind(this),
-      complete: function() {
-        this.trigger('update');
-      }.bind(this)
-    });
   }
 
 });
-
-Address.persistence(model.NullStorage);
 
 module.exports = Address;
 

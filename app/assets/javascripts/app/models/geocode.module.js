@@ -2,7 +2,7 @@
 
 var Geocode = {
 
-  timeout: 2000,
+  timeout: 1000,
 
   interval: 0,
 

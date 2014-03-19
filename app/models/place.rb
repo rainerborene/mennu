@@ -17,6 +17,22 @@ module Menu
 
       delegate :menu, to: :categories_dataset
 
+      alias_method :hours, :business_hours
+
+      def as_json(options = nil)
+        {
+          id: id,
+          name: name,
+          slug: slug,
+          email: email,
+          description: description,
+          logo: logo,
+          website: website,
+          establishment_types: establishment_types,
+          opened_to_public: opened_to_public
+        }
+      end
+
       def validate
         super
         validates_unique :slug

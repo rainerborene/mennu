@@ -1,32 +1,21 @@
 'use strict';
 
-var model = require('model'),
-    Place = model('place');
+var Backbone = require('backbone'),
+    Address  = require('app/models/address'),
+    Hour     = require('app/models/hour');
 
-Place.include({
 
-  save: function(data) {
-    var ajaxOptions = {
-      url: '/v1/place',
-      type: 'POST',
-      data: data,
-      cache: false,
-      complete: function() {
-        this.trigger('complete');
-      }.bind(this),
-      success: function(response) {
-        this.merge(response).reset();
-        this.trigger('update');
-      }.bind(this)
-    };
+var Place = Backbone.Model.extend({
 
-    if (data instanceof FormData) {
-      $.extend(ajaxOptions, { contentType: false, processData: false });
-    } else if (data.hasOwnProperty('place') === false) {
-      $.extend(ajaxOptions, { data: { place: data } });
-    }
+  modelName: 'place',
 
-    $.ajax(ajaxOptions);
+  initialize: function() {
+    this.hours = new Backbone.Collection([], { model: Hour });
+    this.address = new Address();
+  },
+
+  url: function() {
+    return '/v1/place';
   }
 
 });

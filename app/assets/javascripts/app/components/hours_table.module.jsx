@@ -4,19 +4,16 @@
 
 var uuid  = require('uuid'),
     React = require('react'),
-    Hour  = require('app/models/hour'),
-    Hours = require('app/helpers').hours,
-    HoursRow,
-    HoursTable;
+    Hour  = require('app/models/hour');
 
 
-HoursRow = React.createClass({
+var HoursRow = React.createClass({
 
   getInitialState: function() {
     return {
-      weekday: this.props.instance.attr('weekday'),
-      startTime: this.props.instance.attr('start_time'),
-      endTime: this.props.instance.attr('end_time')
+      weekday: this.props.instance.get('weekday'),
+      startTime: this.props.instance.get('start_time'),
+      endTime: this.props.instance.get('end_time')
     };
   },
 
@@ -27,19 +24,14 @@ HoursRow = React.createClass({
       end_time: this.refs.endTime.getDOMNode().value
     };
 
-    this.props.instance.attr(attrs);
+    this.props.instance.set(attrs);
     this.props.instance.save();
 
-    this.setState({
-      weekday: attrs.weekday,
-      startTime: attrs.start_time,
-      endTime: attrs.end_time
-    });
+    this.setState(this.getInitialState());
   },
 
   handleRemove: function(event) {
     this.props.instance.destroy();
-    Hour.remove(this.props.instance);
     event.preventDefault();
   },
 
@@ -50,6 +42,8 @@ HoursRow = React.createClass({
   },
 
   render: function() {
+    var hours = require('app/helpers').hours;
+
     return (
       <tr>
         <td>
@@ -65,12 +59,12 @@ HoursRow = React.createClass({
         </td>
         <td>
           <select onChange={this.handleChange} value={this.state.startTime} ref="startTime">
-            {Hours.map(this.makeOption)}
+            {hours.map(this.makeOption)}
           </select>
         </td>
         <td>
           <select onChange={this.handleChange} value={this.state.endTime} ref="endTime">
-            {Hours.map(this.makeOption)}
+            {hours.map(this.makeOption)}
           </select>
         </td>
         <td>
@@ -84,25 +78,28 @@ HoursRow = React.createClass({
 
 });
 
-HoursTable = React.createClass({
 
-  getDefaultProps: function() {
-    return { hours: [] };
-  },
+var HoursTable = React.createClass({
 
   handleSave: function(event) {
-    Hour.add(new Hour({ id: uuid() }));
+    var model = new Hour({ id: uuid() });
+
+    this.props.hours.add(model);
+
     event.preventDefault();
   },
 
   /* jshint ignore:start */
 
   render: function() {
-    var hours = this.props.hours.map(function(instance) {
-      return <HoursRow key={instance.id()} instance={instance}
-        onDestroy={this.props.onDestroy}
-        onChange={this.props.onChange}
-      />
+    var hours = this.props.hours.sortBy(function(model) {
+      return model.get('weekday');
+    });
+
+    hours = hours.map(function(model) {
+      return (
+        <HoursRow key={model.id} instance={model} />
+      );
     }, this);
 
     return (

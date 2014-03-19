@@ -2,18 +2,17 @@
 
 'use strict';
 
-var page    = require('page'),
-    React   = require('react'),
-    Ladda   = require('ladda'),
-    Session = require('app/models/session'),
-    LoginPage;
+var Backbone = require('backbone'),
+    React    = require('react'),
+    Ladda    = require('ladda'),
+    Session  = require('app/models/session');
 
   
-LoginPage = React.createClass({
+var LoginPage = React.createClass({
 
   handleAuthenticated: function() {
     this.setState({ success: true });
-    page('/admin');
+    Backbone.history.navigate('/admin', { trigger: true });
   },
 
   handleUnauthorized: function() {

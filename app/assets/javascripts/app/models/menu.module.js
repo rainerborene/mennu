@@ -1,9 +1,11 @@
 'use strict';
 
-var moment  = require('moment'),
-    Emitter = require('emitter'),
-    Session = require('app/models/session'),
-    Item    = require('app/models/item');
+var moment   = require('moment'),
+    Backbone = require('backbone'),
+    State    = require('app/state'),
+    Item     = require('app/models/item'),
+    _        = require('underscore');
+
 
 var Menu = {
 
@@ -30,7 +32,7 @@ var Menu = {
         path;
 
     params.timestamp = moment.format('X');
-    params.id = Session.place.attr('id');
+    params.id = State.place.get('id');
     path = this.path('/v1/places/:id/items/:timestamp', params);
 
     if (this.xhr) {
@@ -39,18 +41,18 @@ var Menu = {
 
     this.xhr = $.getJSON(path, function(response) {
       self.parse(response);
-      self.emit('load', response, moment);
+      self.trigger('reset', response, moment);
     });
   },
 
   current: function() {
-    var menu = Session.menu;
+    var menu = State.menu;
     if (menu) {
       if (this.parsed === undefined) {
         this.parse(menu);
       }
 
-      this.emit('load', menu);
+      this.trigger('reset', menu);
       this.parsed = true;
       return;
     }
@@ -60,7 +62,7 @@ var Menu = {
 
 };
 
-Emitter(Menu);
+_.extend(Menu, Backbone.Events);
 
 module.exports = Menu;
 

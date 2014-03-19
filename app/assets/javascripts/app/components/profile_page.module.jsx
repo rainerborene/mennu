@@ -4,48 +4,39 @@
 
 var React      = require('react'),
     Mixins     = require('app/mixins'),
-    Session    = require('app/models/session'),
     Place      = require('app/models/place'),
     Hour       = require('app/models/hour'),
     Header     = require('app/components/header'),
     Addresses  = require('app/components/addresses'),
-    HoursTable = require('app/components/hours_table'),
-    ProfilePage;
+    HoursTable = require('app/components/hours_table');
 
 
-ProfilePage = React.createClass({
+var ProfilePage = React.createClass({
 
   mixins: [Mixins.AntiScroll, Mixins.LaddaButton],
 
   componentDidMount: function() {
-    Hour.bind('add', this.refresh);
-    Hour.bind('remove', this.refresh);
-    Hour.bind('destroy', this.refresh);
-
-    this.props.instance.bind('complete', this.stopLadda);
+    this.props.place.hours.bind('add remove', this.forceUpdate.bind(this, null));
+    this.props.place.bind('sync', this.stopLadda);
 
     $(this.refs.description.getDOMNode()).autosize();
   },
 
   componentWillUnmount: function() {
-    Hour.unbind('add');
-    Hour.unbind('remove');
-    Hour.unbind('destroy');
-
-    this.props.instance.unbind('complete');
+    this.props.place.hours.unbind('add remove');
+    this.props.place.unbind('sync');
   },
 
   handleSubmit: function(event) {
-    var data = new FormData(document.forms[0]);
-
     this.ladda.start();
-    this.props.instance.save(data);
+
+    this.props.place.save({}, {
+      processData: false,
+      contentType: false,
+      data: new FormData(this.refs.form.getDOMNode())
+    });
 
     event.preventDefault();
-  },
-
-  refresh: function() {
-    this.forceUpdate();
   },
 
   /* jshint ignore:start */
@@ -53,7 +44,7 @@ ProfilePage = React.createClass({
   render: function() {
     return (
       <div className="app">
-        <Header pathname={this.props.pathname} />
+        <Header />
 
         <div className="antiscroll-wrap" ref="wrap">
           <div className="antiscroll-inner">
@@ -66,7 +57,7 @@ ProfilePage = React.createClass({
             </header>
 
             <div className="container profile">
-              <form onSubmit={this.handleSubmit} >
+              <form onSubmit={this.handleSubmit} ref="form">
                 <table className="table-details">
                   <tbody>
                     <tr className="first">
@@ -83,7 +74,7 @@ ProfilePage = React.createClass({
                       <th>Nome</th>
                       <td>
                         <input type="text" name="place[name]"
-                          defaultValue={this.props.instance.attr('name')}
+                          defaultValue={this.props.place.get('name')}
                           required />
                       </td>
                     </tr>
@@ -91,7 +82,7 @@ ProfilePage = React.createClass({
                       <th>E-mail</th>
                       <td>
                         <input type="email" name="place[email]"
-                          defaultValue={this.props.instance.attr('email')}
+                          defaultValue={this.props.place.get('email')}
                           required />
                       </td>
                     </tr>
@@ -99,7 +90,7 @@ ProfilePage = React.createClass({
                       <th>Website</th>
                       <td>
                         <input type="text" name="place[website]"
-                          defaultValue={this.props.instance.attr('website')}
+                          defaultValue={this.props.place.get('website')}
                           required />
                       </td>
                     </tr>
@@ -108,7 +99,7 @@ ProfilePage = React.createClass({
                       <td>
                         <span>http://mennu.com.br/</span>
                         <input type="text" name="place[slug]"
-                          defaultValue={this.props.instance.attr('slug')}
+                          defaultValue={this.props.place.get('slug')}
                           required className="slug-field"/>
                       </td>
                     </tr>
@@ -116,7 +107,7 @@ ProfilePage = React.createClass({
                       <th className="description-label">Sobre</th>
                       <td>
                         <textarea rows="5" name="place[description]" ref="description"
-                          defaultValue={this.props.instance.attr('description')}
+                          defaultValue={this.props.place.get('description')}
                         />
                       </td>
                     </tr>
@@ -137,13 +128,13 @@ ProfilePage = React.createClass({
               <p className="legend">Escreva o endereço e telefone do seu
                 estabelecimento nos campos abaixo.</p>
 
-              <Addresses ref="address" instance={Session.address} />
+              <Addresses ref="address" address={this.props.place.address} />
 
               <h4>Horário de funcionamento</h4>
               <p className="legend">Mostramos em sua página um selo aberto ou
                 fechado de acordo com a hora atual.</p>
 
-              <HoursTable hours={Hour.sortBy('weekday')} />
+              <HoursTable hours={this.props.place.hours} />
 
               <h4>Pagamento</h4>
               <p className="legend">O pagamento do plano contratado é efetuado

@@ -81,19 +81,6 @@
   line-height: 1.385;
 }
 
-.address {
-  margin-top: 10px;
-  margin-left: 10px;
-  font-style: normal;
-}
-
-.address-group { margin-top: 20px; }
-
-.address-submit {
-  margin-top: 20px;
-  margin-left: 100px;
-}
-
 .address-form {
   position: relative;
   margin-top: 30px;
@@ -115,5 +102,28 @@
     right: 0;
     top: -90px;
     border-radius: 280px;
+  }
+
+  .address-group { margin-top: 20px; }
+
+  .address-submit {
+    margin-top: 20px;
+    margin-left: 100px;
+  }
+
+  .spinner {
+    position: relative;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    box-sizing: border-box;
+    border: solid 2px transparent;
+    border-top-color: #A1AAB0;
+    border-left-color: #A1AAB0;
+    border-radius: 50%;
+    left: 10px;
+    top: 3px;
+    -webkit-animation: nprogress-spinner 400ms linear infinite;
+            animation: nprogress-spinner 400ms linear infinite;
   }
 }

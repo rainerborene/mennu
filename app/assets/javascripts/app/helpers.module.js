@@ -1,7 +1,9 @@
 'use strict';
 
-var moment = require('moment'),
-    cookie = require('cookie');
+var moment     = require('moment'),
+    cookie     = require('cookie'),
+    Backbone   = require('backbone'),
+    _          = require('underscore');
 
 cookie.defaults.expires = 1;
 
@@ -50,6 +52,12 @@ moment.lang('pt-br', {
 
 String.prototype.capitalize = function() {
   return this.charAt(0).toUpperCase() + this.slice(1);
+};
+
+Backbone.Model.prototype.toJSON = function(options) {
+  var json = {};
+  json[this.modelName] =  _.clone(this.attributes);
+  return json;
 };
 
 var hours = (function() {

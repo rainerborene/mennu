@@ -1,6 +1,14 @@
-var model = require('model'),
-    Item  = model('item');
+'use strict';
 
-Item.persistence(model.REST, '/v1/place/items');
+var Backbone = require('backbone');
+
+var Item = Backbone.Model.extend({
+
+  modelName: 'item',
+
+  urlRoot: '/v1/place/items'
+
+});
 
 module.exports = Item;
+

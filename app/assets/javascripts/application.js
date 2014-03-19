@@ -1,4 +1,3 @@
-//= require jquery
 //= require jquery.dropdown
 //= require jquery.typeahead
 //= require jquery.mousewheel
@@ -11,10 +10,9 @@
 // Library modules:
 //= require sprockets/commonjs
 //= require react.module
-//= require emitter.module
-//= require page.module
+//= require backbone.module
+//= require underscore.module
 //= require uuid.module
-//= require model.module
 //= require moment.module
 //= require ladda.module
 //= require spin.module

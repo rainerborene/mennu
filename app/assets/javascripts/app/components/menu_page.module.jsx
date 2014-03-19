@@ -13,11 +13,10 @@ var uuid       = require('uuid'),
     Item       = require('app/models/item'),
     Header     = require('app/components/header'),
     MenuBlock  = require('app/components/menu_block'),
-    MenuHeader = require('app/components/menu_header'),
-    MenuPage;
+    MenuHeader = require('app/components/menu_header');
 
 
-MenuPage = React.createClass({
+var MenuPage = React.createClass({
 
   mixins: [AntiScroll],
 
@@ -39,13 +38,13 @@ MenuPage = React.createClass({
   },
 
   componentDidMount: function() {
-    var masonryNode = this.refs.masonry.getDOMNode();
+    this.masonry = new Masonry(this.refs.masonry.getDOMNode(), this.masonryOptions);
 
-    this.masonry = new Masonry(masonryNode, this.masonryOptions);
-    this.props.place.bind('update', this.forceUpdate.bind(this));
-    this.props.place.bind('update', NProgress.done);
+    // Keep last publication attribute synchronized.
+    this.props.place.on('update', this.forceUpdate.bind(this));
+    this.props.place.on('update', NProgress.done);
 
-    Menu.on('load', this.handleLoad);
+    Menu.on('reset', this.handleReset);
     Menu.current();
   },
 
@@ -56,9 +55,8 @@ MenuPage = React.createClass({
   },
 
   componentWillUnmount: function() {
-    Menu.off('load');
-
-    this.props.place.unbind('update');
+    Menu.off('reset');
+    this.props.place.off('update');
   },
 
   editable: function() {
@@ -110,7 +108,7 @@ MenuPage = React.createClass({
     this.props.place.save({ last_publication: this.state.date.format() });
   },
 
-  handleLoad: function(menu, date) {
+  handleReset: function(menu, date) {
     date = date || this.state.date;
 
     NProgress.done();
@@ -193,11 +191,11 @@ MenuPage = React.createClass({
 
     return (
       <div className="app">
-        <Header pathname={this.props.pathname} />
+        <Header />
 
         <MenuHeader
           currentDate={this.state.date}
-          selected={this.props.place.attr('last_publication')}
+          selected={this.props.place.get('last_publication')}
           onBack={this.back}
           onGotoday={this.today}
           onNext={this.next}

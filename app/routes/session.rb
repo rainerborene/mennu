@@ -22,7 +22,8 @@ module Menu
       end
 
       post '/admin/login' do
-        json authenticate(:place, scope: :place)
+        place = authenticate(:place, scope: :place)
+        json({ place: place, hours: place.hours, address: place.address })
       end
 
       get '/admin/logout' do
