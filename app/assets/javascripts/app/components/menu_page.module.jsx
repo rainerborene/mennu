@@ -41,8 +41,9 @@ var MenuPage = React.createClass({
     this.masonry = new Masonry(this.refs.masonry.getDOMNode(), this.masonryOptions);
 
     // Keep last publication attribute synchronized.
-    this.props.place.on('update', this.forceUpdate.bind(this));
-    this.props.place.on('update', NProgress.done);
+    this.props.place.on('request', NProgress.start);
+    this.props.place.on('sync', this.forceUpdate.bind(this, null));
+    this.props.place.on('sync', NProgress.done);
 
     Menu.on('reset', this.handleReset);
     Menu.current();
@@ -56,7 +57,9 @@ var MenuPage = React.createClass({
 
   componentWillUnmount: function() {
     Menu.off('reset');
-    this.props.place.off('update');
+
+    this.props.place.off('request');
+    this.props.place.off('sync');
   },
 
   editable: function() {
@@ -104,7 +107,6 @@ var MenuPage = React.createClass({
   },
 
   publish: function() {
-    NProgress.start();
     this.props.place.save({ last_publication: this.state.date.format() });
   },
 

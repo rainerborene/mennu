@@ -29,7 +29,8 @@ module Menu
           logo: logo,
           website: website,
           establishment_types: establishment_types,
-          opened_to_public: opened_to_public
+          opened_to_public: opened_to_public,
+          last_publication: last_publication
         }
       end
 
