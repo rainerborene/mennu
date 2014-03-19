@@ -108,14 +108,14 @@
   border-radius: $base-border-radius;
   margin-bottom: 14px;
   padding: 20px;
-  width: grid-width(3) - 40;
+  width: grid-width(4) - 40;
   float: left;
 
   h4 {
+    width: 100%;
     font-weight: 300;
     margin-top: 0;
     margin-bottom: 14px;
-    width: 192px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -170,7 +170,7 @@
 }
 
 .menu-template {
-  width: grid-width(3) - 4;
+  width: grid-width(4) - 4;
   height: 225px;
   float: left;
   border: 2px solid #d9d9d9;

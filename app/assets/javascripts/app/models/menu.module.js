@@ -45,14 +45,17 @@ var Menu = {
     });
   },
 
-  current: function() {
+  current: function(date) {
     var menu = State.menu;
+
+    if (_.isUndefined(this.initialDate)) this.initialDate = date;
+
     if (menu) {
       if (this.parsed === undefined) {
         this.parse(menu);
       }
 
-      this.trigger('reset', menu);
+      this.trigger('reset', menu, this.initialDate);
       this.parsed = true;
       return;
     }

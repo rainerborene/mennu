@@ -21,15 +21,15 @@ module Menu
       end
 
       post '/v1/place/items', auth: :place do
-        params = json_params[:item]
-        category = current_place.categories_dataset.find_or_create name: params[:category_name]
+        attrs = json_params[:item]
+        category = current_place.categories_dataset.find_or_create name: attrs[:category_name]
 
         now = Time.now
-        published_at = Time.parse params[:published_at]
+        published_at = Time.parse attrs[:published_at]
         published_at = published_at.change hour: now.hour, min: now.min, sec: now.sec
 
         json current_place.add_item({
-          name: params[:name],
+          name: attrs[:name],
           published_at: published_at,
           category_id: category.id,
           self_service: true

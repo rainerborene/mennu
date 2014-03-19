@@ -46,7 +46,7 @@ var MenuPage = React.createClass({
     this.props.place.on('sync', NProgress.done);
 
     Menu.on('reset', this.handleReset);
-    Menu.current();
+    Menu.current(this.state.date);
   },
 
   componentDidUpdate: function() {
@@ -111,8 +111,6 @@ var MenuPage = React.createClass({
   },
 
   handleReset: function(menu, date) {
-    date = date || this.state.date;
-
     NProgress.done();
 
     this.setState({ menu: menu, date: date }, function() {

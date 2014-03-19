@@ -6,8 +6,12 @@ module Menu
 
       dataset_module do
         def menu(time = Time.now)
-          sql = model_object.items_dataset.select(:category_id).distinct.at(time).sql
-          where("id in (#{sql})").eager items: -> (ds) { ds.at(time) }
+          relation = eager items: -> (ds) { ds.at(time) }
+          if time.to_date < Date.today
+            sql = model_object.items_dataset.select(:category_id).distinct.at(time).sql
+            relation = relation.where("id in (#{sql})")
+          end
+          relation
         end
       end
 

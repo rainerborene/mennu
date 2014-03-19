@@ -7,10 +7,16 @@ module Menu
           value.to_json(options)
         end
 
+        def json?
+          request.media_type == 'application/json'
+        end
+
+        def parse_json
+          ::JSON.parse request.body.read, symbolize_names: true
+        end
+
         def json_params
-          if request.media_type == 'application/json' && request.body.length != 0
-            @json_params ||= MultiJson.load request.body.read, symbolize_keys: true
-          end
+          @json_params ||= (parse_json if json? && request.body.rewind)
         end
       end
 
