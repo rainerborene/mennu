@@ -43,7 +43,7 @@ var MenuBlock = React.createClass({
     this.props.onDestroy(model, this);
   },
 
-  handleChangeTitle: function() {
+  changeTitle: function() {
     var name  = this.props.instance.get('name'),
         value = name !== 'Nova Categoria' ? name : '',
         title = this.props.instance.items.length ? ''
@@ -95,7 +95,7 @@ var MenuBlock = React.createClass({
 
     return (
       <div className="menu-block">
-        <h4 onDoubleClick={this.handleChangeTitle}>{this.props.instance.get('name')}</h4>
+        <h4 onDoubleClick={this.changeTitle}>{this.props.instance.get('name')}</h4>
         <table width="100%">
           <tbody>{items}</tbody>
         </table>

@@ -14,6 +14,8 @@ var Categories = Backbone.Collection.extend({
   },
 
   parse: function(response, options) {
+    if (_.isNull(response)) return;
+
     var categories = response.map(function(model) {
       var category = new Category();
       category.set(_.omit(model, 'items'));
