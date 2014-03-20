@@ -79,7 +79,7 @@ var MenuPage = React.createClass({
   },
 
   editable: function() {
-    return this.state.date.isAfter(moment().subtract('d', 1));
+    return this.state.date.diff(moment(), 'hours') >= 0;
   },
 
   back: function() {
