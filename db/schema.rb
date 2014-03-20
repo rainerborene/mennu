@@ -108,6 +108,7 @@ Sequel.migration do
       String :name, :null=>false
       String :slug, :null=>false
       foreign_key :place_id, :places, :type=>String, :key=>[:id]
+      Integer :position
       
       primary_key [:id]
       

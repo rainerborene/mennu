@@ -16,7 +16,12 @@ module Menu
       end
 
       def as_json(options = nil)
-        { id: id, name: name, items: items }
+        {
+          id: id,
+          name: name,
+          position: position,
+          items: items
+        }
       end
 
       def before_validation

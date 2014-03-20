@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-/* global Masonry,NProgress */
+/* global Packery,NProgress */
 
 'use strict';
 
@@ -20,46 +20,62 @@ var MenuPage = React.createClass({
 
   mixins: [AntiScroll],
 
-  getInitialState: function() {
-    var last_date = moment(cookie.get('last_date'));
-
-    return {
-      menu: [],
-      date: last_date.isValid() ? last_date : moment(),
-      animate: true
-    };
+  draggableOptions: {
+    containment: '.menu .container',
+    handle: 'h4',
+    cursor: 'move',
+    zIndex: 100,
+    refreshPositions: true
   },
 
-  masonryOptions: {
+  options: {
     isResizeBound: false,
     itemSelector: '.menu-block, .menu-template',
-    columnWidth: '.menu-block, .menu-template',
+    columnWidth: '.menu-block',
     gutter: 14
   },
 
+  getInitialState: function() {
+    var lastDate = moment(cookie.get('last_date'));
+
+    return { date: lastDate.isValid() ? lastDate : moment() };
+  },
+
   componentDidMount: function() {
-    this.masonry = new Masonry(this.refs.masonry.getDOMNode(), this.masonryOptions);
+    this.packery = new Packery(this.refs.packery.getDOMNode(), this.options);
+    this.packery.on('dragItemPositioned', this.handleDragItemPositioned);
+    this.packery.items.forEach(function(item) {
+      item.reveal();
+    });
 
     // Keep last publication attribute synchronized.
     this.props.place.on('request', NProgress.start);
-    this.props.place.on('sync', this.forceUpdate.bind(this, null));
     this.props.place.on('sync', NProgress.done);
+    this.props.place.on('sync', this.forceUpdate.bind(this, null));
+    this.props.place.categories.on('request', NProgress.start);
+    this.props.place.categories.on('reset', this.handleReset);
+    this.props.place.categories.on('sync', NProgress.done);
 
-    Menu.on('reset', this.handleReset);
-    Menu.current(this.state.date);
-  },
+    Menu.on('request', NProgress.start);
 
-  componentDidUpdate: function() {
-    this.masonry.reloadItems();
-    this.masonry._resetLayout();
-    this.masonry.layoutItems(this.masonry.items, true);
+    this.makeDraggable();
   },
 
   componentWillUnmount: function() {
-    Menu.off('reset');
+    this.packery.off('dragItemPositioned');
 
     this.props.place.off('request');
     this.props.place.off('sync');
+    this.props.place.categories.off('reset');
+    this.props.place.categories.off('sync');
+
+    Menu.off('request');
+  },
+
+  componentDidUpdate: function() {
+    this.packery.reloadItems();
+    this.packery._resetLayout();
+    this.packery.layoutItems(this.packery.items, true);
   },
 
   editable: function() {
@@ -67,87 +83,91 @@ var MenuPage = React.createClass({
   },
 
   back: function() {
-    NProgress.start();
     Menu.at(this.state.date.clone().subtract('d', 1));
   },
 
   today: function() {
     if (!this.state.date.isSame(undefined, 'day')) {
-      NProgress.start();
       Menu.at(moment());
     }
   },
 
   next: function() {
-    NProgress.start();
     Menu.at(this.state.date.clone().add('d', 1));
   },
 
   save: function(category, title) {
-    var item = new Item({
+    category.items.create({
       name: title,
       published_at: this.state.date.format(),
-      category_name: category.name
+      category_name: category.get('name')
     });
-
-    item.save();
-
-    category.items.push(item);
 
     this.forceUpdate();
   },
 
   destroy: function(category, model, block) {
-    var index = category.items.indexOf(model);
-    if (index > -1) {
-      model.destroy();
-      category.items.splice(index, 1);
-      this.forceUpdate();
-    }
+    model.destroy();
+    this.forceUpdate();
   },
 
   publish: function() {
     this.props.place.save({ last_publication: this.state.date.format() });
   },
 
-  handleReset: function(menu, date) {
-    NProgress.done();
+  makeDraggable: function() {
+    var itemElems = $(this.packery.getItemElements()).not('.menu-template');
 
-    this.setState({ menu: menu, date: date }, function() {
-      if (this.state.animate) {
-        this.masonry.items.forEach(function(item) {
-          item.reveal();
-        });
-      }
-
-      this.state.animate = false;
-
-      cookie.set({ last_date: this.state.date.format() });
-    }.bind(this));
-  },
-
-  handleChangeTitle: function(id, title) {
-    this.state.menu.forEach(function(category) {
-      if (category.id === id) {
-        category.name = title;
-        return true;
+    itemElems.off('drag');
+    itemElems.off('dragstop');
+    itemElems.off('dragstart');
+    itemElems.each(function(idx, item) {
+      var elem = $(item);
+      if (elem.data('ui-draggable')) {
+        elem.draggable('disable');
       }
     });
 
-    this.forceUpdate();
+    if (this.editable()) {
+      itemElems.draggable(this.draggableOptions);
+      itemElems.draggable('enable');
+      this.packery.bindUIDraggableEvents(itemElems);
+    }
+  },
+
+  handleReset: function(date) {
+    this.setState({ date: date }, function() {
+      cookie.set({ last_date: this.state.date.format() });
+      this.makeDraggable();
+    }.bind(this));
+  },
+
+  handleDragItemPositioned: function(pckryInstance, draggedItem) {
+    var itemElems = this.packery.getItemElements(), ids = [];
+
+    itemElems.forEach(function(item) {
+      if (item.classList.contains('menu-block')) {
+        ids.push(item.getAttribute('data-reactid').split(':$')[1]);
+      }
+    });
+
+    this.props.place.categories.save(ids);
   },
 
   handleCreateBlock: function(event) {
     var id = uuid();
 
-    this.state.menu.push({ id: id, name: 'Nova Categoria', items: [] });
+    this.props.place.categories.add({ id: id, name: 'Nova Categoria' });
     this.forceUpdate(function() {
-      this.masonry.items.forEach(function(item) {
-        if (this.refs[id].getDOMNode() === item.element) {
-          item.reveal();
-        }
+      var block = $(this.refs[id].getDOMNode());
+
+      this.packery.items.forEach(function(item) {
+        if (block.get(0) === item.element) item.reveal();
       }, this);
 
+      block.draggable(this.draggableOptions);
+
+      this.packery.bindUIDraggableEvents(block);
       this.refs[id].changeTitle();
     }.bind(this));
 
@@ -161,15 +181,14 @@ var MenuPage = React.createClass({
         message,
         menu;
 
-    menu = this.state.menu.map(function(category) {
+    menu = this.props.place.categories.map(function(category) {
       return <MenuBlock
-        key={category.id + this.state.date}
+        key={category.id}
         ref={category.id}
         instance={category}
         editable={this.editable()}
         onSave={this.save.bind(this, category)}
-        onDestroy={this.destroy.bind(this, category)}
-        onChangeTitle={this.handleChangeTitle} />
+        onDestroy={this.destroy.bind(this, category)} />
     }, this);
 
     if (this.editable()) {
@@ -181,7 +200,7 @@ var MenuPage = React.createClass({
           </a>
         </div>
       );
-    } else if (!this.state.menu.length) {
+    } else if (!this.props.place.categories.length) {
       message = (
         <div className="chef">
           <p>Nenhum lançamento neste dia</p>
@@ -203,12 +222,11 @@ var MenuPage = React.createClass({
 
         <div className="antiscroll-wrap menu" ref="wrap">
           <div className="antiscroll-inner">
-            <div className="container" ref="masonry">{menu} {template} {message}</div>
+            <div className="container" ref="packery">{menu}{template}{message}</div>
           </div>
         </div>
       </div>
     );
-
   }
 
   /* jshint ignore:end */

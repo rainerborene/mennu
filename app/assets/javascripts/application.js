@@ -1,8 +1,9 @@
+//= require jquery.ui
 //= require jquery.dropdown
 //= require jquery.typeahead
 //= require jquery.mousewheel
 //= require jquery.antiscroll
-//= require jquery.masonry
+//= require jquery.packery
 //= require jquery.maskedinput
 //= require jquery.nprogress
 //= require jquery.autosize

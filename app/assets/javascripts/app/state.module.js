@@ -34,6 +34,7 @@ var State = {
     this.place.set(data.place);
     this.place.hours.reset(data.hours);
     this.place.address.set(data.address);
+    this.place.categories.parse(data.categories);
   }
 
 };

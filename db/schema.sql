@@ -118,7 +118,8 @@ CREATE TABLE categories (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     name citext NOT NULL,
     slug citext NOT NULL,
-    place_id uuid
+    place_id uuid,
+    "position" integer
 );
 
 

@@ -11,7 +11,7 @@ module Menu
 
         date = Time.parse(cookies[:last_date]) rescue Time.now
 
-        menu = current_place.menu(date).all if current_place?
+        categories = current_place.menu(date).all if current_place?
 
         @options = {
           autocomplete: Autocomplete.items,
@@ -20,7 +20,7 @@ module Menu
           place:       current_place,
           address:     current_place.try(:address),
           hours:       current_place.try(:business_hours),
-          menu:        menu
+          categories:  categories
         }
 
         erb :setup

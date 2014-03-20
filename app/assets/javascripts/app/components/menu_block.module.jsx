@@ -9,7 +9,7 @@ var MenuBlock = React.createClass({
   componentDidMount: function() {
     var blood = require('app/state').Bloodhound;
 
-    if (this.refs.itemInput) {
+    if (this.props.editable) {
       $(this.refs.itemInput.getDOMNode())
         .typeahead(null, { source: blood.ttAdapter() })
         .bind('typeahead:selected', this.handleSelected);
@@ -17,7 +17,7 @@ var MenuBlock = React.createClass({
   },
 
   componentWillUnmount: function() {
-    if (this.refs.itemInput) {
+    if (this.props.editable) {
       $(this.refs.itemInput.getDOMNode()).typeahead('destroy');
     }
   },
@@ -43,22 +43,23 @@ var MenuBlock = React.createClass({
     this.props.onDestroy(model, this);
   },
 
-  closeTypeahead: function() {
-    $(this.refs.itemInput.getDOMNode()).val('')
-      .typeahead('close')
-      .typeahead('val', '');
-  },
-
-  changeTitle: function() {
-    var name  = this.props.instance.name,
+  handleChangeTitle: function() {
+    var name  = this.props.instance.get('name'),
         value = name !== 'Nova Categoria' ? name : '',
         title = this.props.instance.items.length ? ''
               : prompt('Nome da categoria', value);
 
     if (title) {
-      this.props.onChangeTitle(this.props.instance.id, title.trim());
+      this.props.instance.set('name', title.trim());
       this.refs.itemInput.getDOMNode().focus();
+      this.forceUpdate();
     }
+  },
+
+  closeTypeahead: function() {
+    $(this.refs.itemInput.getDOMNode()).val('')
+      .typeahead('close')
+      .typeahead('val', '');
   },
 
   /* jshint ignore:start */
@@ -94,7 +95,7 @@ var MenuBlock = React.createClass({
 
     return (
       <div className="menu-block">
-        <h4 onClick={this.changeTitle}>{this.props.instance.name}</h4>
+        <h4 onDoubleClick={this.handleChangeTitle}>{this.props.instance.get('name')}</h4>
         <table width="100%">
           <tbody>{items}</tbody>
         </table>

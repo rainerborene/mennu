@@ -7,7 +7,7 @@ module Menu
 
       get '/v1/places/:id/items' do
         @place = Place.find_by_pk_or_slug! params[:id]
-        @categories = @place.menu(@place.last_publication).all
+        @categories = @place.menu(@place.last_publication).order(:position).all
         respond_to do |format|
           format.xml  { nokogiri :items }
           format.json { @categories.to_json }
@@ -39,6 +39,15 @@ module Menu
       delete '/v1/place/items/:id', auth: :place do
         current_place.items_dataset.first!(id: params[:id]).destroy
         halt 204
+      end
+
+      put '/v1/categories/sorting', auth: :place do
+        ids = json_params[:category_ids]
+        categories = current_place.categories_dataset.where(id: ids).all
+        ids.each_with_index do |id, idx|
+          categories.find {|c| c.id == id }.update position: idx + 1
+        end
+        halt 200
       end
     end
   end

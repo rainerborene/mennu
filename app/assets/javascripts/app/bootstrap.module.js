@@ -71,7 +71,6 @@ module.exports = function(data) {
 
   require('app/helpers');
 
-  State.menu = data.menu;
   State.environment = data.environment;
   State.setBloodhound(data.autocomplete);
   State.setCSRFToken(data.csrfToken);

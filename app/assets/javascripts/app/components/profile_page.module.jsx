@@ -97,10 +97,7 @@ var ProfilePage = React.createClass({
                     <tr>
                       <th>Endereço Mennu</th>
                       <td>
-                        <span>http://mennu.com.br/</span>
-                        <input type="text" name="place[slug]"
-                          defaultValue={this.props.place.get('slug')}
-                          required className="slug-field"/>
+                        <span>http://mennu.com.br/{this.props.place.get('slug')}</span>
                       </td>
                     </tr>
                     <tr>
