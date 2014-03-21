@@ -1,9 +1,12 @@
 'use strict';
 
+/* jslint maxlen: 115 */
+
 var moment     = require('moment'),
     cookie     = require('cookie'),
     Backbone   = require('backbone'),
     _          = require('underscore');
+
 
 cookie.defaults.expires = 1;
 
@@ -60,6 +63,36 @@ Backbone.Model.prototype.toJSON = function(options) {
   return json;
 };
 
+var CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+
+var uuid = function(len, radix) {
+  var chars = CHARS, uuid = [], i;
+  radix = radix || chars.length;
+
+  if (len) {
+    // Compact form
+    for (i = 0; i < len; i++) uuid[i] = chars[0 | Math.random()*radix];
+  } else {
+    // rfc4122, version 4 form
+    var r;
+
+    // rfc4122 requires these characters
+    uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
+    uuid[14] = '4';
+
+    // Fill in random data.  At i==19 set the high bits of clock sequence as
+    // per rfc4122, sec. 4.1.5
+    for (i = 0; i < 36; i++) {
+      if (!uuid[i]) {
+        r = 0 | Math.random()*16;
+        uuid[i] = chars[(i === 19) ? (r & 0x3) | 0x8 : r];
+      }
+    }
+  }
+
+  return uuid.join('').toLowerCase();
+};
+
 var hours = (function() {
   var hours = [],
   i;
@@ -72,9 +105,16 @@ var hours = (function() {
   return hours;
 })();
 
+var path = function(resource, params) {
+  return resource.replace(/:(\w+)/g, function(_, name) {
+    return params[name];
+  });
+};
+
 module.exports = {
+  path: path,
+  uuid: uuid,
   hours: hours,
-  blankGif: 'data:image/gif;base64,R0lGODlhAQABAIAAAP///' +
-  'wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='
+  blankGif: 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='
 };
 

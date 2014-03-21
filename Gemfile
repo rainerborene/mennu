@@ -27,7 +27,7 @@ gem 'redis'
 # Assets
 gem 'sass'
 gem 'execjs'
-gem 'bourbon', github: 'thoughtbot/bourbon', tag: 'v3.2.0-beta.2'
+gem 'bourbon', '4.0.0.rc1'
 gem 'react-source'
 gem 'sprockets-commonjs', github: 'rainerborene/sprockets-commonjs', branch: :edge
 gem 'sprockets-helpers'

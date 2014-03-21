@@ -2,7 +2,7 @@
 
 'use strict';
 
-var uuid  = require('uuid'),
+var uuid  = require('app/helpers').uuid,
     React = require('react'),
     Hour  = require('app/models/hour');
 

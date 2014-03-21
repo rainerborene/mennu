@@ -4,12 +4,11 @@
 
 'use strict';
 
-var uuid       = require('uuid'),
+var uuid       = require('app/helpers').uuid,
     moment     = require('moment'),
     cookie     = require('cookie'),
     React      = require('react'),
     AntiScroll = require('app/mixins').AntiScroll,
-    Menu       = require('app/models/menu'),
     Item       = require('app/models/item'),
     Header     = require('app/components/header'),
     MenuBlock  = require('app/components/menu_block'),
@@ -56,8 +55,6 @@ var MenuPage = React.createClass({
     this.props.place.categories.on('reset', this.handleReset);
     this.props.place.categories.on('sync', NProgress.done);
 
-    Menu.on('request', NProgress.start);
-
     this.makeDraggable();
   },
 
@@ -68,8 +65,6 @@ var MenuPage = React.createClass({
     this.props.place.off('sync');
     this.props.place.categories.off('reset');
     this.props.place.categories.off('sync');
-
-    Menu.off('request');
   },
 
   componentDidUpdate: function() {
@@ -83,17 +78,17 @@ var MenuPage = React.createClass({
   },
 
   back: function() {
-    Menu.at(this.state.date.clone().subtract('d', 1));
+    this.props.place.categories.at(this.state.date.clone().subtract('d', 1));
   },
 
   today: function() {
     if (!this.state.date.isSame(undefined, 'day')) {
-      Menu.at(moment());
+      this.props.place.categories.at(moment());
     }
   },
 
   next: function() {
-    Menu.at(this.state.date.clone().add('d', 1));
+    this.props.place.categories.at(this.state.date.clone().add('d', 1));
   },
 
   save: function(category, title) {

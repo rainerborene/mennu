@@ -6,9 +6,11 @@ module Menu
     class Client < Base
       helpers Sinatra::Cookies
 
-      get '/setup.js' do
-        content_type :javascript
+      get '/' do
+        erb :site
+      end
 
+      get(/admin(\/.*)?/) do
         date = Time.parse(cookies[:last_date]) rescue Time.now
 
         categories = current_place.menu(date).all if current_place?
@@ -23,14 +25,6 @@ module Menu
           categories:  categories
         }
 
-        erb :setup
-      end
-
-      get '/' do
-        erb :site
-      end
-
-      get(/admin(\/.*)?/) do
         erb :admin
       end
     end

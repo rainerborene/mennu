@@ -2,6 +2,7 @@
 
 var Backbone = require('backbone'),
     Category = require('app/models/category'),
+    path     = require('app/helpers').path,
     _        = require('underscore');
 
 
@@ -11,6 +12,24 @@ var Categories = Backbone.Collection.extend({
 
   comparator: function(category) {
     return category.get('position');
+  },
+
+  at: function(moment) {
+    var resource = '/v1/places/:id/items/:timestamp',
+        params   = {},
+        self     = this;
+
+    if (this.xhr) this.xhr.abort();
+
+    params.id = require('app/state').place.get('id');
+    params.timestamp = moment.format('X');
+
+    this.trigger('request');
+    this.xhr = $.getJSON(path(resource, params), function(response) {
+      self.parse(response, { silent: true });
+      self.trigger('reset', moment);
+      self.trigger('sync');
+    });
   },
 
   parse: function(response, options) {
