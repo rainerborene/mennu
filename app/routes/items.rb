@@ -1,10 +1,6 @@
-require 'sinatra/respond_with'
-
 module Menu
   module Routes
     class Items < Base
-      register Sinatra::RespondWith
-
       get '/v1/places/:id/items' do
         @place = Place.find_by_pk_or_slug! params[:id]
         @categories = @place.menu(@place.last_publication).order(:position).all

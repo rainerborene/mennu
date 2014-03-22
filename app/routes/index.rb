@@ -1,12 +1,10 @@
 require 'lib/autocomplete'
-require 'sinatra/cookies'
 
 module Menu
   module Routes
-    class Client < Base
-      helpers Sinatra::Cookies
-
+    class Index < Base
       get '/' do
+        @title = 'Cardápio'
         erb :site
       end
 
@@ -25,7 +23,14 @@ module Menu
           categories:  categories
         }
 
-        erb :admin
+        erb :admin, layout: false
+      end
+
+      get '/:id' do
+        pass unless (@place = Place.find_by_pk_or_slug params[:id])
+        @categories = @place.menu(@place.last_publication, true).order(:position).all
+        @title = @place.name
+        erb :place
       end
     end
   end

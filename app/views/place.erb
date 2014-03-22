@@ -1,0 +1,49 @@
+<header class="place-header">
+  <div class="place-wrapper">
+    <div class="place-logo">
+      <img src="<%= @place.logo.url(:thumb) %>" width="160" height="160" alt="" />
+    </div>
+    <h1 class="place-name"><%= @place.name %></h1>
+  </div>
+</header>
+
+<main class="place-wrapper">
+  <header class="items-header">
+    <h2>Mennu do dia</h2>
+    <time datetime="<%= @place.last_publication %>">
+      <%= l @place.last_publication, format: '%A, %d de %B' %>
+    </time>
+  </header>
+  <div class="items">
+    <% @categories.each do |category| %>
+      <div class="items-group">
+        <h3><%= category.name %></h3>
+        <ul>
+          <% category.items.each do |item| %>
+            <li><%= item.name %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+</main>
+
+<footer class="place-footer">
+  <address class="vcard">
+    <div class="url fn org">
+      <a href="<%= @place.website %>" target="_blank"><%= @place.name %></a>
+    </div>
+    <div class="adr">
+      <span class="street-address">
+        <%= @place.address_street %>, <%= @place.address_street_number %><br/>
+        <%= @place.address_neighborhood %>
+      </span>, 
+      <span class="locality"><%= @place.address_city %></span>, 
+      <span class="region"><%= @place.address_state %></span>
+    </div>
+    <div>Fone: <span class="tel"><%= @place.address_phone %></span></div>
+  </address>
+  <h3 class="footer-logo">
+    <a href="http://mennu.com.br">Mennu - Divulga seu Cardápio do Dia</a>
+  </h3>
+</footer>

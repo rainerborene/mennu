@@ -5,9 +5,9 @@ module Menu
       one_to_many :items
 
       dataset_module do
-        def menu(time = Time.now)
+        def menu(time = Time.now, with_items = false)
           relation = eager items: -> (ds) { ds.at(time) }
-          if time.to_date < Date.today
+          if time.to_date < Date.today || with_items
             sql = model_object.items_dataset.select(:category_id).distinct.at(time).sql
             relation = relation.where("id in (#{sql})")
           end

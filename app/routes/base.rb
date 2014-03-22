@@ -1,3 +1,6 @@
+require 'sinatra/cookies'
+require 'sinatra/respond_with'
+
 module Menu
   module Routes
     class Base < Sinatra::Application
@@ -11,6 +14,15 @@ module Menu
         disable :static
       end
 
+      helpers do
+        def l(*args)
+          I18n.l(*args)
+        end
+      end
+
+      helpers Sinatra::Cookies
+
+      register Sinatra::RespondWith
       register Extensions::Auth
       register Extensions::Assets
       register Extensions::JSON
@@ -31,7 +43,7 @@ module Menu
 
       error Sequel::NoMatchingRow do
         status 404
-        json error: {type: 'unknown_record'}
+        json error: { type: 'unknown_record' }
       end
     end
   end

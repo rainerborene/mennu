@@ -16,6 +16,8 @@ module Menu
       mount_uploader :logo, LogoUploader
 
       delegate :menu, to: :categories_dataset
+      delegate :street, :street_number, :neighborhood, :city, :state, :phone,
+        to: :address, prefix: true
 
       alias_method :hours, :business_hours
 

@@ -5,7 +5,6 @@ $: << File.expand_path('../', __FILE__)
 $: << File.expand_path('../lib', __FILE__)
 
 require 'dotenv'
-
 Dotenv.load
 
 require 'rack/csrf'
@@ -21,6 +20,9 @@ require 'app/models'
 require 'app/routes'
 
 I18n.enforce_available_locales = false
+I18n.load_path = Dir[File.join(__dir__, 'app', 'locales', '*.yml')]
+I18n.backend.load_translations
+I18n.locale = 'pt-BR'
 
 module Menu
   class App < Sinatra::Application
@@ -29,7 +31,6 @@ module Menu
 
     configure do
       disable :method_override
-      disable :static
 
       set :root, __dir__
       set :erb, escape_html: true
@@ -48,6 +49,10 @@ module Menu
 
     configure :production do
       require 'raven'
+
+      use Raven::Rack
+
+      disable :static
 
       Raven.configure do |config|
         config.dsn = ENV['SENTRY_DSN']
@@ -72,6 +77,8 @@ module Menu
     configure :development do
       require 'sinatra/reloader'
 
+      register Sinatra::Reloader
+
       CarrierWave.configure do |config|
         config.storage = :file
         config.root = "#{settings.root}/public"
@@ -79,18 +86,15 @@ module Menu
       end
     end
 
-    register Sinatra::Reloader if development?
-
-    use Raven::Rack if production?
     use Rack::Deflater
     use Rack::Runtime
     use Rack::Csrf
 
-    use Menu::Routes::Places
+    use Menu::Routes::Index
     use Menu::Routes::Items
     use Menu::Routes::Hours
+    use Menu::Routes::Places
     use Menu::Routes::Session
-    use Menu::Routes::Client
     use Menu::Routes::Geocode
   end
 end
