@@ -14,7 +14,7 @@ Rake::SprocketsTask.new do |t|
   t.environment = Menu::Routes::Base.assets
   t.output      = './public/assets'
   t.assets      = %w( libs.js application.js application.css site.css )
-  t.assets     += %w( *.png *.jpg Flat-UI-Icons* )
+  t.assets     += %w( *.png *.jpg *.jpeg *.gif Flat-UI-Icons* )
 end
 
 namespace :assets do

@@ -90,12 +90,12 @@ module Menu
     use Rack::Runtime
     use Rack::Csrf
 
-    use Menu::Routes::Index
-    use Menu::Routes::Items
-    use Menu::Routes::Hours
-    use Menu::Routes::Places
     use Menu::Routes::Session
     use Menu::Routes::Geocode
+    use Menu::Routes::Places
+    use Menu::Routes::Hours
+    use Menu::Routes::Items
+    use Menu::Routes::Index
   end
 end
 
