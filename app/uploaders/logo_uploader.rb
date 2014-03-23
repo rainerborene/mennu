@@ -7,6 +7,10 @@ module Menu
         process resize_to_fill: [160, 160]
       end
 
+      def store_dir
+        "#{model.class.table_name}/#{mounted_as}/#{model.id}"
+      end
+
       def extension_white_list
         %w(jpg jpeg gif png)
       end
