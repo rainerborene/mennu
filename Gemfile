@@ -13,7 +13,6 @@ gem 'pry-meta'
 gem 'mini_magick'
 gem 'nokogiri'
 gem 'faraday'
-gem 'fog'
 gem 'thin'
 
 # DB
@@ -36,6 +35,8 @@ gem 'therubyracer'
 group :production do
   gem 'sentry-raven'
   gem 'uglifier'
+  gem 'fog'
+  gem 'unf'
 end
 
 group :test do
