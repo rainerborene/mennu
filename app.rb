@@ -64,13 +64,13 @@ module Menu
 
       CarrierWave.configure do |config|
         config.storage = :fog
+        config.fog_use_ssl_for_aws = false
         config.fog_directory = ENV['FOG_DIRECTORY']
         config.fog_credentials = {
           provider:              ENV['FOG_PROVIDER'],
           region:                ENV['FOG_REGION'],
           aws_access_key_id:     ENV['AWS_ACCESS_KEY'],
           aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-          fog_use_ssl_for_aws:   false,
           path_style:            true
         }
       end
