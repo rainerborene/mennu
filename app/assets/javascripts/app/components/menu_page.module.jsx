@@ -4,15 +4,17 @@
 
 'use strict';
 
-var uuid       = require('app/helpers').uuid,
-    moment     = require('moment'),
-    cookie     = require('cookie'),
-    React      = require('react'),
-    AntiScroll = require('app/mixins').AntiScroll,
-    Item       = require('app/models/item'),
-    Header     = require('app/components/header'),
-    MenuBlock  = require('app/components/menu_block'),
-    MenuHeader = require('app/components/menu_header');
+var moment       = require('moment'),
+    cookie       = require('cookie'),
+    React        = require('react'),
+    AntiScroll   = require('app/mixins').AntiScroll,
+    Item         = require('app/models/item'),
+    Header       = require('app/components/header'),
+    MenuBlock    = require('app/components/menu_block'),
+    MenuHeader   = require('app/components/menu_header'),
+    MenuMessage  = require('app/components/menu_message'),
+    MenuTemplate = require('app/components/menu_template'),
+    _            = require('underscore');
 
 
 var MenuPage = React.createClass({
@@ -36,7 +38,6 @@ var MenuPage = React.createClass({
 
   getInitialState: function() {
     var lastDate = moment(cookie.get('last_date'));
-
     return { date: lastDate.isValid() ? lastDate : moment() };
   },
 
@@ -60,7 +61,6 @@ var MenuPage = React.createClass({
 
   componentWillUnmount: function() {
     this.packery.off('dragItemPositioned');
-
     this.props.place.off('request');
     this.props.place.off('sync');
     this.props.place.categories.off('reset');
@@ -97,7 +97,6 @@ var MenuPage = React.createClass({
       published_at: this.state.date.format(),
       category_name: category.get('name')
     });
-
     this.forceUpdate();
   },
 
@@ -108,6 +107,17 @@ var MenuPage = React.createClass({
 
   publish: function() {
     this.props.place.save({ last_publication: this.state.date.format() });
+  },
+
+  uuids: function() {
+    var categories = [];
+
+    this.packery.getItemElements().forEach(function(item) {
+      var data = item.getAttribute('data-reactid').split(':$');
+      if (data.length === 2) categories.push(data[1]);
+    });
+
+    return categories;
   },
 
   makeDraggable: function() {
@@ -131,42 +141,26 @@ var MenuPage = React.createClass({
   },
 
   handleReset: function(date) {
-    this.setState({ date: date }, function() {
-      cookie.set({ last_date: this.state.date.format() });
-      this.makeDraggable();
-    }.bind(this));
+    this.setState({ date: date }, this.makeDraggable);
+    cookie.set({ last_date: date.format() });
   },
 
-  handleDragItemPositioned: function(pckryInstance, draggedItem) {
-    var itemElems = this.packery.getItemElements(), ids = [];
-
-    itemElems.forEach(function(item) {
-      if (item.classList.contains('menu-block')) {
-        ids.push(item.getAttribute('data-reactid').split(':$')[1]);
-      }
-    });
-
-    this.props.place.categories.save(ids);
+  handleDragItemPositioned: function() {
+    this.props.place.categories.save(this.uuids());
   },
 
-  handleCreateBlock: function(event) {
-    var id = uuid();
-
-    this.props.place.categories.add({ id: id, name: 'Nova Categoria' });
+  handleCreateBlock: function(id) {
+    this.props.place.categories.add({ id: id });
     this.forceUpdate(function() {
       var block = $(this.refs[id].getDOMNode());
 
-      this.packery.items.forEach(function(item) {
-        if (block.get(0) === item.element) item.reveal();
-      }, this);
-
       block.draggable(this.draggableOptions);
+
+      _.findWhere(this.packery.items, { element: block.get(0) }).reveal();
 
       this.packery.bindUIDraggableEvents(block);
       this.refs[id].changeTitle();
-    }.bind(this));
-
-    event.preventDefault();
+    });
   },
 
   /* jshint ignore: start */
@@ -177,29 +171,24 @@ var MenuPage = React.createClass({
         menu;
 
     menu = this.props.place.categories.map(function(category) {
-      return <MenuBlock
-        key={category.id}
-        ref={category.id}
-        instance={category}
-        editable={this.editable()}
-        onSave={this.save.bind(this, category)}
-        onDestroy={this.destroy.bind(this, category)} />
+      return (
+        <MenuBlock
+          key={category.id}
+          ref={category.id}
+          instance={category}
+          editable={this.editable()}
+          onSave={this.save.bind(this, category)}
+          onDestroy={this.destroy.bind(this, category)} />
+      );
     }, this);
 
     if (this.editable()) {
       template = (
-        <div className="menu-template">
-          <a href="#" onClick={this.handleCreateBlock}>
-            <span className="fui-new"></span>
-            <span>Criar nova categoria</span>
-          </a>
-        </div>
+        <MenuTemplate onClick={this.handleCreateBlock} />
       );
-    } else if (!this.props.place.categories.length) {
+    } else if (this.props.place.categories.isEmpty()) {
       message = (
-        <div className="chef">
-          <p>Nenhum lançamento neste dia</p>
-        </div>
+        <MenuMessage />
       );
     }
 
