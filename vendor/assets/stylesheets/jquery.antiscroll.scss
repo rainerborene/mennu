@@ -43,6 +43,7 @@
 
 .antiscroll-inner {
   overflow: scroll;
+  -ms-overflow-style: none;
 }
 
 .antiscroll-inner::-webkit-scrollbar {
