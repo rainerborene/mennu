@@ -1,8 +1,11 @@
 require 'lib/autocomplete'
+require 'sinatra/cookies'
 
 module Menu
   module Routes
     class Index < Base
+      helpers Sinatra::Cookies
+
       get '/' do
         @title = 'Cardápio'
         erb :site
@@ -30,6 +33,7 @@ module Menu
         pass unless (@place = Place.find_by_pk_or_slug params[:id])
         @categories = @place.menu(@place.last_publication, true).order(:position).all
         @title = @place.name
+        @view = PlacePresenter.new(self, @place)
         erb :place
       end
     end

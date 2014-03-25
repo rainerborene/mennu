@@ -186,7 +186,9 @@ CREATE TABLE places (
     expire_at timestamp without time zone,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    last_publication timestamp without time zone
+    last_publication timestamp without time zone,
+    facebook citext,
+    instagram citext
 );
 
 

@@ -28,19 +28,20 @@
     font-size: 14px;
   }
 
-  table    { margin: 0; }
+  table { margin: 0; }
 
   input[type="text"],
   input[type="email"],
+  input[type="password"],
   textarea {
     width: 50%;
     margin-bottom: 0;
     font-size: 14px;
   }
 
-  textarea { 
+  textarea {
     width: 73%;
-    max-width: 73%; 
+    max-width: 73%;
     resize: none;
   }
 
@@ -50,10 +51,9 @@
   }
 
   .first {
-    td, 
-    th { padding-top: 0; }
+    td, th { padding-top: 0; }
   }
-  
+
   .slug-field {
     display: inline-block;
     margin-left: 15px;
@@ -64,26 +64,25 @@
     line-height: 34px;
   }
 
-  .pagseguro {
+  .pagseguro input[type="image"] {
     margin-top: 20px;
     margin-bottom: 50px;
   }
 }
 
-.hours-table tbody td { 
+.hours-table tbody td {
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
 .hours-button {
   padding: 9px 13px;
-  font-size: 13px;
   line-height: 1.385;
+  font-size: 13px;
 }
 
-.address-form {
-  position: relative;
-  margin-top: 30px;
+.form-group {
+  margin-top: 20px;
 
   label {
     width: 100px;
@@ -92,21 +91,35 @@
     vertical-align: middle;
   }
 
-  input[type="text"] {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
     width: 391px;
     display: inline-block;
   }
+}
+
+.credentials-form {
+  label { width: 190px; }
+
+  button {
+    margin-top: 20px;
+    margin-left: 190px;
+  }
+}
+
+.address-form {
+  position: relative;
+  margin-top: 30px;
 
   img {
     position: absolute;
     right: 0;
-    top: -90px;
+    top: -20px;
     border-radius: 280px;
   }
 
-  .address-group { margin-top: 20px; }
-
-  .address-submit {
+  button {
     margin-top: 20px;
     margin-left: 100px;
   }

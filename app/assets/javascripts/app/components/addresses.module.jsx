@@ -30,7 +30,7 @@ var Addresses = React.createClass({
 
     $(this.refs.phone.getDOMNode()).mask('(99) 9999-9999');
 
-    this.props.address.bind('sync', this.ladda.stop.bind(this.ladda));
+    this.props.address.bind('sync', this.stopLadda);
   },
 
   componentWillUnmount: function() {
@@ -46,8 +46,6 @@ var Addresses = React.createClass({
 
   handleSubmit: function(event) {
     var phone = this.refs.phone.getDOMNode().value.trim();
-
-    this.ladda.start();
 
     this.props.address.set('phone', phone);
     this.props.address.set(this.state.location);
@@ -87,10 +85,13 @@ var Addresses = React.createClass({
 
     return (
       <form className="address-form" onSubmit={this.handleSubmit}>
+        <h4>Endereço</h4>
+        <p className="legend">Endereço e telefone do seu estabelecimento.</p>
+
         <img src={this.state.mapSrc} onLoad={this.handleLoad} ref="map"
           width="280" height="280" />
 
-        <div className="address-group">
+        <div className="form-group">
           <label>Endereço</label>
           <input className="address-query" ref="query" type="text"
             onChange={this.handleChange}
@@ -98,7 +99,7 @@ var Addresses = React.createClass({
 
           {loading}
         </div>
-        <div className="address-group">
+        <div className="form-group">
           <label>Telefone</label>
           <input className="address-phone" ref="phone" type="text"
             defaultValue={this.props.address.get('phone')} required />
@@ -106,7 +107,7 @@ var Addresses = React.createClass({
         <button className="ladda-button address-submit" type="submit"
           data-style="slide-down" ref="submit">
 
-          <span className="ladda-label">Confirmar</span>
+          <span className="ladda-label">Editar</span>
         </button>
       </form>
     );

@@ -1,5 +1,7 @@
 /** @jsx React.DOM */
 
+/* jslint maxlen: 81 */
+
 'use strict';
 
 var React      = require('react'),
@@ -28,12 +30,10 @@ var ProfilePage = React.createClass({
   },
 
   handleSubmit: function(event) {
-    this.ladda.start();
-
     this.props.place.save({}, {
       processData: false,
       contentType: false,
-      data: new FormData(this.refs.form.getDOMNode())
+      data: new FormData(event.target)
     });
 
     event.preventDefault();
@@ -51,17 +51,16 @@ var ProfilePage = React.createClass({
             <header className="header-page">
               <div className="container">
                 <h2>Sobre o estabelecimento</h2>
-                <p className="legend">Essas informações aparecem em sua página
-                  pública e resultados de pesquisa.</p>
+                <p className="legend">Essas informações aparecem em sua página pública.</p>
               </div>
             </header>
 
             <div className="container profile">
-              <form onSubmit={this.handleSubmit} ref="form">
+              <form onSubmit={this.handleSubmit}>
                 <table className="table-details">
                   <tbody>
                     <tr className="first">
-                      <th>Logotipo</th>
+                      <th>Logo</th>
                       <td>
                         <span className="btn-file">
                           <span className="fui-upload"></span>
@@ -79,18 +78,26 @@ var ProfilePage = React.createClass({
                       </td>
                     </tr>
                     <tr>
-                      <th>E-mail</th>
-                      <td>
-                        <input type="email" name="place[email]"
-                          defaultValue={this.props.place.get('email')}
-                          required />
-                      </td>
-                    </tr>
-                    <tr>
                       <th>Website</th>
                       <td>
                         <input type="text" name="place[website]"
                           defaultValue={this.props.place.get('website')}
+                          required />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Facebook</th>
+                      <td>
+                        <input type="text" name="place[facebook]"
+                          defaultValue={this.props.place.get('facebook')}
+                          required />
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Instagram</th>
+                      <td>
+                        <input type="text" name="place[instagram]"
+                          defaultValue={this.props.place.get('instagram')}
                           required />
                       </td>
                     </tr>
@@ -113,7 +120,7 @@ var ProfilePage = React.createClass({
                       <td>
                         <button type="submit" className="ladda-button"
                           data-style="slide-down" ref="submit">
-                            <span className="ladda-label">Salvar alterações</span>
+                            <span className="ladda-label">Editar</span>
                         </button>
                       </td>
                     </tr>
@@ -121,9 +128,29 @@ var ProfilePage = React.createClass({
                 </table>
               </form>
 
-              <h4>Endereço</h4>
-              <p className="legend">Escreva o endereço e telefone do seu
-                estabelecimento nos campos abaixo.</p>
+              <form onSubmit={this.handleSubmit} className="credentials-form">
+                <h4>Credenciais</h4>
+                <p className="legend">Seu e-mail e senha de autenticação.</p>
+                <div className="form-group">
+                  <label>E-mail</label>
+                  <input type="email" name="place[email]" required
+                    defaultValue={this.props.place.get('email')} />
+                </div>
+                <div className="form-group">
+                  <label>Nova senha</label>
+                  <input type="password" name="place[password]" required />
+                </div>
+                <div className="form-group">
+                  <label>Confirmação de senha</label>
+                  <input type="password" name="place[password_confirmation]" required />
+                </div>
+
+                <button className="ladda-button address-submit" type="submit"
+                  data-style="slide-down" ref="submit">
+
+                    <span className="ladda-label">Editar</span>
+                </button>
+              </form>
 
               <Addresses ref="address" address={this.props.place.address} />
 
@@ -133,17 +160,17 @@ var ProfilePage = React.createClass({
 
               <HoursTable hours={this.props.place.hours} />
 
-              <h4>Pagamento</h4>
-              <p className="legend">O pagamento do plano contratado é efetuado
-                de forma recorrente pelo PagSeguro.</p>
-
-              <form
-                action="https://pagseguro.uol.com.br/v2/pre-approvals/request.html"
+              <form action="https://pagseguro.uol.com.br/v2/pre-approvals/request.html"
                 method="post" className="pagseguro">
-                <input type="hidden" name="code" value="9179E8727878123994FA8F9EF29EDC70" />
-                <input type="image"
-                  src="https://p.simg.uol.com.br/out/pagseguro/i/botoes/assinaturas/205x30-assinar-azul.gif"
-                  name="submit" width="205" height="30" />
+                  <h4>Pagamento</h4>
+                  <p className="legend">O pagamento do plano contratado é efetuado
+                    de forma recorrente pelo PagSeguro.</p>
+
+                  <input type="hidden" name="code" value="9179E8727878123994FA8F9EF29EDC70" />
+                  <input type="image"
+                    src="https://p.simg.uol.com.br/out/pagseguro/i/botoes/assinaturas/205x30-assinar-azul.gif"
+                    name="submit" width="205" height="30" />
+
               </form>
             </div>
           </div>

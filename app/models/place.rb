@@ -10,8 +10,8 @@ module Menu
       one_to_one :address
 
       set_allowed_columns :name, :password, :password_confirmation, :slug,
-        :email, :description, :logo, :website, :establishment_types,
-        :opened_to_public, :last_publication
+        :email, :description, :logo, :website, :facebook, :instagram,
+        :establishment_types, :opened_to_public, :last_publication
 
       mount_uploader :logo, LogoUploader
 
@@ -30,6 +30,8 @@ module Menu
           description: description,
           logo: logo,
           website: website,
+          facebook: facebook,
+          instagram: instagram,
           establishment_types: establishment_types,
           opened_to_public: opened_to_public,
           last_publication: last_publication

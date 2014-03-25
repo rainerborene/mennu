@@ -42,7 +42,14 @@
     </div>
     <div>Fone: <span class="tel"><%= @place.address_phone %></span></div>
   </address>
+
   <h3 class="footer-logo">
     <a href="http://mennu.com.br">Mennu - Divulga seu Cardápio do Dia</a>
   </h3>
+
+  <div class="socials">
+    <%= @view.link_to_instagram %>
+    <%= @view.link_to_facebook %>
+    <%= @view.link_to_maps %>
+  </div>
 </footer>

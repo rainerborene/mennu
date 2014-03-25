@@ -84,6 +84,7 @@
     font-style: normal;
     font-weight: bold;
     float: left;
+    margin-bottom: 30px;
   }
 
   .adr {
@@ -93,6 +94,32 @@
   .fn a {
     color: #fff;
     text-decoration: none;
+  }
+}
+
+.socials {
+  clear: both;
+
+  a {
+    @include hide-text;
+    display: inline-block;
+    width: 53px;
+    height: 53px;
+    background-repeat: no-repeat;
+    background-position: left top;
+    margin-right: 15px;
+  }
+
+  .maps-icon {
+    background-image: asset-url('icons/maps.png');
+  }
+
+  .facebook-icon {
+    background-image: asset-url('icons/facebook.png');
+  }
+
+  .instagram-icon {
+    background-image: asset-url('icons/instagram.png');
   }
 }
 

@@ -7,8 +7,25 @@ var Backbone = require('backbone'),
     Ladda    = require('ladda'),
     Session  = require('app/models/session');
 
-  
+
 var LoginPage = React.createClass({
+
+  componentDidMount: function() {
+    this.ladda = Ladda.create(this.refs.submit.getDOMNode());
+
+    Session.on('authenticated', this.handleAuthenticated);
+    Session.on('unauthorized', this.handleUnauthorized);
+    Session.on('completed', this.ladda.stop.bind(this.ladda));
+  },
+
+  componentWillMount: function() {
+    document.documentElement.classList.add('login');
+  },
+
+  componentWillUnmount: function() {
+    document.documentElement.classList.remove('login');
+    Session.off();
+  },
 
   handleAuthenticated: function() {
     this.setState({ success: true });
@@ -20,33 +37,13 @@ var LoginPage = React.createClass({
     this.refs.password.getDOMNode().focus();
   },
 
-  handleCompleted: function() {
-    this.ladda.stop();
-  },
-
   handleSubmit: function(event) {
     var email = this.refs.email.getDOMNode().value.trim(),
         password = this.refs.password.getDOMNode().value.trim();
 
-    this.ladda.start();
     Session.authenticate(email, password);
+
     event.preventDefault();
-  },
-
-  componentDidMount: function() {
-    this.ladda = Ladda.create(this.refs.submit.getDOMNode());
-  },
-
-  componentWillMount: function() {
-    Session.on('authenticated', this.handleAuthenticated);
-    Session.on('unauthorized', this.handleUnauthorized);
-    Session.on('completed', this.handleCompleted);
-    document.documentElement.classList.add('login');
-  },
-
-  componentWillUnmount: function() {
-    document.documentElement.classList.remove('login');
-    Session.off();
   },
 
   /* jshint ignore:start */

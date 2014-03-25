@@ -32,6 +32,8 @@ Sequel.migration do
       DateTime :created_at
       DateTime :updated_at
       DateTime :last_publication
+      String :facebook
+      String :instagram
       
       primary_key [:id]
       
