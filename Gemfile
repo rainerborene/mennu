@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 gem 'sinatra'
 gem 'sinatra-contrib'
-gem 'i18n'
 gem 'activesupport'
 gem 'omniauth-facebook'
 gem 'dotenv'
@@ -30,7 +29,6 @@ gem 'bourbon', '4.0.0.rc1'
 gem 'react-source'
 gem 'sprockets-commonjs', github: 'rainerborene/sprockets-commonjs', branch: :edge
 gem 'sprockets-helpers'
-gem 'therubyracer'
 
 group :production do
   gem 'sentry-raven'
