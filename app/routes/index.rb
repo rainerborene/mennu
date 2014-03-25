@@ -1,10 +1,12 @@
 require 'lib/autocomplete'
 require 'sinatra/cookies'
+require 'sinatra/content_for'
 
 module Menu
   module Routes
     class Index < Base
       helpers Sinatra::Cookies
+      helpers Sinatra::ContentFor
 
       get '/' do
         @title = 'Cardápio'

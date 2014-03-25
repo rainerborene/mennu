@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <title><%= @title %> • Mennu</title>
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto+Slab">
+    <%= yield_content :stylesheets %>
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
     <link rel="stylesheet" href="<%= asset_path "site.css" %>">
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+    <%= yield_content :javascripts %>
   </head>
   <body>
     <%= yield %>
@@ -22,4 +22,3 @@
     </script>
   </body>
 </html>
-
