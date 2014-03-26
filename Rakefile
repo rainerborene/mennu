@@ -1,9 +1,12 @@
-require_relative 'app'
+require 'bundler/setup'
 require 'rake/testtask'
 require 'rake/sprocketstask'
-require 'dotenv/tasks'
 
 task default: [:test]
+
+task :environment do
+  require_relative 'app'
+end
 
 Rake::TestTask.new do |t|
   t.ruby_opts = ['-Ispec']
@@ -11,10 +14,13 @@ Rake::TestTask.new do |t|
 end
 
 Rake::SprocketsTask.new do |t|
-  t.environment = Menu::Routes::Base.assets
   t.output      = './public/assets'
   t.assets      = %w( libs.js application.js application.css site.css )
   t.assets     += %w( *.png *.jpg *.jpeg *.gif Flat-UI-Icons* )
+  t.environment = proc do
+    require_relative 'app'
+    Menu::Routes::Base.assets
+  end
 end
 
 namespace :assets do
@@ -26,14 +32,14 @@ end
 
 namespace :db do
   desc 'Run DB migrations'
-  task migrate: :dotenv do
+  task migrate: :environment do
     require 'sequel/extensions/migration'
 
     Sequel::Migrator.apply(Menu::App.database, 'db/migrations')
   end
 
   desc 'Rollback migration'
-  task rollback: :dotenv do
+  task rollback: :environment do
     require 'sequel/extensions/migration'
 
     database = Menu::App.database
@@ -42,7 +48,7 @@ namespace :db do
   end
 
   desc 'Drop the database'
-  task drop: :dotenv do
+  task drop: :environment do
     database = Menu::App.database
 
     database.tables.each do |table|
@@ -52,15 +58,19 @@ namespace :db do
   end
 
   desc 'Seed database'
-  task seed: :dotenv do
+  task seed: :environment do
     require './db/seeds'
   end
 
   desc 'Dump the database schema'
-  task dump: :dotenv do
+  task dump: :environment do
     database = Menu::App.database
 
     `sequel -d #{database.url} > db/schema.rb`
     `pg_dump --schema-only #{database.url} > db/schema.sql`
   end
+end
+
+Dir[File.dirname(__FILE__) + "/lib/tasks/*.rb"].sort.each do |path|
+  require path
 end
