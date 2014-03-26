@@ -30,6 +30,7 @@ var MenuPage = React.createClass({
   },
 
   options: {
+    isResizeBound: false,
     itemSelector: '.menu-block, .menu-template',
     columnWidth: '.menu-block',
     gutter: 14

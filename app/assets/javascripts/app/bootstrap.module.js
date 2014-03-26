@@ -80,22 +80,19 @@ var Router = Backbone.Router.extend({
 module.exports = function(data) {
   require('app/helpers');
 
-  WebFont.load({
-    google: {
-      families: ['Roboto']
-    },
-    active: function() {
-      $(window).trigger('resize');
-    }
-  });
-
   State.environment = data.environment;
   State.setBloodhound(data.autocomplete);
   State.setCSRFToken(data.csrfToken);
   State.setPlace(data);
 
-  new Router();
-
-  Backbone.history.start({ pushState: true });
+  WebFont.load({
+    google: {
+      families: ['Roboto']
+    },
+    active: function() {
+      new Router();
+      Backbone.history.start({ pushState: true });
+    }
+  });
 };
 
