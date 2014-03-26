@@ -15,12 +15,12 @@ gem 'faraday'
 gem 'thin'
 
 # DB
+gem 'pg'
+gem 'redis'
 gem 'sequel'
 gem 'sequel_secure_password'
 gem 'carrierwave-sequel'
 gem 'sinatra-sequel'
-gem 'pg'
-gem 'redis'
 
 # Assets
 gem 'sass'
@@ -42,5 +42,7 @@ group :test do
   gem 'mock_redis'
   gem 'machinist'
   gem 'fakeweb'
+  gem 'watir'
+  gem 'test-page'
   gem 'vcr'
 end

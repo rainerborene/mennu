@@ -2,14 +2,13 @@ ENV['RACK_ENV'] = 'test'
 require File.expand_path '../app', __dir__
 require 'minitest/autorun'
 require 'minispec-metadata'
+require 'carrierwave/test/matchers'
 require 'rack/test'
 require 'machinist'
 require 'vcr'
-require 'carrierwave/test/matchers'
+require_relative 'blueprints'
 
 Sequel::Model.extend Machinist::Machinable
-
-require_relative 'blueprints'
 
 CarrierWave.configure do |config|
   config.storage = :file

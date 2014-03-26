@@ -36,8 +36,11 @@ GEM
     carrierwave-sequel (0.1.0)
       carrierwave
       sequel
+    childprocess (0.5.1)
+      ffi (~> 1.0, >= 1.0.11)
     coderay (1.1.0)
     columnize (0.3.6)
+    commonwatir (4.0.0)
     daemons (1.1.9)
     debugger (1.6.6)
       columnize (>= 0.3.1)
@@ -52,6 +55,7 @@ GEM
     fakeweb (1.3.0)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
+    ffi (1.9.3)
     fog (1.21.0)
       fog-brightbox
       fog-core (~> 1.21, >= 1.21.1)
@@ -136,7 +140,13 @@ GEM
     rake (10.2.0)
     react-source (0.10.0)
     redis (3.0.7)
+    rubyzip (1.1.2)
     sass (3.3.4)
+    selenium-webdriver (2.40.0)
+      childprocess (>= 0.5.0)
+      multi_json (~> 1.0)
+      rubyzip (~> 1.0)
+      websocket (~> 1.0.4)
     sentry-raven (0.7.1)
       faraday (>= 0.7.6)
       hashie (>= 1.1.0)
@@ -168,6 +178,7 @@ GEM
     sprockets-helpers (1.1.0)
       sprockets (~> 2.0)
     subexec (0.2.3)
+    test-page (1.0.1)
     thin (1.6.2)
       daemons (>= 1.0.9)
       eventmachine (>= 1.0.0)
@@ -187,6 +198,12 @@ GEM
     vcr (2.8.0)
     warden (1.2.3)
       rack (>= 1.0)
+    watir (5.0.0)
+      commonwatir (~> 4)
+      watir-webdriver
+    watir-webdriver (0.6.8)
+      selenium-webdriver (>= 2.18.0)
+    websocket (1.0.7)
 
 PLATFORMS
   ruby
@@ -221,8 +238,10 @@ DEPENDENCIES
   sinatra-sequel
   sprockets-commonjs!
   sprockets-helpers
+  test-page
   thin
   uglifier
   unf
   vcr
   warden
+  watir
