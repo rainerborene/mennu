@@ -1,4 +1,6 @@
-/* global Raven */
+/* global Raven,WebFont */
+
+/* jslint maxlen: 82 */
 
 'use strict';
 
@@ -8,7 +10,8 @@ var React       = require('react'),
     Session     = require('app/models/session'),
     MenuPage    = require('app/components/menu_page'),
     LoginPage   = require('app/components/login_page'),
-    ProfilePage = require('app/components/profile_page');
+    ProfilePage = require('app/components/profile_page'),
+    _           = require('underscore');
 
 
 var Router = Backbone.Router.extend({
@@ -20,33 +23,28 @@ var Router = Backbone.Router.extend({
   },
 
   index: function() {
-    if (this.auth()) return;
-    
+    if (this.before()) return;
+
     this.title('Cardápio');
 
-    React.renderComponent(
-      new MenuPage({ place: State.place }), document.body
-    );
+    React.renderComponent(new MenuPage({ place: State.place }), document.body);
   },
 
   login: function() {
     if (Session.authenticated()) return this.redirect('/admin');
 
     this.title('Login');
+    this.sentry();
 
-    React.renderComponent(
-      new LoginPage(), document.body
-    );
+    React.renderComponent(new LoginPage(), document.body);
   },
 
   profile: function() {
-    if (this.auth()) return;
+    if (this.before()) return;
 
     this.title('Minha conta');
 
-    React.renderComponent(
-      new ProfilePage({ place: State.place }), document.body
-    );
+    React.renderComponent(new ProfilePage({ place: State.place }), document.body);
   },
 
   title: function(string) {
@@ -57,30 +55,44 @@ var Router = Backbone.Router.extend({
     return this.navigate(path, { trigger: true });
   },
 
-  auth: function() {
+  before: function() {
     if (!Session.authenticated()) {
       return this.redirect('/admin/login');
     }
-  }
+
+    this.sentry();
+  },
+
+  sentry: _.once(function() {
+    var production = State.environment === 'production',
+        place = State.place,
+        dsn = 'https://e2f82d25fef348dc93f758ac996f1978@app.getsentry.com/20304';
+
+    if (production) Raven.config(dsn).install();
+
+    if (production && place.has('id')) {
+      Raven.setUser({ id: place.id, email: place.email });
+    }
+  })
 
 });
 
 module.exports = function(data) {
-  var production = data.environment === 'production',
-      dsn = 'https://e2f82d25fef348dc93f758ac996f1978@app.getsentry.com/20304';
-
   require('app/helpers');
+
+  WebFont.load({
+    google: {
+      families: ['Roboto']
+    },
+    active: function() {
+      $(window).trigger('resize');
+    }
+  });
 
   State.environment = data.environment;
   State.setBloodhound(data.autocomplete);
   State.setCSRFToken(data.csrfToken);
   State.setPlace(data);
-
-  if (production) Raven.config(dsn).install();
-
-  if (production && data.place) {
-    Raven.setUser({ id: data.place.id, email: data.place.email });
-  }
 
   new Router();
 

@@ -23,14 +23,13 @@ var MenuPage = React.createClass({
 
   draggableOptions: {
     containment: '.menu .container',
-    handle: 'h4',
     cursor: 'move',
-    zIndex: 100,
-    refreshPositions: true
+    handle: 'h4',
+    refreshPositions: true,
+    zIndex: 100
   },
 
   options: {
-    isResizeBound: false,
     itemSelector: '.menu-block, .menu-template',
     columnWidth: '.menu-block',
     gutter: 14

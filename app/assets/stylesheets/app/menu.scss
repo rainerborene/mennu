@@ -42,7 +42,7 @@
     margin-right: 10px;
     color: #fff;
   }
-  
+
   .pagination { float: right; }
 
   .today {
@@ -54,7 +54,7 @@
 
   .fui-checkbox-checked { background-color: $turquoise; }
 
-  .fui-arrow-left, 
+  .fui-arrow-left,
   .fui-arrow-right {
     display: inline-block;
     width: 45px;
@@ -130,7 +130,7 @@
     font-weight: 300;
     word-wrap: break-word;
     line-height: em(16);
-    padding-bottom: 14px;
+    padding-bottom: 13px;
     vertical-align: top;
     border: none;
   }
@@ -148,7 +148,7 @@
     padding: 0;
     height: 27px;
     margin: 0;
-  } 
+  }
 }
 
 .menu-template {
@@ -177,7 +177,7 @@
     display: block;
     font-size: 48px;
     float: left;
-  }   
+  }
 
   span { line-height: 48px; }
 }
