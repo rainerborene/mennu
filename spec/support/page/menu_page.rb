@@ -7,5 +7,9 @@ class MenuPage < Test::Page
   end
 
   def delete_item(category, name)
+    block = browser.h4(text: category).parent
+    tr = block.tds(text: name).first.parent
+    tr.hover
+    tr.cells.last.span.click
   end
 end
