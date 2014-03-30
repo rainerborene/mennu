@@ -13,6 +13,7 @@ gem 'mini_magick'
 gem 'nokogiri'
 gem 'faraday'
 gem 'thin'
+gem 'mina'
 
 # DB
 gem 'pg'
