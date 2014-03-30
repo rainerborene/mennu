@@ -5,3 +5,4 @@ public/assets
 public/uploads
 spec/cassettes/*.yml
 tmp
+!tmp/.gitkeep
