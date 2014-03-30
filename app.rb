@@ -23,10 +23,9 @@ require 'app/routes'
 
 Encoding.default_external = Encoding::UTF_8
 
-I18n.enforce_available_locales = false
+I18n.default_locale = 'pt-BR'
 I18n.load_path = Dir[File.join(__dir__, 'app', 'locales', '*.yml')]
-I18n.backend.load_translations
-I18n.locale = 'pt-BR'
+I18n.reload!
 
 module Menu
   class App < Sinatra::Application
