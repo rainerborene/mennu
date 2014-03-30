@@ -28,6 +28,12 @@ GEM
       sass (~> 3.3)
       thor
     builder (3.1.4)
+    capybara (2.2.1)
+      mime-types (>= 1.16)
+      nokogiri (>= 1.3.3)
+      rack (>= 1.0.0)
+      rack-test (>= 0.5.4)
+      xpath (~> 2.0)
     carrierwave (0.10.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
@@ -40,8 +46,8 @@ GEM
       ffi (~> 1.0, >= 1.0.11)
     coderay (1.1.0)
     columnize (0.3.6)
-    commonwatir (4.0.0)
     daemons (1.1.9)
+    database_cleaner (1.2.0)
     debugger (1.6.6)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.2.0)
@@ -52,7 +58,6 @@ GEM
     eventmachine (1.0.3)
     excon (0.32.1)
     execjs (2.0.2)
-    fakeweb (1.3.0)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.3)
@@ -178,7 +183,6 @@ GEM
     sprockets-helpers (1.1.0)
       sprockets (~> 2.0)
     subexec (0.2.3)
-    test-page (1.0.1)
     thin (1.6.2)
       daemons (>= 1.0.9)
       eventmachine (>= 1.0.0)
@@ -195,15 +199,11 @@ GEM
       unf_ext
     unf_ext (0.0.6)
     uuidtools (2.1.4)
-    vcr (2.8.0)
     warden (1.2.3)
       rack (>= 1.0)
-    watir (5.0.0)
-      commonwatir (~> 4)
-      watir-webdriver
-    watir-webdriver (0.6.8)
-      selenium-webdriver (>= 2.18.0)
     websocket (1.0.7)
+    xpath (2.0.0)
+      nokogiri (~> 1.3)
 
 PLATFORMS
   ruby
@@ -211,10 +211,11 @@ PLATFORMS
 DEPENDENCIES
   activesupport
   bourbon (= 4.0.0.rc1)
+  capybara
   carrierwave-sequel
+  database_cleaner
   dotenv
   execjs
-  fakeweb
   faraday
   fog
   machinist
@@ -230,6 +231,7 @@ DEPENDENCIES
   react-source
   redis
   sass
+  selenium-webdriver
   sentry-raven
   sequel
   sequel_secure_password
@@ -238,10 +240,7 @@ DEPENDENCIES
   sinatra-sequel
   sprockets-commonjs!
   sprockets-helpers
-  test-page
   thin
   uglifier
   unf
-  vcr
   warden
-  watir

@@ -1,13 +1,16 @@
-class LoginPage < Test::Page
-  element { browser.forms.first }
-
-  def setup
-    browser.goto 'http://localhost:3000/admin/login'
-  end
+class LoginPage
+  include Capybara::DSL
 
   def login_with(email, password)
-    text_field(:id => 'email').set(email)
-    text_field(:id => 'password').set(password)
-    submit && sleep(0.2)
+    visit '/admin/login'
+    within 'form' do
+      fill_in 'email', with: email
+      fill_in 'password', with: password
+    end
+    click_button 'Entrar'
+  end
+
+  def authenticate
+    login_with 'couveflor@menu.com.br', 'teste'
   end
 end

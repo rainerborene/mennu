@@ -38,11 +38,10 @@ group :production do
 end
 
 group :test do
-  gem 'minispec-metadata'
   gem 'mock_redis'
+  gem 'minispec-metadata'
   gem 'machinist'
-  gem 'fakeweb'
-  gem 'watir'
-  gem 'test-page'
-  gem 'vcr'
+  gem 'capybara'
+  gem 'selenium-webdriver'
+  gem 'database_cleaner'
 end

@@ -2,13 +2,13 @@ require 'bundler/setup'
 require 'rake/testtask'
 require 'rake/sprocketstask'
 
-task default: [:test]
+task default: [:spec]
 
 task :environment do
   require_relative 'app'
 end
 
-Rake::TestTask.new do |t|
+Rake::TestTask.new(:spec) do |t|
   t.ruby_opts = ['-Ispec']
   t.pattern = "spec/**/*_spec.rb"
 end
@@ -59,7 +59,7 @@ namespace :db do
 
   desc 'Seed database'
   task seed: :environment do
-    require './db/seeds'
+    require_relative 'db/seeds'
   end
 
   desc 'Dump the database schema'

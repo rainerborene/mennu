@@ -1,6 +1,7 @@
-tmp
+.env
+db/items.txt
+places/
 public/assets
 public/uploads
 spec/cassettes/*.yml
-.env
-db/items.txt
+tmp
