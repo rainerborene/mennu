@@ -8,12 +8,12 @@ gem 'dotenv'
 gem 'rack_csrf'
 gem 'rake'
 gem 'warden'
-gem 'pry-meta'
 gem 'mini_magick'
 gem 'nokogiri'
 gem 'faraday'
 gem 'thin'
 gem 'mina'
+gem 'pry', require: false
 
 # DB
 gem 'pg'
@@ -26,9 +26,9 @@ gem 'sinatra-sequel'
 # Assets
 gem 'sass'
 gem 'execjs'
-gem 'bourbon', '4.0.0.rc1'
+gem 'bourbon', '4.0.2'
 gem 'react-source'
-gem 'sprockets-commonjs', github: 'rainerborene/sprockets-commonjs', branch: :edge
+gem 'sprockets-commonjs', github: 'rainerborene/sprockets-commonjs'
 gem 'sprockets-helpers'
 
 group :production do

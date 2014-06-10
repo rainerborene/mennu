@@ -9,7 +9,7 @@ module Menu
       helpers Sinatra::ContentFor
 
       get '/' do
-        @title = 'Cardápio'
+        @title = 'Cardápio do dia'
         erb :site
       end
 

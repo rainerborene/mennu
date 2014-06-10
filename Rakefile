@@ -15,7 +15,7 @@ end
 
 Rake::SprocketsTask.new do |t|
   t.output      = './public/assets'
-  t.assets      = %w( libs.js application.js application.css site.css )
+  t.assets      = %w( libs.js application.js application.css site.css site.js )
   t.assets     += %w( *.png *.jpg *.jpeg *.gif Flat-UI-Icons* )
   t.environment = proc do
     require_relative 'app'
