@@ -110,7 +110,7 @@ a:hover, a:focus {color:#5173bd;}
 	text-align: center;
 	text-shadow: 0 1px 0 rgba(0, 0, 0, .1);
 	background-color: #6883cc;
-	background-image: url(header_bg_gradient.jpg);
+	background-image: asset-url('header_bg_gradient.jpg');
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-attachment: fixed;
@@ -506,7 +506,7 @@ to {
 	text-align: center;
 	text-shadow: 0 1px 0 rgba(0, 0, 0, .1);
 	background-color: #6883cc;
-	background-image:url(footer_img.jpg);
+	background-image: asset-url('footer_img.jpg');
 	background-repeat: no-repeat;
 	background-position: center center;
 	/* background-attachment: fixed; */
