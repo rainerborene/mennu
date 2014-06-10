@@ -7,5 +7,6 @@ module Menu
     autoload :Hours, 'app/routes/hours'
     autoload :Session, 'app/routes/session'
     autoload :Geocode, 'app/routes/geocode'
+    autoload :Messages, 'app/routes/messages'
   end
 end

@@ -26,5 +26,6 @@ module Menu
     autoload :Subscription, 'app/models/subscription'
     autoload :Category, 'app/models/category'
     autoload :Item, 'app/models/item'
+    autoload :Message, 'app/models/message'
   end
 end

@@ -13,7 +13,10 @@ gem 'nokogiri'
 gem 'faraday'
 gem 'thin'
 gem 'mina'
-gem 'pry', require: false
+gem 'pry'
+gem 'mail'
+gem 'dedent'
+gem 'activemodel'
 
 # DB
 gem 'pg'

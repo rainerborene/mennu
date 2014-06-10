@@ -13,6 +13,7 @@ require 'carrierwave/sequel'
 require 'active_support/json'
 require 'active_support/core_ext/array'
 require 'active_support/core_ext/hash'
+require 'mail'
 
 require 'app/extensions'
 require 'app/presenters'
@@ -45,6 +46,19 @@ module Menu
         secure: false,
         expire_after: 1.year,
         secret: ENV['SESSION_SECRET']
+
+      Mail.defaults do
+        delivery_method :smtp, {
+          address:              ENV['MAIL_ADDRESS'],
+          domain:               ENV['MAIL_DOMAIN'],
+          user_name:            ENV['MAIL_USERNAME'],
+          password:             ENV['MAIL_PASSWORD'],
+          authentication:       :login,
+          port:                 465,
+          tls:                  true,
+          ssl:                  true
+        }
+      end
     end
 
     configure :production do
@@ -82,6 +96,12 @@ module Menu
       end
     end
 
+    configure :test do
+      Mail.defaults do
+        delivery_method :file
+      end
+    end
+
     register Sinatra::Reloader if development?
 
     use Raven::Rack if production?
@@ -95,6 +115,7 @@ module Menu
     use Menu::Routes::Hours
     use Menu::Routes::Items
     use Menu::Routes::Index
+    use Menu::Routes::Messages
   end
 end
 

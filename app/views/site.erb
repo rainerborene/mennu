@@ -207,19 +207,20 @@
       <h3>Solicite nosso contato</h3>
       <p>Preencha o formulário abaixo que entraremos em contato com você.</p>
       <form class="form-horizontal" role="form" action="/messages" id="subscribeForm" method="POST">
+        <%= Rack::Csrf.csrf_tag(env) %>
         <div>
           <div>
-            <input class="form-control input-lg" name="restaurante" type="text" id="restaurante" placeholder="Restaurante" data-validate="validate(required)" required="required">
+            <input class="form-control input-lg" name="message[establishment]" type="text" placeholder="Restaurante" data-validate="validate(required)" required="required">
           </div>
           <div>
-            <input class="form-control input-lg" name="nome" type="text" id="nome" placeholder="Seu nome" data-validate="validate(required)" required="required">
+            <input class="form-control input-lg" name="message[name]" type="text" placeholder="Seu nome" data-validate="validate(required)" required="required">
           </div>
           <div>
-            <input class="form-control input-lg" name="telefone" type="text" id="telefone" placeholder="Seu telefone" data-validate="validate(required)" required="required">
+            <input class="form-control input-lg" name="message[phone]" type="text" placeholder="Seu telefone" data-validate="validate(required)" required="required">
           </div>
           <div>
-            <input class="form-control input-lg" name="email" type="email" id="address" placeholder="Digite seu email" data-validate="validate(required, email)" required="required">
-            <input class="honeypot" id="honeypot" name="honeypot" type="text" value="">
+            <input class="form-control input-lg" name="message[email]" type="email" placeholder="Digite seu email" data-validate="validate(required, email)" required="required">
+            <input class="honeypot" name="honeypot" type="text" value="">
           </div>
           <div class="btn-right">
             <button class="btn btn-success btn-md"><strong>Enviar</strong></a>

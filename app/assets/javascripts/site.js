@@ -21,18 +21,11 @@ $(function(){
   });
 
   $('#subscribeForm').ketchup().submit(function() {
-    if ($(this).ketchup('isValid')) {
-      var action = $(this).attr('action');
+    if ( $(this).ketchup('isValid') ){
       $.ajax({
-        url: action,
         type: 'POST',
-        data: {
-          restaurante: $('#restaurante').val(),
-          nome: $('#nome').val(),
-          telefone: $('#telefone').val(),
-          honeypot: $('#honeypot').val(),
-          email: $('#address').val(),
-        },
+        url: $(this).attr('action'),
+        data: $(this).serialize(),
         success: function(data){
           $('#result').removeClass('erro');
           $('#result').html(data);
@@ -46,6 +39,7 @@ $(function(){
         $('#result').html('');
       },9000);
     }
+
     return false;
   });
 
