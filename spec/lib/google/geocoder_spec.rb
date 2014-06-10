@@ -14,8 +14,7 @@ describe Google::Geocode do
       address.postal_code.must_equal '31330-490'
       address.neighborhood.must_equal 'Jardim Paquetá'
       address.state.must_equal 'MG'
-      address.coordinates.must_include(-19.8723819)
-      address.coordinates.must_include(-43.99300890000001)
+      address.coordinates.size.must_equal 2
     end
   end
 
