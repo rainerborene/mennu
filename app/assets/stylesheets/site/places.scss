@@ -1,0 +1,137 @@
+.place-header {
+  background: asset-url('place-header.jpg') no-repeat 62% top;
+  background-attachment: fixed;
+  height: 344px;
+
+  .place-wrapper {
+    position: relative;
+    top: 250px;
+  }
+}
+
+.place-wrapper,
+.place-footer {
+  width: 870px;
+  margin: 0 auto;
+  @include clearfix;
+}
+
+.place-logo {
+  width: 170px;
+  height: 170px;
+  background: #dbdbdb;
+  border: 1px solid #727272;
+  border-radius: 6px;
+  padding: 4px;
+  float: left;
+}
+
+.place-name {
+  margin: 25px 0 0 40px;
+  text-shadow: 0 2px 2px rgba(black, .4);
+  float: left;
+}
+
+.items, .items-header {
+  margin-left: 167px;
+  padding: 50px 43px 0;
+}
+
+.items-header { 
+  h2 {
+    text-transform: uppercase;
+    font-size: 25px;
+    margin-bottom: 0;
+  }
+
+  time {
+    font-size: 20px;
+  }
+}
+
+.items-group            { margin-bottom: 20px; }
+.items-group:last-child { margin-bottom: 0; }
+
+.items {
+  padding-bottom: 50px;
+  background: asset-url('vertical-line.gif') repeat-y left 15px;
+
+  ul {
+    text-transform: uppercase;
+    padding: 0;
+    margin: 0;
+  }
+
+  h3 {
+    font-size: 21px;
+    margin-bottom: 0;
+    text-transform: uppercase;
+  }
+
+  li { 
+    list-style: none;
+    font-size: 12px;
+    line-height: 22px;
+  }
+}
+
+.place-footer {
+  background: asset-url('horizontal-line.gif') repeat-x 15px top;
+  padding: 70px 52px;
+
+  .vcard {
+    text-transform: uppercase;
+    font-style: normal;
+    font-weight: bold;
+    float: left;
+    margin-bottom: 30px;
+  }
+
+  .adr {
+    margin-bottom: 30px;
+  }
+
+  .fn a {
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+.socials {
+  clear: both;
+
+  a {
+    @include hide-text;
+    display: inline-block;
+    width: 53px;
+    height: 53px;
+    background-repeat: no-repeat;
+    background-position: left top;
+    margin-right: 15px;
+  }
+
+  .maps-icon {
+    background-image: asset-url('icons/maps.png');
+  }
+
+  .facebook-icon {
+    background-image: asset-url('icons/facebook.png');
+  }
+
+  .instagram-icon {
+    background-image: asset-url('icons/instagram.png');
+  }
+}
+
+.footer-logo {
+  float: right;
+  margin: 0;
+
+  a {
+    @include hide-text;
+    display: block;
+    width: 218px;
+    height: 73px;
+    background: asset-url('footer-logo.png') no-repeat left top;
+  }
+}

@@ -5,11 +5,14 @@ require 'minispec-metadata'
 require 'database_cleaner'
 require 'capybara'
 require 'capybara/dsl'
+require 'mock_redis'
 require_relative 'blueprints'
 
 Dir['spec/support/*/*'].each {|f| require f }
 
 DatabaseCleaner.strategy = :truncation
+
+Redis.current = MockRedis.new
 
 Capybara.configure do |config|
   config.app = Menu::App

@@ -13,16 +13,10 @@ module Menu
 
       def deliver
         message = <<-EOF.dedent
-          Olá,
-
-          #{name} do #{establishment} está interessado em conhecer o Mennu.
-          
-          Entre em contato pelo telefone #{phone} ou e-mail #{email}.
-
-          Este e-mail foi enviado através do formulário de contato do Mennu.
-
-          Obrigado,
-          Admin
+          Nome: #{name}
+          Restaurante: #{establishment}
+          Telefone: #{phone}
+          E-mail: #{email}
         EOF
 
         Mail.deliver do

@@ -10,7 +10,7 @@ module Menu
 
       get '/' do
         @title = 'Cardápio do dia'
-        erb :site
+        erb :landing, layout: false
       end
 
       get(/admin(\/.*)?/) do

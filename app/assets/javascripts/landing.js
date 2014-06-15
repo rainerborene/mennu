@@ -3,14 +3,10 @@
 //= require jquery.easing
 //= require jquery.ketchup
 //= require jquery.popupoverlay
-//= require typer
 //= require nicescroll
-//= require pace
 //= require_self
 
 $(function(){
-
-  $('[data-typer-targets]').typer();
 
   $('.scrollto, .gototop').bind('click',function(event){
     var $anchor = $(this);
@@ -26,18 +22,22 @@ $(function(){
         type: 'POST',
         url: $(this).attr('action'),
         data: $(this).serialize(),
-        success: function(data){
+        beforeSend: function(){
+          $('#result').html('Aguarde alguns segundos.');
+        },
+        success: function(){
           $('#result').removeClass('erro');
-          $('#result').html(data);
+          $('#result').html('Enviado com sucesso. <br />Em breve entraremos em contato com você.');
+          setTimeout(function(){
+            $('#basic').popup('hide');
+            $('#subscribeForm').get(0).reset();
+          }, 4000);
         },
         error: function() {
           $('#result').html('Desculpe, ocorreu um erro');
           $('#result').addClass('erro');
         }
       });
-      setTimeout(function(){
-        $('#result').html('');
-      },9000);
     }
 
     return false;
