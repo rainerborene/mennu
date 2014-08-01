@@ -29,27 +29,29 @@
 </main>
 
 <footer class="place-footer">
-  <address class="vcard">
-    <div class="url fn org">
-      <a href="<%= @place.website %>" target="_blank"><%= @place.name %></a>
-    </div>
-    <div class="adr">
-      <span class="street-address">
-        <%= @place.address_street %>, <%= @place.address_street_number %><br/>
-        <%= @place.address_neighborhood %></span>,
-      <span class="locality"><%= @place.address_city %></span>,
-      <span class="region"><%= @place.address_state %></span>
-    </div>
-    <div>Fone: <span class="tel"><%= @place.address_phone %></span></div>
-  </address>
+  <% if @place.address %>
+    <address class="vcard">
+      <div class="url fn org">
+        <a href="<%= @place.website %>" target="_blank"><%= @place.name %></a>
+      </div>
+      <div class="adr">
+        <span class="street-address">
+          <%= @place.address_street %>, <%= @place.address_street_number %><br/>
+          <%= @place.address_neighborhood %></span>,
+        <span class="locality"><%= @place.address_city %></span>,
+        <span class="region"><%= @place.address_state %></span>
+      </div>
+      <div>Fone: <span class="tel"><%= @place.address_phone %></span></div>
+    </address>
+  <% end %>
 
   <h3 class="footer-logo">
     <a href="http://mennu.com.br">Mennu - Divulga seu Cardápio do Dia</a>
   </h3>
 
   <div class="socials">
-    <%= @view.link_to_instagram %>
-    <%= @view.link_to_facebook %>
-    <%= @view.link_to_maps %>
+    <%= @view.link_to_instagram if @place.instagram %>
+    <%= @view.link_to_facebook if @place.facebook %>
+    <%= @view.link_to_maps if @place.address %>
   </div>
 </footer>

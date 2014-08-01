@@ -17,7 +17,7 @@ module Menu
 
       delegate :menu, to: :categories_dataset
       delegate :street, :street_number, :neighborhood, :city, :state, :phone,
-        to: :address, prefix: true
+        to: :address, prefix: true, allow_nil: true
 
       alias_method :hours, :business_hours
 
