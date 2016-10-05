@@ -16,6 +16,7 @@ Sequel::Model.plugin :timestamps
 Sequel::Model.plugin :update_or_create
 Sequel::Model.plugin :validation_helpers
 Sequel::Model.plugin :polymorphic
+Sequel::Model.plugin :sluggable
 
 module Menu
   module Models

@@ -1,8 +1,8 @@
 require 'bundler/setup'
 
 # Setup load paths
-$: << File.expand_path('../', __FILE__)
-$: << File.expand_path('../lib', __FILE__)
+$LOAD_PATH << File.expand_path('../', __FILE__)
+$LOAD_PATH << File.expand_path('../lib', __FILE__)
 
 require 'dotenv'
 Dotenv.load
@@ -24,8 +24,8 @@ require 'app/routes'
 
 Encoding.default_external = Encoding::UTF_8
 
-I18n.default_locale = 'pt-BR'
 I18n.load_path = Dir[File.join(__dir__, 'app', 'locales', '*.yml')]
+I18n.default_locale = 'pt-BR'
 I18n.reload!
 
 module Menu

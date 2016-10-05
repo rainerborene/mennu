@@ -66,7 +66,7 @@ var Router = Backbone.Router.extend({
   sentry: _.once(function() {
     var production = State.environment === 'production',
         place = State.place,
-        dsn = 'https://e2f82d25fef348dc93f758ac996f1978@app.getsentry.com/20304';
+        dsn = 'https://c9db46a6060c4c458f671e9955440090@sentry.io/103903';
 
     if (production) Raven.config(dsn).install();
 
